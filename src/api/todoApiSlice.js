@@ -1,6 +1,7 @@
 import { fakeBaseQuery } from "@reduxjs/toolkit/query/react";
 import { db } from "../firebase";
 import {
+  Timestamp,
   addDoc,
   arrayRemove,
   arrayUnion,
@@ -12,6 +13,7 @@ import {
   limit,
   orderBy,
   query,
+  serverTimestamp,
   setDoc,
   updateDoc,
 } from "firebase/firestore";
@@ -24,8 +26,6 @@ export const todoApiSlice = firestoreApi.injectEndpoints({
   baseQuery: fakeBaseQuery(),
   tagTypes: ["todos"],
   endpoints: (builder) => ({
-
-
     // getTodosApi: builder.query({
     //   async queryFn({userId, queryOption}) {
     //     if (!userId) {
@@ -54,9 +54,6 @@ export const todoApiSlice = firestoreApi.injectEndpoints({
     //   providesTags: ["todos"],
     // }),
 
-
-
-
     // 수정 전
     getTodosApi: builder.query({
       async queryFn(userId) {
@@ -71,7 +68,7 @@ export const todoApiSlice = firestoreApi.injectEndpoints({
           querySnapshot?.forEach((doc) => {
             todosArr.push(doc.data());
           });
-          
+
           return { data: todosArr };
         } catch (error) {
           console.error(error.message);
@@ -81,11 +78,14 @@ export const todoApiSlice = firestoreApi.injectEndpoints({
       providesTags: ["todos"],
     }),
 
-
-    
     addTodoApi: builder.mutation({
       async queryFn({ todo, user }) {
         try {
+          const created = new Date().toISOString();
+
+
+          // console.log(Timestamp.toJSON());
+
           const modifiedDue = repeatDueSynchronizer(todo);
           if (modifiedDue) {
             todo = {
@@ -98,15 +98,23 @@ export const todoApiSlice = firestoreApi.injectEndpoints({
               await setDoc(doc(db, `users/${user.uid}/todos`, todo.id), {
                 ...todo,
                 myday: true,
+                // created: serverTimestamp(),
+                created,
               });
             } else {
               await setDoc(doc(db, `users/${user.uid}/todos`, todo.id), {
                 ...todo,
                 myday: false,
+                // created: serverTimestamp(),
+                created,
               });
             }
           } else {
-            await setDoc(doc(db, `users/${user.uid}/todos`, todo.id), todo);
+            await setDoc(doc(db, `users/${user.uid}/todos`, todo.id), {
+              ...todo,
+              // created: serverTimestamp(),
+              created,
+            });
           }
           return { data: null };
         } catch (error) {
@@ -121,6 +129,7 @@ export const todoApiSlice = firestoreApi.injectEndpoints({
             "getTodosApi",
             user.uid,
             (draft) => {
+              const created = new Date().toISOString();
               const modifiedDue = repeatDueSynchronizer(todo);
               if (modifiedDue) {
                 todo = {
@@ -135,7 +144,9 @@ export const todoApiSlice = firestoreApi.injectEndpoints({
                   todo.myday = false;
                 }
               }
-
+              // console.log(Timestamp.fromDate(new Date()));
+              // todo.created = Timestamp.fromDate(new Date())
+              todo.created = created;
               draft.push(todo);
             }
           )

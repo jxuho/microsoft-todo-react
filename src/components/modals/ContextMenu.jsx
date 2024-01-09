@@ -150,12 +150,10 @@ export const Menu = forwardRef(({ children }, forwardedRef) => {
                     onClick() {
                       child.props.onClick?.();
                       setIsOpen(false);
-                      console.log("clicked");
                     },
                     onMouseUp() {
                       child.props.onClick?.();
                       setIsOpen(false);
-                      console.log("mouseUped");
                     },
                   })
                 )

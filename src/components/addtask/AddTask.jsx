@@ -33,7 +33,7 @@ const AddTask = ({ currentLocation }) => {
   const dueRef = useRef();
   const remindRef = useRef();
   const repeatRef = useRef();
-  const inputRef = useRef()
+  const inputRef = useRef();
   const user = useSelector((state) => state.auth.user);
 
   const [addTodoApi] = useAddTodoApiMutation();
@@ -53,19 +53,13 @@ const AddTask = ({ currentLocation }) => {
   }
 
   useEffect(() => {
-    inputRef.current.focus()
-  }, [])
+    inputRef.current.focus();
+  }, []);
 
   const taskInputHandler = (event) => {
-    // TODO: task만 다루고, 나머지는 등록할때 추가하기
-    const createdTime = new Date().toISOString(); // date
     setTaskInput((prevState) => ({
       ...prevState,
       task: event.target.value,
-      created: createdTime,
-      id: uuid(),
-      myday: isMyday,
-      importance: isImportant,
     }));
   };
 
@@ -76,13 +70,17 @@ const AddTask = ({ currentLocation }) => {
   };
 
   const addTaskHandler = () => {
-    // console.log('addTaskHandler');
     const trimmedTaskInput = { ...taskInput, task: taskInput.task.trim() };
     if (currentLocation === "planned" && !trimmedTaskInput.dueDate) {
       trimmedTaskInput.dueDate = new Date().toISOString();
     }
-
-    addTodoApi({ todo: trimmedTaskInput, user });
+    const newTask = {
+      ...trimmedTaskInput,
+      id: uuid(),
+      myday: isMyday,
+      importance: isImportant,
+    };
+    addTodoApi({ todo: newTask, user });
 
     setTaskInput(initialTask);
     initializeButtons();
@@ -204,6 +202,8 @@ const AddTask = ({ currentLocation }) => {
 };
 
 export default AddTask;
+
+
 
 /**
  * TODO

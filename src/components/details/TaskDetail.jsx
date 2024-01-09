@@ -93,6 +93,7 @@ const TaskDetail = () => {
     // set created time text
     const todoDetail = todos.find((todo) => todo.id === detailId);
     if (!todoDetail) return;
+    console.log(todoDetail);
     setCreatedTime(
       getCustomFormatDateString(new Date(todoDetail.created), "plain")
     );

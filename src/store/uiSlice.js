@@ -14,7 +14,7 @@ const uiSlice = createSlice({
     settingsActive: false,
     helpActive: false,
     whatsNewActive: false,
-    theme: "light"
+    // theme: "light"
   },
   reducers: {
     openSidebar: (state) => ({ ...state, sidebar: true }),
@@ -45,9 +45,9 @@ const uiSlice = createSlice({
     switchHeaderButton: (state, action) => {
       state[action.payload.property] = !state[action.payload.property]
     },
-    setTheme: (state, action) => {
-      state.theme = action.payload;
-    }
+    // setTheme: (state, action) => {
+    //   state.theme = action.payload;
+    // }
   },
 });
 
@@ -64,6 +64,6 @@ export const {
   setAppLauncherActive,
   setHeaderButton,
   switchHeaderButton,
-  setTheme,
+  // setTheme,
 } = uiSlice.actions;
 export default uiSlice.reducer;

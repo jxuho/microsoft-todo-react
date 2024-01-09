@@ -18,6 +18,15 @@ const useGetTodos = () => {
 
   useEffect(() => {
     // console.log('useGetTodos hook execute');
+    if (!todoArrData) return;
+    // console.log(todoArrData?.[0].created.toDate().toISOString());
+
+    // const modifiedTimestampTodoArr = todoArrData.map(todo => {
+    //   return {...todo, created: todo.created.toDate().toISOString()}
+    // })
+    // console.log(modifiedTimestampTodoArr);
+
+    // dispatch(setTodos(modifiedTimestampTodoArr));
     dispatch(setTodos(todoArrData));
   }, [todoArrData]);
 
