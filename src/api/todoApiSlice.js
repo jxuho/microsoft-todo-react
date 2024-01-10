@@ -83,9 +83,6 @@ export const todoApiSlice = firestoreApi.injectEndpoints({
         try {
           const created = new Date().toISOString();
 
-
-          // console.log(Timestamp.toJSON());
-
           const modifiedDue = repeatDueSynchronizer(todo);
           if (modifiedDue) {
             todo = {
@@ -98,24 +95,24 @@ export const todoApiSlice = firestoreApi.injectEndpoints({
               await setDoc(doc(db, `users/${user.uid}/todos`, todo.id), {
                 ...todo,
                 myday: true,
-                // created: serverTimestamp(),
                 created,
               });
             } else {
               await setDoc(doc(db, `users/${user.uid}/todos`, todo.id), {
                 ...todo,
                 myday: false,
-                // created: serverTimestamp(),
                 created,
               });
             }
           } else {
             await setDoc(doc(db, `users/${user.uid}/todos`, todo.id), {
               ...todo,
-              // created: serverTimestamp(),
               created,
             });
           }
+
+          console.log("API: ", created);
+
           return { data: null };
         } catch (error) {
           console.log(error.message);
@@ -144,7 +141,6 @@ export const todoApiSlice = firestoreApi.injectEndpoints({
                   todo.myday = false;
                 }
               }
-              // console.log(Timestamp.fromDate(new Date()));
               // todo.created = Timestamp.fromDate(new Date())
               todo.created = created;
               draft.push(todo);

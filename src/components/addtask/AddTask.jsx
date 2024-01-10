@@ -9,6 +9,14 @@ import getLastTimeOfDay, {
 } from "../../utils/getDates";
 import { GoCircle } from "react-icons/go";
 import { useAddTodoApiMutation } from "../../api/todoApiSlice";
+import {
+  doc,
+  getDoc,
+  serverTimestamp,
+  setDoc,
+  updateDoc,
+} from "firebase/firestore";
+import { db } from "../../firebase";
 
 const initialTask = {
   id: "", // uuid
@@ -69,7 +77,7 @@ const AddTask = ({ currentLocation }) => {
     repeatRef.current.resetRepeat();
   };
 
-  const addTaskHandler = () => {
+  const addTaskHandler = async () => {
     const trimmedTaskInput = { ...taskInput, task: taskInput.task.trim() };
     if (currentLocation === "planned" && !trimmedTaskInput.dueDate) {
       trimmedTaskInput.dueDate = new Date().toISOString();
@@ -81,7 +89,7 @@ const AddTask = ({ currentLocation }) => {
       importance: isImportant,
     };
     addTodoApi({ todo: newTask, user });
-
+    
     setTaskInput(initialTask);
     initializeButtons();
   };
@@ -202,8 +210,6 @@ const AddTask = ({ currentLocation }) => {
 };
 
 export default AddTask;
-
-
 
 /**
  * TODO

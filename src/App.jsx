@@ -157,10 +157,11 @@ export default App;
  * Notion 개발일지 가지고와서 list로 render하기(보류)
  * 
  * 
- * 
+ * complete된 task remind 비활성화 하기
  * 
  * AddTask component retraction
  * 
+ * taskDetail file 첨부했을때, 백엔드 저장 구현하기
  * 
  * 
  * floating ui -> useListNavigation 사용, 방향키로 선택 가능하도록 설정하기
@@ -168,7 +169,6 @@ export default App;
  * 
  * UI -> task list scrollbar 생성될 때, taskItem 가로길이 바뀜. scrollbar 유무에 따라 padding 동적으로 변경하기
  * 
- * taskDetail file 첨부했을때, 백엔드 저장 구현하기
  * 
  * 
  *

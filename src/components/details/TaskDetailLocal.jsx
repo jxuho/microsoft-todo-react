@@ -16,8 +16,7 @@ import {
 } from "@floating-ui/react";
 import useViewport from "../../hooks/useViewPort";
 
-
-const TaskDetailLocal = ({todos}) => {
+const TaskDetailLocal = ({ todos }) => {
   const dispatch = useDispatch();
   const activeTasks = useSelector((state) => state.active.activeTasks);
   const [closeTooltipOpen, setCloseTooltipOpen] = useState(false);
@@ -42,12 +41,9 @@ const TaskDetailLocal = ({todos}) => {
   const detailId = activeTasks[0];
 
   useEffect(() => {
-
-
-      const todoDetail = todos.find((todo) => todo.id === detailId);
-      setCreatedTime(getCustomFormatDateString(new Date(todoDetail.created)));
-  
-  }, [detailId, todos,]);
+    const todoDetail = todos.find((todo) => todo.id === detailId);
+    setCreatedTime(getCustomFormatDateString(new Date(todoDetail.created)));
+  }, [detailId, todos]);
 
   const resizerMouseDownHandler = () => {
     setIsResizing(true);
@@ -181,9 +177,7 @@ const TaskDetailLocal = ({todos}) => {
             "0px 1.2px 3.6px rgba(0,0,0,0.1), 0px 6.4px 14.4px rgba(0,0,0,0.1)",
         }}
       >
-        {detailId  && (
-          <Details taskId={detailId} todos={todos} />
-        )}
+        {detailId && <Details taskId={detailId} todos={todos} />}
 
         <div className="flex flex-col before:content-[''] before:h-[0.5px] before:w-full before:bg-ms-bg-border before:top-0 before:left-0">
           <div className="flex items-center justify-between py-4 px-0 my-0 mx-6">
