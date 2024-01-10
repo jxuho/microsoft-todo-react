@@ -134,6 +134,7 @@ export default App;
  * (complete) search params로 검색값 전달해서 구현
  * (complete) todoApiSlice:67, uiApiSlice:34 content download 종료되지 않는 문제 해결.
  * (complete) dark mode설정 server에 저장하기
+ * (complete) created 및 필요한 정보들을 client 타임스탬프에서 서버 타임스탬프로 변경 - abort
  * 
  * 
  * 
@@ -150,7 +151,6 @@ export default App;
  * 
  * signin page 배경 색깔 물결
  * 
- * created 및 필요한 정보들을 client 타임스탬프에서 서버 타임스탬프로 변경
  * 
  * 
  * print 설정하기
