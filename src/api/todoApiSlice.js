@@ -111,8 +111,6 @@ export const todoApiSlice = firestoreApi.injectEndpoints({
             });
           }
 
-          console.log("API: ", created);
-
           return { data: null };
         } catch (error) {
           console.log(error.message);
@@ -602,8 +600,48 @@ export const todoApiSlice = firestoreApi.injectEndpoints({
         }
       },
 
+      // invalidatesTags: ["todos"],
+    }),
+
+
+    
+    addFileTodoApi: builder.mutation({
+      async queryFn({ todoId, user, content }) {
+        try {
+          await updateDoc(doc(db, `users/${user.uid}/todos`, todoId), {
+            file: arrayUnion(content),
+          });
+          return { data: null };
+        } catch (error) {
+          console.log(error.message);
+          return { error: error.message };
+        }
+      },
       invalidatesTags: ["todos"],
     }),
+
+    removeFileTodoApi: builder.mutation({
+      async queryFn({todoId, user, fileRef}) {
+        try {
+          const docSnap = await getDoc(
+            doc(db, `users/${user.uid}/todos`, todoId)
+          );
+          const docData = docSnap.data();
+          const flieToRemove = docData.file.find((fileItem) => fileItem.fileRef === fileRef);
+
+          await updateDoc(doc(db, `users/${user.uid}/todos`, todoId), {
+            file: arrayRemove(flieToRemove),
+          });
+          return { data: null };
+        } catch (error) {
+          console.log(error.message);
+          return { error: error.message };
+        }
+      },
+      invalidatesTags: ["todos"]
+    }),
+
+
 
     addStepApi: builder.mutation({
       async queryFn({ todoId, user, value }) {
@@ -795,6 +833,8 @@ export const {
   useAddCategoryTodoApiMutation,
   useRemoveCategoryTodoApiMutation,
   useAddNoteTodoApiMutation,
+  useAddFileTodoApiMutation,
+  useRemoveFileTodoApiMutation,
   useAddStepApiMutation,
   useCompleteStepApiMutation,
   useRemoveStepApiMutation,

@@ -1,7 +1,4 @@
-
-import {
-  BsSun,
-} from "react-icons/bs";
+import { BsSun } from "react-icons/bs";
 import { PiArrowsClockwiseBold, PiNoteBlankLight } from "react-icons/pi";
 import { IoCalendarOutline } from "react-icons/io5";
 import { VscBell } from "react-icons/vsc";
@@ -10,12 +7,11 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { getCustomFormatDateString } from "../../utils/getDates";
 
-
 const TaskItemOptions = ({ todo, currentLocation }) => {
   const [dueText, setDueText] = useState("");
   const [remindText, setRemindText] = useState("");
   const [stepIncompleteLength, setStepIncompleteLength] = useState(0);
-  
+
   useEffect(() => {
     if (todo.dueDate) {
       setDueText(getCustomFormatDateString(new Date(todo.dueDate), "dueDate"));
@@ -35,7 +31,7 @@ const TaskItemOptions = ({ todo, currentLocation }) => {
       setRemindText("");
     }
   }, [todo]);
-  
+
   return (
     <>
       {currentLocation !== "myday" && todo.myday && (
@@ -107,7 +103,7 @@ const TaskItemOptions = ({ todo, currentLocation }) => {
       )}
 
       {/* file attached */}
-      {todo.file && (
+      {todo.file.length !== 0 && (
         <div className="flex items-center before:content-['\2022'] before:mx-1.5 before:my-0 before:text-gray-500">
           <span className="mr-1">
             <FiPaperclip size="12px" style={{ transform: "rotate(180deg)" }} />
@@ -121,5 +117,4 @@ const TaskItemOptions = ({ todo, currentLocation }) => {
   );
 };
 
-
-export default TaskItemOptions
+export default TaskItemOptions;

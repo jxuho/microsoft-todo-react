@@ -29,7 +29,8 @@ const initialTask = {
   repeatRule: "",
   repeated: false,
   category: [],
-  file: null, // db 주소?
+  file: [], // db 주소?
+  // file: null, // db 주소?
   note: { content: "", updated: "" },
   importance: false,
   created: "", // isoString

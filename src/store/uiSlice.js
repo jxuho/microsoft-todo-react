@@ -27,9 +27,11 @@ const uiSlice = createSlice({
     closeContextMenu: (state) => {
       state.contextMenu = false;
     },
+
     setDialog: (state, action) => {
       state.dialog = action.payload;
     },
+    
     setDetailWidth: (state, action) => {
       state.detailWidth = action.payload;
     },

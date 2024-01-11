@@ -163,8 +163,8 @@ const DetailRemindPopover = ({ taskId, todo }) => {
   return (
     <>
       <div
-        className="flex bg-white w-full items-center justify-between text-ms-light-text hover:bg-ms-white-hover hover:text-black"
-        style={{ borderBottom: "solid 0.5px #edebe9" }}
+        className="flex bg-white w-full items-center justify-between text-ms-light-text hover:bg-ms-white-hover hover:text-black border-solid border-b-[0.5px] border-ms-input-hover"
+        // style={{ borderBottom: "solid 0.5px #edebe9" }}
         onMouseOver={() => setIsHover(true)}
         onMouseLeave={() => setIsHover(false)}
       >
