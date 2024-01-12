@@ -7,45 +7,37 @@ import {
   useHover,
   useInteractions,
 } from "@floating-ui/react";
-import { deleteObject, getMetadata, ref } from "firebase/storage";
+import { getMetadata, ref } from "firebase/storage";
 import { useEffect, useState } from "react";
 import { BsXLg } from "react-icons/bs";
 import { storage } from "../../firebase";
-import { useRemoveFileTodoApiMutation } from "../../api/todoApiSlice";
-import { useDispatch, useSelector } from "react-redux";
-import { setDialog } from "../../store/uiSlice";
+import { useDispatch } from "react-redux";
+import { setDeleteDialogActive } from "../../store/uiSlice";
+import { setActiveFileRef } from "../../store/activeSlice";
 
-const DetailFileItem = ({ todo, fileItem, index }) => {
-  const dispatch = useDispatch()
-  const user = useSelector((state) => state.auth.user);
+const DetailFileItem = ({ todo, fileItem }) => {
+  const dispatch = useDispatch();
   const [tooltipOpen, setTooltipOpen] = useState(false);
-  const [isHover, setIsHover] = useState();
+  const [isHover, setIsHover] = useState(null);
+  const [filItemMeta, setFileItemMeta] = useState();
 
-  const [removeFileTodoApi, {isError: isRemoveFileError, error: removeFileError}] = useRemoveFileTodoApiMutation()
+const removeFileHandler = (e, fileItem) => {
+  e.stopPropagation()
+  dispatch(setDeleteDialogActive({ target: "file", active: true }));
+  dispatch(setActiveFileRef(fileItem.fileRef));
+};
 
-  const removeFileHandler = (fileItem) => {
-    removeFileTodoApi({todoId:todo.id, user, fileRef:fileItem.fileRef})
-
-    if (isRemoveFileError) {
-      console.log("error while deleting file in Firestore ", removeFileError);
-      return;
-    }
-
-    deleteObject(ref(storage, fileItem.fileRef)).then(() => {
-      console.log("File deleted successfully in Cloud Storage");
-
-    }).catch((error) => {
-      console.log(error);
-    });
-  };
-
-  const mouseOverHandler = (index) => {
-    setIsHover(index);
+  const mouseOverHandler = (fileRef) => {
+    setIsHover(fileRef);
   };
 
   const mouseLeaveHandler = () => {
     setIsHover(null);
   };
+
+const clickHandler = () => {
+  window.open(fileItem.downloadURL, '_blank');
+}
 
   const {
     refs: tooltipRefs,
@@ -68,11 +60,8 @@ const DetailFileItem = ({ todo, fileItem, index }) => {
     }),
   ]);
 
-  const [filItemMeta, setFileItemMeta] = useState();
-
   useEffect(() => {
     const storageRef = ref(storage, fileItem.fileRef);
-
     getMetadata(storageRef)
       .then((metadata) => {
         setFileItemMeta(metadata);
@@ -86,10 +75,12 @@ const DetailFileItem = ({ todo, fileItem, index }) => {
     <div
       className="flex bg-white w-full items-center justify-between text-ms-light-text hover:bg-ms-white-hover hover:text-black hover:cursor-pointer"
       key={fileItem.fileRef}
-      onMouseOver={() => mouseOverHandler(index)}
+      onMouseOver={() => mouseOverHandler(fileItem.fileRef)}
       onMouseLeave={mouseLeaveHandler}
     >
-      <div className="flex justify-between w-full items-center p-4 border-solid border-b-[0.5px] border-ms-input-hover">
+      <div className="flex justify-between w-full items-center p-4 border-solid border-b-[0.5px] border-ms-input-hover"
+      onClick={clickHandler}
+      >
         <div className="w-9 h-9 bg-ms-blue text-white-text uppercase font-semibold items-center justify-center text-sm rounded-md">
           <div className="max-w-[36px] h-6 text-center leading-9">
             {filItemMeta?.contentType.split("/")[1]}
@@ -110,9 +101,9 @@ const DetailFileItem = ({ todo, fileItem, index }) => {
             <span>{filItemMeta?.contentType.split("/")[0]}</span>
           </div>
         </div>
-        {isHover === index && (
+        {isHover === fileItem.fileRef && (
           <button
-            onClick={() => removeFileHandler(fileItem)}
+            onClick={(e) => removeFileHandler(e, fileItem)}
             ref={tooltipRefs.setReference}
             {...getTooltipReferenceProps()}
           >

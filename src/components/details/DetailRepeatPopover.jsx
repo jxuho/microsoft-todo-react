@@ -12,7 +12,6 @@ import {
 import { useEffect, useState } from "react";
 import { getDayOfWeek } from "../../utils/getDates";
 import { useDispatch, useSelector } from "react-redux";
-import { changeOptionTodo } from "../../store/todoSlice";
 import { BsRepeat, BsXLg } from "react-icons/bs";
 import RepeatCustom from "../addtask/RepeatCustom";
 import RepeatItems from "../addtask/RepeatItems";

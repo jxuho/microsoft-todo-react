@@ -142,6 +142,11 @@ export default App;
  * 
  * <할것>
  * 
+ * 
+ * note updated 표시 즉시 안됨
+ * 
+ * useGetTodos Redux local store말고 RTKQ만 사용해서 구현 가능한지 판단할것
+ * 
  * OAuth & 로그인 페이지 기능 추가하기
  * 
  * 배포 전 Firestore 보안규칙 업데이트하기(단순 true에서 새로운 규칙으로)

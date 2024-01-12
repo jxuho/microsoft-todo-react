@@ -2,7 +2,12 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const activeSlice = createSlice({
   name: "active",
-  initialState: { activeTasks: [], activeStep: "", activeRange: [] },
+  initialState: {
+    activeTasks: [],
+    activeStep: "",
+    activeRange: [],
+    activeFileRef: "",
+  },
 
   reducers: {
     addActiveTasks: (state, action) => {
@@ -19,6 +24,9 @@ const activeSlice = createSlice({
         (task) => task !== action.payload
       );
     },
+    setActiveFileRef: (state, action) => {
+      state.activeFileRef = action.payload;
+    },
 
     initializeActiveTasks: (state) => {
       // dispatch(initializeActiveTask())
@@ -32,8 +40,8 @@ const activeSlice = createSlice({
       state.activeRange = [state.activeTasks[0], action.payload];
     },
     initializeActiveRange: (state) => {
-      state.activeRange = []
-    }
+      state.activeRange = [];
+    },
   },
 });
 
@@ -41,10 +49,11 @@ export const {
   addActiveTasks,
   addActiveStep,
   removeActiveTask,
+  setActiveFileRef,
   initializeActiveTasks,
   initializeActiveStep,
   setActiveRange,
-  initializeActiveRange
+  initializeActiveRange,
 } = activeSlice.actions;
 
 export default activeSlice.reducer;

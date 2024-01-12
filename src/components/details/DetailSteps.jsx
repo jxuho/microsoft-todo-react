@@ -1,8 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
-import { BsCheckCircle, BsCheckCircleFill, BsCircle, BsPlusLg } from "react-icons/bs";
+import { BsCircle } from "react-icons/bs";
 import { TfiPlus } from "react-icons/tfi";
 import { useEffect, useRef, useState } from "react";
-import { addStep } from "../../store/todoSlice";
 import uuid from "react-uuid";
 import DetailStepItem from "./DetailStepItem";
 import { useAddStepApiMutation } from "../../api/todoApiSlice";
@@ -14,9 +13,6 @@ const DetailSteps = ({ taskId, todo }) => {
   const addRef = useRef();
   const [newStep, setNewStep] = useState("");
   const [isFocused, setIsFocused] = useState(false);
-  // const todo = useSelector((state) =>
-  //   state.todo.todos.find((todo) => todo.id === taskId)
-  // );
   const [addStepApi] = useAddStepApiMutation()
   const user = useSelector(state => state.auth.user)
 

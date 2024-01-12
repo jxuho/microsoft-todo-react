@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { setDialog } from "../../store/uiSlice";
+import { setDeleteDialogActive } from "../../store/uiSlice";
 import {
   BsCircle,
   BsStar,
@@ -151,8 +151,8 @@ const TaskItemContextMenu = () => {
         });
       },
 
-      deleteTask: (taskId) => {
-        dispatch(setDialog(true));
+      deleteTask: () => {
+        dispatch(setDeleteDialogActive({target:"task", active:true}));
       },
 
       // step 함수 추가

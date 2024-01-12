@@ -6,7 +6,6 @@ import {
   BsXLg,
 } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
-import { changeStep, completeStep, removeStep } from "../../store/todoSlice";
 import {
   flip,
   offset,

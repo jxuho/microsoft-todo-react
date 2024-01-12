@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addNoteTodo } from "../../store/todoSlice";
 import { useRef } from "react";
 import TextareaAutosize from "react-textarea-autosize";
 import { useAddNoteTodoApiMutation } from "../../api/todoApiSlice";

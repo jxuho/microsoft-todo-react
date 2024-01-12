@@ -1,10 +1,9 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 import { FiPaperclip } from "react-icons/Fi";
 import { storage } from "../../firebase";
 import {
   deleteObject,
   getDownloadURL,
-  getMetadata,
   ref,
   uploadBytesResumable,
 } from "firebase/storage";
@@ -24,7 +23,6 @@ const DetailAddFile = ({ taskId, todo }) => {
       inputRef.current.click();
     }
   };
-
 
   const inputFileSaveHandler = (event) => {
     event.preventDefault();
@@ -90,12 +88,9 @@ const DetailAddFile = ({ taskId, todo }) => {
           .catch((error) => {
             console.log(error);
           });
-
       }
     );
   };
-
-
 
   return (
     <>
@@ -105,7 +100,6 @@ const DetailAddFile = ({ taskId, todo }) => {
             return (
               <DetailFileItem
                 key={fileItem.fileRef}
-                index={index}
                 todo={todo}
                 fileItem={fileItem}
               />

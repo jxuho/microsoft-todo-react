@@ -10,7 +10,6 @@ import {
 import { useState } from "react";
 import { BsCheck2, BsFillCircleFill } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
-import { addCategoryTodo, removeCategoryTodo } from "../../store/todoSlice";
 import DetailCategoryItems from "./DetailCategoryItems";
 
 import {

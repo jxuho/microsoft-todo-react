@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { closeDetail, setDetailWidth, setDialog } from "../../store/uiSlice";
+import { closeDetail, setDetailWidth, setDeleteDialogActive } from "../../store/uiSlice";
 import { LuPanelRightClose } from "react-icons/lu";
 import { BsTrash3 } from "react-icons/bs";
 import { useCallback, useEffect, useRef, useState, version } from "react";
@@ -35,7 +35,7 @@ const TaskDetailLocal = ({ todos }) => {
   };
 
   const removeTaskHandler = () => {
-    dispatch(setDialog(true));
+    dispatch(setDeleteDialogActive(true));
   };
 
   const detailId = activeTasks[0];

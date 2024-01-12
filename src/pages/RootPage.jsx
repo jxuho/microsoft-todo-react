@@ -10,7 +10,7 @@ import {
 } from "../store/activeSlice";
 import { closeDetail } from "../store/uiSlice";
 import TaskItemContextMenu from "../components/modals/TaskItemContextMenu";
-import DeleteTaskDialog from "../components/modals/DeleteTaskDialog";
+import DeleteDialog from "../components/modals/DeleteDialog";
 import useRemindNotification from "../hooks/useRemindNotification";
 import SidebarOverlay from "../components/ui/SidebarOverlay";
 import HeaderPanels from "../panels/HeaderPanels";
@@ -69,7 +69,7 @@ const RootPage = () => {
         <TaskDetail />
       </div>
       <TaskItemContextMenu />
-      <DeleteTaskDialog />
+      <DeleteDialog />
     </div>
   );
 };
