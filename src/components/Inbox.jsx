@@ -14,6 +14,7 @@ import { useEffect, useState } from "react";
 import sortTasks from "../utils/sortTasks";
 import CompleteList from "./tasks/CompleteList";
 import { addActiveTasks } from "../store/activeSlice";
+import { useGetTodosApiQuery } from "../api/todoApiSlice";
 
 const Inbox = () => {
   const isSidebarOpen = useSelector((state) => state.ui.sidebar);
@@ -23,11 +24,21 @@ const Inbox = () => {
     (state) => state.group.tasks.groupBy
   );
   const dispatch = useDispatch();
-  const todos = useSelector((state) => state.todo.todos);
   const [todoArr, setTodoArr] = useState([]);
   const sortOrder = useSelector((state) => state.sort.tasks.order);
   const sortBy = useSelector((state) => state.sort.tasks.sortBy);
   const groupBy = useSelector((state) => state.group.tasks.groupBy);
+  
+  
+  const user = useSelector((state) => state.auth.user);
+  const {
+    data: todos,
+    error,
+    isLoading: isTodosLoading,
+    refetch,
+  } = useGetTodosApiQuery(user?.uid, { skip: !user });
+
+
 
   const openSidebarHandler = () => {
     dispatch(openSidebar());

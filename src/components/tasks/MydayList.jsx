@@ -5,6 +5,7 @@ import GroupLists from "./GroupLists";
 import BasicList from "./BasicList";
 import CompleteList from "./CompleteList";
 import { addActiveTasks } from "../../store/activeSlice";
+import { useGetTodosApiQuery } from "../../api/todoApiSlice";
 
 const MydayList = ({ currentLocation }) => {
   const dispatch = useDispatch();
@@ -13,7 +14,16 @@ const MydayList = ({ currentLocation }) => {
   const sortBy = useSelector((state) => state.sort.myday.sortBy);
   const groupBy = useSelector((state) => state.group.myday.groupBy);
   const activeRange = useSelector((state) => state.active.activeRange);
-  const todos = useSelector((state) => state.todo.todos);
+
+
+
+  const user = useSelector((state) => state.auth.user);
+  const {
+    data: todos,
+    error,
+    isLoading: isTodosLoading,
+    refetch,
+  } = useGetTodosApiQuery(user?.uid, { skip: !user });
 
 
   // console.log("mydaylist");

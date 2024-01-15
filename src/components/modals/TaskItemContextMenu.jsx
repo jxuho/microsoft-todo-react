@@ -18,6 +18,7 @@ import { useLocation } from "react-router-dom";
 import {
   useChangeOptionTodoApiMutation,
   useCompleteStepApiMutation,
+  useGetTodosApiQuery,
   useRemoveStepApiMutation,
   useSetCompleteTodoApiMutation,
   useSetImportanceTodoApiMutation,
@@ -28,19 +29,29 @@ import { isValidElement } from "react";
 
 const TaskItemContextMenu = () => {
   const location = useLocation();
-  const todos = useSelector((state) => state.todo.todos);
   const activeTasksId = useSelector((state) => state.active.activeTasks);
   const dispatch = useDispatch();
-
   const user = useSelector((state) => state.auth.user);
   const [setMydayTodoApi] = useSetMydayTodoApiMutation();
   const [changeOptionTodoApi] = useChangeOptionTodoApiMutation();
   const [setImportanceTodoApi] = useSetImportanceTodoApiMutation();
   const [setCompleteTodoApi] = useSetCompleteTodoApiMutation();
-
+  
   const activeStepId = useSelector((state) => state.active.activeStep);
   const [completeStepApi] = useCompleteStepApiMutation();
   const [removeStepApi] = useRemoveStepApiMutation();
+  
+  const {
+    data: todos,
+    error,
+    isLoading: isTodosLoading,
+    refetch,
+  } = useGetTodosApiQuery(user?.uid, { skip: !user });
+
+
+
+
+
 
   let addMyday = false;
   let removeMyday = false;

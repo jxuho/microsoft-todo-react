@@ -6,13 +6,22 @@ import {
 } from "../store/activeSlice";
 import { openDetail } from "../store/uiSlice";
 import { useEffect } from "react";
-import { useSetRemindedTodoApiMutation } from "../api/todoApiSlice";
+import { useGetTodosApiQuery, useSetRemindedTodoApiMutation } from "../api/todoApiSlice";
 
 const useRemindNotification = () => {
   const dispatch = useDispatch();
-  const todos = useSelector((state) => state.todo.todos);
   const user = useSelector((state) => state.auth.user);
   const [setRemindedTodoApi] = useSetRemindedTodoApiMutation();
+  
+  const {
+    data: todos,
+    error,
+    isLoading: isTodosLoading,
+    refetch,
+  } = useGetTodosApiQuery(user?.uid, { skip: !user });
+
+
+
 
   useEffect(() => {
     if (!todos) return;

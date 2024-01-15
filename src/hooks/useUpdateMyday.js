@@ -1,16 +1,23 @@
 import { useEffect } from "react";
 import { isDateToday } from "../utils/getDates";
 import { useSelector } from "react-redux";
-import { useSetMydayTodoApiMutation } from "../api/todoApiSlice";
+import { useGetTodosApiQuery, useSetMydayTodoApiMutation } from "../api/todoApiSlice";
 import { useGetUserApiQuery, useSetUpdatedApiMutation } from "../api/userApiSlice";
 
 const useUpdateMyday = () => {
-  const todos = useSelector((state) => state.todo.todos);
   const user = useSelector((state) => state.auth.user);
   const [setMydayTodoApi] = useSetMydayTodoApiMutation();
-
+  
   const {data: userData} = useGetUserApiQuery(user?.uid)
   const [setUpdatedApi] = useSetUpdatedApiMutation()
+  
+  const {
+    data: todos,
+    error,
+    isLoading: isTodosLoading,
+    refetch,
+  } = useGetTodosApiQuery(user?.uid, { skip: !user });
+
 
   // console.log('useUpdateMyday');
 

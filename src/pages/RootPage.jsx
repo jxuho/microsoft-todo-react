@@ -25,14 +25,25 @@ import { useGetTodosApiQuery } from "../api/todoApiSlice";
 const RootPage = () => {
   const location = useLocation();
   const dispatch = useDispatch();
-  const todos = useSelector((state) => state.todo.todos);
   const { isLoading: isAuthLoading } = useAuth();
   const navigate = useNavigate();
   const user = useSelector((state) => state.auth.user);
 
   // console.log("rootpage render");
 
-  useGetTodos();
+
+  const {
+    data: todos,
+    error,
+    isLoading: isTodosLoading,
+    refetch,
+  } = useGetTodosApiQuery(user?.uid, { skip: !user });
+
+
+
+
+
+  // useGetTodos();
   useUpdateMyday();
   useRemindNotification();
   useTheme();
@@ -51,9 +62,18 @@ const RootPage = () => {
     }
   }, [isAuthLoading, user, navigate]);
 
-  if (!todos || isAuthLoading) {
+
+
+
+
+  // if (!todos || isAuthLoading) {
+  if (isAuthLoading || isTodosLoading) {
     return <Loading />;
   }
+
+
+
+
 
   return (
     <div className="flex flex-col bg-ms-background h-screen overflow-hidden text-black">

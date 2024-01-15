@@ -20,17 +20,29 @@ import SearchedTasks from "./tasks/searchedLists/SearchedTasks";
 import SearchedNotes from "./tasks/searchedLists/SearchedNotes";
 import SearchedCategories from "./tasks/searchedLists/SearchedCategories";
 import SearchedSteps from "./tasks/searchedLists/SearchedSteps";
+import { useGetTodosApiQuery } from "../api/todoApiSlice";
 
 const Search = () => {
   const dispatch = useDispatch();
   const isSidebarOpen = useSelector((state) => state.ui.sidebar);
   const showCompleted = useSelector((state) => state.search.showCompleted);
   const searchQuery = useSelector((state) => state.search.query);
-  const todos = useSelector((state) => state.todo.todos);
   const [searchedTasks, setSearchedTasks] = useState([]);
   const [searchedNotes, setSearchedNotes] = useState([]);
   const [searchedSteps, setSearchedSteps] = useState([]);
   const [searchedCategories, setSearchedCategories] = useState([]);
+  
+
+
+  const user = useSelector((state) => state.auth.user);
+  const {
+    data: todos,
+    error,
+    isLoading: isTodosLoading,
+    refetch,
+  } = useGetTodosApiQuery(user?.uid, { skip: !user });
+
+
 
   const openSidebarHandler = () => {
     dispatch(openSidebar());

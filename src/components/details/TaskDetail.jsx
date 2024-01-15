@@ -19,6 +19,7 @@ import {
   useGetUiApiQuery,
   useSetDetailWidthApiMutation,
 } from "../../api/uiApiSlice";
+import { useGetTodosApiQuery } from "../../api/todoApiSlice";
 
 const TaskDetail = () => {
   const dispatch = useDispatch();
@@ -33,7 +34,16 @@ const TaskDetail = () => {
   const [firstRender, setFirstRender] = useState(true);
   const detailWidth = useSelector((state) => state.ui.detailWidth);
   const user = useSelector((state) => state.auth.user);
-  const todos = useSelector((state) => state.todo.todos);
+
+
+  const {
+    data: todos,
+    error,
+    isLoading: isTodosLoading,
+    refetch,
+  } = useGetTodosApiQuery(user?.uid, { skip: !user });
+
+
 
   const {
     data: uiData,

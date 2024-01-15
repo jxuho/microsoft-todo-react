@@ -1,18 +1,26 @@
 import { useDispatch, useSelector } from "react-redux";
-import React, {  useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import sortTasks from "../../utils/sortTasks";
 import TaskItem from "./TaskItem";
 import { addActiveTasks } from "../../store/activeSlice";
 import useInfiniteScroll from "../../hooks/useInfiniteScroll";
+import { useGetTodosApiQuery } from "../../api/todoApiSlice";
 
 const ImportantList = ({ currentLocation }) => {
   const dispatch = useDispatch();
-  const todos = useSelector((state) => state.todo.todos);
   const [todoArr, setTodoArr] = useState([]);
   const sortOrder = useSelector((state) => state.sort.important.order);
   const sortBy = useSelector((state) => state.sort.important.sortBy);
   const activeRange = useSelector((state) => state.active.activeRange);
   const activeTasksId = useSelector((state) => state.active.activeTasks);
+
+  const user = useSelector((state) => state.auth.user);
+  const {
+    data: todos,
+    error,
+    isLoading: isTodosLoading,
+    refetch,
+  } = useGetTodosApiQuery(user?.uid, { skip: !user });
 
   useEffect(() => {
     //  todoArr 생성.
@@ -40,11 +48,14 @@ const ImportantList = ({ currentLocation }) => {
     }
   }, [activeRange]);
 
+  const importanceTodoArr = todoArr.filter(
+    (task) => !task.complete && task.importance
+  );
 
-  const importanceTodoArr = todoArr.filter((task) => !task.complete && task.importance);
-
-  const { lastTaskRef, limitTodoArr } =
-  useInfiniteScroll(20, importanceTodoArr);
+  const { lastTaskRef, limitTodoArr } = useInfiniteScroll(
+    20,
+    importanceTodoArr
+  );
 
   const content = limitTodoArr.map((todo, index) => {
     if (limitTodoArr.length === index + 1) {
@@ -68,12 +79,9 @@ const ImportantList = ({ currentLocation }) => {
     );
   });
 
-
   return (
     <>
-      <div className="flex flex-col overflow-y-auto pb-6 px-6">
-        {content}
-      </div>
+      <div className="flex flex-col overflow-y-auto pb-6 px-6">{content}</div>
     </>
   );
 };

@@ -11,6 +11,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { closeDetail, setDeleteDialogActive } from "../../store/uiSlice";
 import {
+  useGetTodosApiQuery,
   useRemoveFileTodoApiMutation,
   useRemoveTodoApiMutation,
 } from "../../api/todoApiSlice";
@@ -26,9 +27,22 @@ function DeleteDialog() {
   const deleteDialogTarget = useSelector(
     (state) => state.ui.deleteDialogTarget
   );
-  const todos = useSelector((state) => state.todo.todos);
   const user = useSelector((state) => state.auth.user);
   const activeFileRef = useSelector((state) => state.active.activeFileRef);
+  
+  
+  
+  const {
+    data: todos,
+    error,
+    isLoading: isTodosLoading,
+    refetch,
+  } = useGetTodosApiQuery(user?.uid, { skip: !user });
+
+
+
+
+
 
   const [removeTodoApi] = useRemoveTodoApiMutation();
   const [removeFileTodoApi] = useRemoveFileTodoApiMutation();

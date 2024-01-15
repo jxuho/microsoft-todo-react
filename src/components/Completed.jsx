@@ -10,6 +10,7 @@ import { GoCheckCircle } from "react-icons/go";
 import CompleteList from "./tasks/CompleteList";
 import { useState } from "react";
 import sortTasks from "../utils/sortTasks";
+import { useGetTodosApiQuery } from "../api/todoApiSlice";
 
 const Completed = () => {
   const dispatch = useDispatch();
@@ -22,7 +23,13 @@ const Completed = () => {
   );
 
 
-  const todos = useSelector(state => state.todo.todos)
+  const user = useSelector((state) => state.auth.user);
+  const {
+    data: todos,
+    error,
+    isLoading: isTodosLoading,
+    refetch,
+  } = useGetTodosApiQuery(user?.uid, { skip: !user });
 
 
   const openSidebarHandler = () => {

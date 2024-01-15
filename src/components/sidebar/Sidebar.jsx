@@ -10,18 +10,30 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import { GoHome } from "react-icons/go";
 import { useEffect, useState } from "react";
 import useViewport from "../../hooks/useViewPort";
+import { useGetTodosApiQuery } from "../../api/todoApiSlice";
 
 const Sidebar = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const [currentLocation, setCurrentLocation] = useState("");
-  const todos = useSelector((state) => state.todo.todos);
   const [count, setCount] = useState({
     myday: 0,
     important: 0,
     planned: 0,
     tasks: 0,
   });
+  
+  
+  const user = useSelector((state) => state.auth.user);
+  const {
+    data: todos,
+    error,
+    isLoading: isTodosLoading,
+    refetch,
+  } = useGetTodosApiQuery(user?.uid, { skip: !user });
+
+
+
 
   const closeSidebarHandler = () => {
     dispatch(closeSidebar());

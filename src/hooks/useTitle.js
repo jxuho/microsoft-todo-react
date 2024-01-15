@@ -1,12 +1,22 @@
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
+import { useGetTodosApiQuery } from "../api/todoApiSlice";
 
 const useTitle = () => {
   const location = useLocation();
   const activeTasks = useSelector((state) => state.active.activeTasks);
   const searchQuery = useSelector((state) => state.search.query);
-  const todos = useSelector((state) => state.todo.todos);
+
+
+  const user = useSelector((state) => state.auth.user);
+  const {
+    data: todos,
+    error,
+    isLoading: isTodosLoading,
+    refetch,
+  } = useGetTodosApiQuery(user?.uid, { skip: !user });
+
 
   useEffect(() => {
     if (activeTasks.length === 1) {

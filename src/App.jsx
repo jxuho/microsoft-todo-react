@@ -148,6 +148,9 @@ export default App;
  * 
  * useGetTodos Redux local store(todoSlice)말고 RTKQ만 사용해서 구현 가능한지 판단할것
  * 
+ * file 업로드 개수, 용량, 확장자 제한하기
+ * file 업로드 중 loading spinner render
+ * 
  * OAuth & 로그인 페이지 기능 추가하기
  * 
  * 계정 삭제, 비밀번호 변경 가능한 mypage 만들기

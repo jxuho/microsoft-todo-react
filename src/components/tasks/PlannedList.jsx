@@ -6,12 +6,24 @@ import { addActiveTasks } from "../../store/activeSlice";
 import { getCustomFormatDateString } from "../../utils/getDates";
 import useInfiniteScroll from "../../hooks/useInfiniteScroll";
 import sortTasks from "../../utils/sortTasks";
+import { useGetTodosApiQuery } from "../../api/todoApiSlice";
 
 const PlannedList = () => {
   const dispatch = useDispatch();
   const activeRange = useSelector((state) => state.active.activeRange);
   const activeTasksId = useSelector((state) => state.active.activeTasks);
-  const todos = useSelector((state) => state.todo.todos);
+  
+  
+  const user = useSelector((state) => state.auth.user);
+  const {
+    data: todos,
+    error,
+    isLoading: isTodosLoading,
+    refetch,
+  } = useGetTodosApiQuery(user?.uid, { skip: !user });
+
+
+
   const [activeArr, setActiveArr] = useState([]);
   const [isOpen, setIsOpen] = useState({
     earlier: false,
