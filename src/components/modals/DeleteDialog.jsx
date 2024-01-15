@@ -42,8 +42,8 @@ function DeleteDialog() {
 
   const { refs, context } = useFloating({
     open: isDeleteDialogOpen,
-    onOpenChange: (input) =>
-      dispatch(setDeleteDialogActive({ target: "", active: input })),
+    onOpenChange: (isOpen) =>
+      dispatch(setDeleteDialogActive({ target: "", active: isOpen })),
     // onOpenChange: (input) => dispatch(setDeleteDialogActive(input)),
   });
   const click = useClick(context);

@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { FiPaperclip } from "react-icons/Fi";
 import { storage } from "../../firebase";
 import {
@@ -17,6 +17,8 @@ const DetailAddFile = ({ taskId, todo }) => {
   const dispatch = useDispatch();
   const inputRef = useRef();
   const user = useSelector((state) => state.auth.user);
+
+  const [isFileUploading, setIsFileUploading] = useState(false);
 
   const [addFileTodoApi, { isError: isAddFileError, error: addFileError }] =
     useAddFileTodoApiMutation();
@@ -43,15 +45,18 @@ const DetailAddFile = ({ taskId, todo }) => {
       return;
     }
 
-    const extension = file.name.slice(file.name.lastIndexOf('.') + 1) ?? ""
+    const extension = file.name.slice(file.name.lastIndexOf(".") + 1) ?? "";
     const fileRef = `${user.uid}-${taskId}-${uuid()}`;
     const storageRef = ref(storage, fileRef);
-    const uploadTask = uploadBytesResumable(storageRef, file, {customMetadata: {extension, fileName:file.name}});
+    const uploadTask = uploadBytesResumable(storageRef, file, {
+      customMetadata: { extension, fileName: file.name },
+    });
 
     uploadTask.on(
       "state_changed",
       (snapshot) => {
         // console.log(snapshot.metadata);
+        setIsFileUploading(true);
         const progress =
           (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
         console.log("Upload is " + progress + "% done");
@@ -75,6 +80,7 @@ const DetailAddFile = ({ taskId, todo }) => {
         }
       },
       () => {
+        setIsFileUploading(false);
         getDownloadURL(uploadTask.snapshot.ref)
           .then((downloadURL) => {
             console.log("File available at", downloadURL);
@@ -121,6 +127,16 @@ const DetailAddFile = ({ taskId, todo }) => {
               />
             );
           })}
+        </div>
+      )}
+
+      {isFileUploading && (
+        <div
+          className="flex bg-white w-full rounded p-4 items-center justify-between text-ms-light-text"
+        >
+          <span className="flex text-md font-medium w-full items-center justify-center">
+            Loading
+          </span>
         </div>
       )}
 
