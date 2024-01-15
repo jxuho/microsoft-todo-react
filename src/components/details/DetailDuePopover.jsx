@@ -11,7 +11,7 @@ import {
 } from "@floating-ui/react";
 import { useEffect, useState } from "react";
 import { getCustomFormatDateString } from "../../utils/getDates";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { BsXLg } from "react-icons/bs";
 import { IoCalendarOutline } from "react-icons/io5";
 import DueCalendar from "../addtask/DueCalendar";
@@ -26,11 +26,6 @@ const DetailDuePopover = ({ taskId, todo }) => {
   const [dueText, setDueText] = useState("");
   const [isHover, setIsHover] = useState(false);
   const [tooltipOpen, setTooltipOpen] = useState(false);
-
-  const dispatch = useDispatch();
-  // const todo = useSelector((state) =>
-  //   state.todo.todos.find((todo) => todo.id === taskId)
-  // );
   const user = useSelector((state) => state.auth.user);
 
   const [changeOptionTodoApi] = useChangeOptionTodoApiMutation();

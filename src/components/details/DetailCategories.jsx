@@ -9,7 +9,7 @@ import {
 } from "@floating-ui/react";
 import { useState } from "react";
 import { BsCheck2, BsFillCircleFill } from "react-icons/bs";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import DetailCategoryItems from "./DetailCategoryItems";
 
 import {
@@ -19,11 +19,6 @@ import {
 
 const DetailCategories = ({ taskId, todo }) => {
   const [popoverOpen, setPopoverOpen] = useState(false);
-  const dispatch = useDispatch();
-
-  // const todo = useSelector((state) =>
-  //   state.todo.todos.find((todo) => todo.id === taskId)
-  // );
   const user = useSelector((state) => state.auth.user);
 
   const [addCategoryTodoApi] = useAddCategoryTodoApiMutation();

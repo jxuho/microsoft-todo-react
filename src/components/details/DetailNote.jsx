@@ -32,7 +32,6 @@ const DetailNote = ({ taskId, todo }) => {
   }, [todoNote.content]);
 
   useEffect(() => {
-    console.log(todoNote.updated);
     if (todoNote.updated) {
       setUpdatedText(timeAgo(new Date(todoNote.updated)));
     }

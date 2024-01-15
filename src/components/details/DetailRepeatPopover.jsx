@@ -11,7 +11,7 @@ import {
 } from "@floating-ui/react";
 import { useEffect, useState } from "react";
 import { getDayOfWeek } from "../../utils/getDates";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { BsRepeat, BsXLg } from "react-icons/bs";
 import RepeatCustom from "../addtask/RepeatCustom";
 import RepeatItems from "../addtask/RepeatItems";
@@ -27,11 +27,6 @@ const DetailRepeatPopover = ({ taskId, todo }) => {
   const [repeatText, setRepeatText] = useState({ title: "", description: "" });
   const [isHover, setIsHover] = useState(false);
   const [tooltipOpen, setTooltipOpen] = useState(false);
-
-  const dispatch = useDispatch();
-  // const todo = useSelector((state) =>
-  //   state.todo.todos.find((todo) => todo.id === taskId)
-  // );
   const user = useSelector(state => state.auth.user)
   const [changeOptionTodoApi] = useChangeOptionTodoApiMutation();
 

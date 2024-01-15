@@ -20,6 +20,7 @@ import useAuth from "../hooks/useAuth";
 import useUpdateMyday from "../hooks/useUpdateMyday";
 import Loading from "../components/Loading";
 import useTitle from "../hooks/useTitle";
+import { useGetTodosApiQuery } from "../api/todoApiSlice";
 
 const RootPage = () => {
   const location = useLocation();

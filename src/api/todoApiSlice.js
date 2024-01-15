@@ -1,8 +1,6 @@
 import { fakeBaseQuery } from "@reduxjs/toolkit/query/react";
 import { db } from "../firebase";
 import {
-  Timestamp,
-  addDoc,
   arrayRemove,
   arrayUnion,
   collection,
@@ -10,10 +8,6 @@ import {
   doc,
   getDoc,
   getDocs,
-  limit,
-  orderBy,
-  query,
-  serverTimestamp,
   setDoc,
   updateDoc,
 } from "firebase/firestore";
@@ -26,35 +20,7 @@ export const todoApiSlice = firestoreApi.injectEndpoints({
   baseQuery: fakeBaseQuery(),
   tagTypes: ["todos"],
   endpoints: (builder) => ({
-    // getTodosApi: builder.query({
-    //   async queryFn({userId, queryOption}) {
-    //     if (!userId) {
-    //       return { data: null };
-    //     }
-    //     // where
-    //     const q = query(
-    //       collection(db, `users/${userId}/todos`),
-    //       orderBy("created", "asc"),
-    //       limit(6)
-    //     );
 
-    //     try {
-    //       const querySnapshot = await getDocs(q);
-    //       let todosArr = [];
-    //       querySnapshot?.forEach((doc) => {
-    //         todosArr.push(doc.data());
-    //       });
-    //       console.log(todosArr);
-    //       return { data: todosArr };
-    //     } catch (error) {
-    //       console.error(error.message);
-    //       return { error: error.message };
-    //     }
-    //   },
-    //   providesTags: ["todos"],
-    // }),
-
-    // 수정 전
     getTodosApi: builder.query({
       async queryFn(userId) {
         if (!userId) {

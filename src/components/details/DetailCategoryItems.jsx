@@ -1,6 +1,5 @@
 import { BsXLg } from "react-icons/bs";
 import { PiTag } from "react-icons/pi";
-import { useSelector } from "react-redux";
 
 const DetailCategoryItems = ({
   taskId,
@@ -9,9 +8,6 @@ const DetailCategoryItems = ({
   categoryHandler,
   todo
 }) => {
-  // const todo = useSelector((state) =>
-  //   state.todo.todos.find((todo) => todo.id === taskId)
-  // );
 
   const todoCategory = todo?.category ?? [];
 
