@@ -142,12 +142,16 @@ export default App;
  * 
  * <할것>
  * 
+ * Tasks탭 tasks 여러 개 등록 후 refresh하면 순서 바뀜
  * 
  * note updated 표시 즉시 안됨
  * 
- * useGetTodos Redux local store말고 RTKQ만 사용해서 구현 가능한지 판단할것
+ * useGetTodos Redux local store(todoSlice)말고 RTKQ만 사용해서 구현 가능한지 판단할것
  * 
  * OAuth & 로그인 페이지 기능 추가하기
+ * 
+ * 계정 삭제, 비밀번호 변경 가능한 mypage 만들기
+ * 계정 삭제되면 firestore, storage에 연결된 데이터도 삭제하기
  * 
  * 배포 전 Firestore 보안규칙 업데이트하기(단순 true에서 새로운 규칙으로)
  * 

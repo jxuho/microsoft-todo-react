@@ -185,9 +185,39 @@ export const todoApiSlice = firestoreApi.injectEndpoints({
       // invalidatesTags: ["todos"],
     }),
 
+    // removeTodoApi: builder.mutation({
+    //   async queryFn({ todoId, user }) {
+    //     try {
+    //       await deleteDoc(doc(db, `users/${user.uid}/todos`, todoId));
+    //       return { data: null };
+    //     } catch (error) {
+    //       console.log(error.message);
+    //       return { error: error.message };
+    //     }
+    //   },
+    //   async onQueryStarted(args, { dispatch, queryFulfilled }) {
+    //     const patchResult = dispatch(
+    //       firestoreApi.util.updateQueryData(
+    //         "getTodosApi",
+    //         args.user.uid,
+    //         (draft) => {
+    //           return draft.filter((taskItem) => taskItem.id !== args.todoId);
+    //         }
+    //       )
+    //     );
+    //     try {
+    //       await queryFulfilled;
+    //     } catch {
+    //       patchResult.undo();
+    //     }
+    //   },
+
+    //   // invalidatesTags: ["todos"],
+    // }),
+
     setCompleteTodoApi: builder.mutation({
       async queryFn({ todoId, user, value, newTaskId }) {
-        console.log("setCompleteTodo");
+        // console.log("setCompleteTodo");
         try {
           const docSnap = await getDoc(
             doc(db, `users/${user.uid}/todos`, todoId)
@@ -603,8 +633,6 @@ export const todoApiSlice = firestoreApi.injectEndpoints({
       // invalidatesTags: ["todos"],
     }),
 
-
-    
     addFileTodoApi: builder.mutation({
       async queryFn({ todoId, user, content }) {
         try {
@@ -621,13 +649,15 @@ export const todoApiSlice = firestoreApi.injectEndpoints({
     }),
 
     removeFileTodoApi: builder.mutation({
-      async queryFn({todoId, user, fileRef}) {
+      async queryFn({ todoId, user, fileRef }) {
         try {
           const docSnap = await getDoc(
             doc(db, `users/${user.uid}/todos`, todoId)
           );
           const docData = docSnap.data();
-          const flieToRemove = docData.file.find((fileItem) => fileItem.fileRef === fileRef);
+          const flieToRemove = docData.file.find(
+            (fileItem) => fileItem.fileRef === fileRef
+          );
 
           await updateDoc(doc(db, `users/${user.uid}/todos`, todoId), {
             file: arrayRemove(flieToRemove),
@@ -638,10 +668,8 @@ export const todoApiSlice = firestoreApi.injectEndpoints({
           return { error: error.message };
         }
       },
-      invalidatesTags: ["todos"]
+      invalidatesTags: ["todos"],
     }),
-
-
 
     addStepApi: builder.mutation({
       async queryFn({ todoId, user, value }) {

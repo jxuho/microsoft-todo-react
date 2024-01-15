@@ -31,10 +31,7 @@ function DeleteDialog() {
   const activeFileRef = useSelector((state) => state.active.activeFileRef);
 
   const [removeTodoApi] = useRemoveTodoApiMutation();
-  const [
-    removeFileTodoApi,
-    { isError: isRemoveFileError, error: removeFileError },
-  ] = useRemoveFileTodoApiMutation();
+  const [removeFileTodoApi] = useRemoveFileTodoApiMutation();
 
   const { refs, context } = useFloating({
     open: isDeleteDialogOpen,
@@ -48,30 +45,39 @@ function DeleteDialog() {
   const { getFloatingProps } = useInteractions([click, role, dismiss]);
 
   const deleteTargetHandler = () => {
+    const targetTask = todos.find((todo) => todo.id === activeTasksId[0]);
     switch (deleteDialogTarget) {
       case "task":
-        activeTasksId.forEach((todoId) => {
-          removeTodoApi({ todoId, user });
-        });
+        if (targetTask.file.length !== 0) {
+          // task 삭제될 때, storage의 files 삭제
+          targetTask.file.map((fileItem) => {
+            deleteObject(ref(storage, fileItem.fileRef))
+              .then(() => {
+                activeTasksId.forEach((todoId) => {
+                  removeTodoApi({ todoId, user });
+                });
+              })
+              .catch((error) => {
+                console.log(error);
+              });
+          });
+        } else {
+          // file 없는 경우
+          activeTasksId.forEach((todoId) => {
+            removeTodoApi({ todoId, user });
+          });
+        }
         dispatch(closeDetail());
         break;
 
       case "file":
-        removeFileTodoApi({
-          todoId: todos.find((todo) => todo.id === activeTasksId[0]).id,
-          user,
-          fileRef: activeFileRef,
-        });
-        if (isRemoveFileError) {
-          console.log(
-            "error while deleting file in Firestore ",
-            removeFileError
-          );
-          return;
-        }
         deleteObject(ref(storage, activeFileRef))
           .then(() => {
-            console.log("File deleted successfully in Cloud Storage");
+            removeFileTodoApi({
+              todoId: targetTask.id,
+              user,
+              fileRef: activeFileRef,
+            });
           })
           .catch((error) => {
             console.log(error);
@@ -107,10 +113,12 @@ function DeleteDialog() {
       ) : (
         <span>Are you sure you want to permanently delete these tasks?</span>
       );
-    deleteButtonContent = "Delete task"
+    deleteButtonContent = "Delete task";
   } else if (deleteDialogTarget === "file") {
-    headerContent = <span>Are you sure you want to permanently delete this file?</span>
-    deleteButtonContent = "Delete file"
+    headerContent = (
+      <span>Are you sure you want to permanently delete this file?</span>
+    );
+    deleteButtonContent = "Delete file";
   }
 
   return (
@@ -134,9 +142,7 @@ function DeleteDialog() {
                 {...getFloatingProps()}
               >
                 <div className="p-4">
-                  <div className="font-semibold mb-3">
-                    {headerContent}
-                  </div>
+                  <div className="font-semibold mb-3">{headerContent}</div>
                   <span className="text-ms-light-text">
                     You won't be able to undo this action.
                   </span>
