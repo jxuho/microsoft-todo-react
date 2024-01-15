@@ -35,7 +35,10 @@ const Inbox = () => {
 
   useEffect(() => {
     //  todoArr 생성.
-    let allTasks = todos.slice().reverse();
+    let allTasks = todos.slice()
+    .sort((a, b) => new Date(a.created) - new Date(b.created))
+    .reverse();
+    
     if (sortBy) {
       allTasks = sortTasks(sortBy, sortOrder, allTasks);
     }
