@@ -83,7 +83,7 @@ const clickHandler = () => {
       >
         <div className="w-9 h-9 bg-ms-blue text-white-text uppercase font-semibold items-center justify-center text-sm rounded-md">
           <div className="max-w-[36px] h-6 text-center leading-9">
-            {filItemMeta?.contentType.split("/")[1]}
+            {filItemMeta?.customMetadata.extension}
           </div>
         </div>
         <div
@@ -96,7 +96,7 @@ const clickHandler = () => {
           </div>
           <div className="whitespace-nowrap overflow-hidden text-ellipsis leading-4 text-xs mt-1">
             <span className="leading-4 after:content-['•'] after:mx-2">
-              {`${(filItemMeta?.size / 1024).toFixed(1)}kb`}
+              {`${formatFileSize(filItemMeta?.size)}`}
             </span>
             <span>{filItemMeta?.contentType.split("/")[0]}</span>
           </div>
@@ -131,3 +131,14 @@ const clickHandler = () => {
 };
 
 export default DetailFileItem;
+
+
+function formatFileSize(bytes) {
+  if (bytes < 1024) {
+    return bytes + ' B';
+  } else if (bytes < 1024 * 1024) {
+    return (bytes / 1024).toFixed(2) + ' KB';
+  } else {
+    return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
+  }
+}

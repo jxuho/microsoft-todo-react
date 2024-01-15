@@ -43,9 +43,10 @@ const DetailAddFile = ({ taskId, todo }) => {
       return;
     }
 
+    const extension = file.name.slice(file.name.lastIndexOf('.') + 1) ?? ""
     const fileRef = `${user.uid}-${taskId}-${uuid()}`;
     const storageRef = ref(storage, fileRef);
-    const uploadTask = uploadBytesResumable(storageRef, file);
+    const uploadTask = uploadBytesResumable(storageRef, file, {customMetadata: {extension, fileName:file.name}});
 
     uploadTask.on(
       "state_changed",
