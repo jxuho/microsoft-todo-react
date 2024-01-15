@@ -135,6 +135,7 @@ export default App;
  * (complete) todoApiSlice:67, uiApiSlice:34 content download 종료되지 않는 문제 해결.
  * (complete) dark mode설정 server에 저장하기
  * (complete) created 및 필요한 정보들을 client 타임스탬프에서 서버 타임스탬프로 변경 - abort
+ * (complete) Tasks탭 tasks 여러 개 등록 후 refresh하면 순서 바뀜
  * 
  * 
  * 
@@ -142,7 +143,6 @@ export default App;
  * 
  * <할것>
  * 
- * Tasks탭 tasks 여러 개 등록 후 refresh하면 순서 바뀜
  * 
  * note updated 표시 즉시 안됨
  * 

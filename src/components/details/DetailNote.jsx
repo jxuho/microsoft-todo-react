@@ -1,31 +1,26 @@
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useRef } from "react";
 import TextareaAutosize from "react-textarea-autosize";
 import { useAddNoteTodoApiMutation } from "../../api/todoApiSlice";
 
-const DetailNote = ({ taskId, todo,  }) => {
-  // const todo = useSelector((state) =>
-  //   state.todo.todos.find((todo) => todo.id === taskId)
-  // );
+const DetailNote = ({ taskId, todo }) => {
+
   const inputRef = useRef();
-  const dispatch = useDispatch();
   const [note, setNote] = useState("");
   const [updatedText, setUpdatedText] = useState("");
 
-  const user = useSelector(state => state.auth.user)
-  const [addNoteTodoApi] = useAddNoteTodoApiMutation()
+  const user = useSelector((state) => state.auth.user);
+  const [addNoteTodoApi] = useAddNoteTodoApiMutation();
 
-  const todoNote = todo?.note;
+  const todoNote = todo.note;
 
   const noteInputHandler = (event) => {
     setNote(event.target.value);
   };
 
   const blurHandler = () => {
-
-      addNoteTodoApi({todoId: taskId, user, content: note})
-
+    addNoteTodoApi({ todoId: taskId, user, content: note });
   };
 
   const noteSectionClickHandler = () => {
@@ -33,14 +28,15 @@ const DetailNote = ({ taskId, todo,  }) => {
   };
 
   useEffect(() => {
-    setNote(todoNote?.content);
-  }, [todoNote?.content]);
+    setNote(todoNote.content);
+  }, [todoNote.content]);
 
   useEffect(() => {
-    if (todoNote?.updated) {
+    console.log(todoNote.updated);
+    if (todoNote.updated) {
       setUpdatedText(timeAgo(new Date(todoNote.updated)));
     }
-  }, [todoNote?.updated]);
+  }, [todoNote.updated]);
 
   return (
     <div

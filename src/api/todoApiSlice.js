@@ -598,9 +598,10 @@ export const todoApiSlice = firestoreApi.injectEndpoints({
     addNoteTodoApi: builder.mutation({
       async queryFn({ todoId, user, content }) {
         try {
+          const updated = new Date().toISOString();
           await updateDoc(doc(db, `users/${user.uid}/todos`, todoId), {
             "note.content": content,
-            "note.updated": new Date().toISOString(),
+            "note.updated": updated,
           });
           return { data: null };
         } catch (error) {
@@ -620,6 +621,7 @@ export const todoApiSlice = firestoreApi.injectEndpoints({
             (draft) => {
               const taskToChange = draft.find((task) => task.id === todoId);
               taskToChange.note.content = content;
+              taskToChange.note.updated = new Date().toISOString();
             }
           )
         );
