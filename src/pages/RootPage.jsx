@@ -15,7 +15,6 @@ import useRemindNotification from "../hooks/useRemindNotification";
 import SidebarOverlay from "../components/ui/SidebarOverlay";
 import HeaderPanels from "../panels/HeaderPanels";
 import useTheme from "../hooks/useTheme";
-import useGetTodos from "../hooks/useGetTodos";
 import useAuth from "../hooks/useAuth";
 import useUpdateMyday from "../hooks/useUpdateMyday";
 import Loading from "../components/Loading";
@@ -40,10 +39,6 @@ const RootPage = () => {
   } = useGetTodosApiQuery(user?.uid, { skip: !user });
 
 
-
-
-
-  // useGetTodos();
   useUpdateMyday();
   useRemindNotification();
   useTheme();
@@ -63,16 +58,9 @@ const RootPage = () => {
   }, [isAuthLoading, user, navigate]);
 
 
-
-
-
-  // if (!todos || isAuthLoading) {
   if (isAuthLoading || isTodosLoading) {
     return <Loading />;
   }
-
-
-
 
 
   return (

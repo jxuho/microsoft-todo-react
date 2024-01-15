@@ -1,5 +1,4 @@
 import { configureStore } from "@reduxjs/toolkit";
-import todoSliceReducer from "./todoSlice";
 import uiSliceReducer from "./uiSlice";
 import sortSliceReducer from "./sortSlice"
 import groupSliceReducer from "./groupSlice"
@@ -14,7 +13,6 @@ import { setupListeners } from "@reduxjs/toolkit/dist/query";
 export const store =  configureStore({
   reducer: {
     [firestoreApi.reducerPath]: firestoreApi.reducer,
-    todo: todoSliceReducer,
     ui: uiSliceReducer,
     sort: sortSliceReducer,
     group: groupSliceReducer,

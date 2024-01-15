@@ -21,8 +21,6 @@ const Completed = () => {
   const isSortOptionSelected = useSelector(
     (state) => state.sort.completed.sortBy
   );
-
-
   const user = useSelector((state) => state.auth.user);
   const {
     data: todos,
