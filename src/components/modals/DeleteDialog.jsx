@@ -29,20 +29,13 @@ function DeleteDialog() {
   );
   const user = useSelector((state) => state.auth.user);
   const activeFileRef = useSelector((state) => state.active.activeFileRef);
-  
-  
-  
+
   const {
     data: todos,
     error,
     isLoading: isTodosLoading,
     refetch,
   } = useGetTodosApiQuery(user?.uid, { skip: !user });
-
-
-
-
-
 
   const [removeTodoApi] = useRemoveTodoApiMutation();
   const [removeFileTodoApi] = useRemoveFileTodoApiMutation();

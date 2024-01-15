@@ -20,6 +20,7 @@ import useUpdateMyday from "../hooks/useUpdateMyday";
 import Loading from "../components/Loading";
 import useTitle from "../hooks/useTitle";
 import { useGetTodosApiQuery } from "../api/todoApiSlice";
+import InformationModal from "../components/modals/InformationModal";
 
 const RootPage = () => {
   const location = useLocation();
@@ -79,6 +80,7 @@ const RootPage = () => {
       </div>
       <TaskItemContextMenu />
       <DeleteDialog />
+      <InformationModal/>
     </div>
   );
 };

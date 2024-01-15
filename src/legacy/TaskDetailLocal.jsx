@@ -1,10 +1,10 @@
 import { useDispatch, useSelector } from "react-redux";
-import { closeDetail, setDetailWidth, setDeleteDialogActive } from "../../store/uiSlice";
+import { closeDetail, setDetailWidth, setDeleteDialogActive } from "../store/uiSlice";
 import { LuPanelRightClose } from "react-icons/lu";
 import { BsTrash3 } from "react-icons/bs";
 import { useCallback, useEffect, useRef, useState, version } from "react";
-import { getCustomFormatDateString } from "../../utils/getDates";
-import Details from "./Details";
+import { getCustomFormatDateString } from "../utils/getDates";
+import Details from "../components/details/Details";
 import {
   flip,
   offset,
@@ -14,7 +14,7 @@ import {
   useHover,
   useInteractions,
 } from "@floating-ui/react";
-import useViewport from "../../hooks/useViewPort";
+import useViewport from "../hooks/useViewPort";
 
 const TaskDetailLocal = ({ todos }) => {
   const dispatch = useDispatch();

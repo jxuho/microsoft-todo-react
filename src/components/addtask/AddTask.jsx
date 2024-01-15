@@ -9,14 +9,6 @@ import getLastTimeOfDay, {
 } from "../../utils/getDates";
 import { GoCircle } from "react-icons/go";
 import { useAddTodoApiMutation } from "../../api/todoApiSlice";
-import {
-  doc,
-  getDoc,
-  serverTimestamp,
-  setDoc,
-  updateDoc,
-} from "firebase/firestore";
-import { db } from "../../firebase";
 
 const initialTask = {
   id: "", // uuid

@@ -15,6 +15,8 @@ const uiSlice = createSlice({
     settingsActive: false,
     helpActive: false,
     whatsNewActive: false,
+    informationModalActive: false,
+    informationModalText: "",
     // theme: "light"
   },
   reducers: {
@@ -49,6 +51,11 @@ const uiSlice = createSlice({
     switchHeaderButton: (state, action) => {
       state[action.payload.property] = !state[action.payload.property];
     },
+
+    setInformationModal: (state, action) => {
+      state.informationModalActive = action.payload.active;
+      state.informationModalText = action.payload.text;
+    }
     // setTheme: (state, action) => {
     //   state.theme = action.payload;
     // }
@@ -68,6 +75,7 @@ export const {
   setAppLauncherActive,
   setHeaderButton,
   switchHeaderButton,
+  setInformationModal,
   // setTheme,
 } = uiSlice.actions;
 export default uiSlice.reducer;

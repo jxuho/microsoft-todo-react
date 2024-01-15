@@ -7,11 +7,14 @@ import {
   ref,
   uploadBytesResumable,
 } from "firebase/storage";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useAddFileTodoApiMutation } from "../../api/todoApiSlice";
 import DetailFileItem from "./DetailFileItem";
+import { setInformationModal } from "../../store/uiSlice";
+import uuid from "react-uuid";
 
 const DetailAddFile = ({ taskId, todo }) => {
+  const dispatch = useDispatch();
   const inputRef = useRef();
   const user = useSelector((state) => state.auth.user);
 
@@ -30,7 +33,17 @@ const DetailAddFile = ({ taskId, todo }) => {
 
     if (!file) return;
 
-    const fileRef = `${user.uid}-${taskId}-${file.name}`;
+    if (file.size / 1024 / 1024 > 2.5) {
+      dispatch(
+        setInformationModal({
+          active: true,
+          text: "The size of the file attached to a task cannot be more than 2.5MB",
+        })
+      );
+      return;
+    }
+
+    const fileRef = `${user.uid}-${taskId}-${uuid()}`;
     const storageRef = ref(storage, fileRef);
     const uploadTask = uploadBytesResumable(storageRef, file);
 
@@ -90,6 +103,8 @@ const DetailAddFile = ({ taskId, todo }) => {
           });
       }
     );
+
+    inputRef.current.value = null;
   };
 
   return (
