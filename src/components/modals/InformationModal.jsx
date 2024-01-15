@@ -23,6 +23,13 @@ const InformationModal = () => {
 
   const { refs, context } = useFloating({
     open: isInformationModalOpen,
+    onOpenChange: (isOpen) =>
+      dispatch(
+        setInformationModal({
+          active: isOpen,
+          text: "",
+        })
+      ),
   });
   const click = useClick(context);
   const role = useRole(context);
@@ -50,7 +57,6 @@ const InformationModal = () => {
                 {...getFloatingProps()}
               >
                 <div className="p-4 mt-4">
-                  {/* <div className="font-semibold mb-3">{headerContent}</div> */}
                   <span className="text-ms-light-text">
                     {informationModalText}
                   </span>
