@@ -55,7 +55,7 @@ const DetailOptions = ({ taskId, todo }) => {
         )}
       </div>
 
-      <div className="rounded my-2">
+      <div className="rounded mb-2">
         <DetailRemindPopover taskId={taskId} todo={todo} />
         <DetailDuePopover taskId={taskId} todo={todo} />
         <DetailRepeatPopover taskId={taskId} todo={todo} />

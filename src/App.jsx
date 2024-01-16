@@ -139,14 +139,13 @@ export default App;
  * (complete)note updated 표시 즉시 안됨
  * (complete) useGetTodos Redux local store(todoSlice)말고 RTKQ만 사용해서 구현
  * (complete) file 업로드 개수, 용량, 확장자 제한하기
+ * (complete) file 업로드 중 loading spinner render
  * 
  * 
  * 
  * 
  * 
  * <할것>
- * 
- * file 업로드 중 loading spinner render
  * 
  * OAuth & 로그인 페이지 기능 추가하기
  * 

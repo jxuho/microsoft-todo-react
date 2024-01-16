@@ -74,12 +74,12 @@ const clickHandler = () => {
 
   return (
     <div
-      className="flex bg-white w-full items-center justify-between text-ms-light-text hover:bg-ms-white-hover hover:text-black hover:cursor-pointer"
+      className="flex bg-white w-full items-center justify-between text-ms-light-text hover:bg-ms-white-hover hover:text-black hover:cursor-pointer rounded"
       key={fileItem.fileRef}
       onMouseOver={() => mouseOverHandler(fileItem.fileRef)}
       onMouseLeave={mouseLeaveHandler}
     >
-      <div className="flex justify-between w-full items-center p-4 border-solid border-b-[0.5px] border-ms-input-hover"
+      <div className="flex justify-between w-full items-center px-4 py-2 border-solid border-b-[0.5px] border-ms-input-hover"
       onClick={clickHandler}
       >
         <div className="w-9 h-9 bg-ms-blue text-white-text uppercase font-semibold items-center justify-center text-sm rounded-md">

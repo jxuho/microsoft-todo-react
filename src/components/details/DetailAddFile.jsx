@@ -117,7 +117,7 @@ const DetailAddFile = ({ taskId, todo }) => {
   return (
     <>
       {todo.file.length !== 0 && (
-        <div className="rounded mt-2">
+        <div>
           {todo.file.map((fileItem, index) => {
             return (
               <DetailFileItem
