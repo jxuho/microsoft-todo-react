@@ -18,7 +18,7 @@ const DetailCategoryItems = ({
 
   return (
     <div
-      className="flex bg-white w-full rounded p-4 items-center justify-between text-ms-light-text hover:bg-ms-white-hover hover:text-black"
+      className="flex bg-white w-full rounded p-4 mb-2 items-center justify-between text-ms-light-text hover:bg-ms-white-hover hover:text-black"
       ref={popoverRefs.setReference}
       {...getPopoverReferenceProps()}
     >

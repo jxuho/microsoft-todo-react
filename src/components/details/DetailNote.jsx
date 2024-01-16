@@ -39,7 +39,7 @@ const DetailNote = ({ taskId, todo }) => {
 
   return (
     <div
-      className="flex flex-col p-4 rounded my-2 bg-white justify-center border border-transparent hover:border-gray-300 hover:cursor-text"
+      className="flex flex-col p-4 rounded mb-2 bg-white justify-center border border-transparent hover:border-gray-300 hover:cursor-text"
       onClick={noteSectionClickHandler}
     >
       <TextareaAutosize

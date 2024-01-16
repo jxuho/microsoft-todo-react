@@ -132,7 +132,7 @@ const DetailAddFile = ({ taskId, todo }) => {
 
       {isFileUploading && (
         <div
-          className="flex bg-white w-full rounded p-4 items-center justify-between text-ms-light-text"
+          className="flex bg-white w-full rounded p-4 items-center justify-between text-ms-light-text border-solid border-b-[0.5px] border-ms-input-hover"
         >
           <span className="flex text-md font-medium w-full items-center justify-center">
             Loading
@@ -141,9 +141,7 @@ const DetailAddFile = ({ taskId, todo }) => {
       )}
 
       <div
-        className={`flex bg-white w-full rounded p-4 items-center justify-between text-ms-light-text hover:cursor-pointer hover:bg-ms-white-hover hover:text-black ${
-          todo.file.length === 0 ? "my-2" : ""
-        }`}
+        className="flex bg-white w-full rounded p-4 items-center justify-between text-ms-light-text hover:cursor-pointer hover:bg-ms-white-hover hover:text-black mb-2"
         onClick={addFileClickHandler}
       >
         <div className="flex w-full items-center">
