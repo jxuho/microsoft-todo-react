@@ -149,8 +149,11 @@ export default App;
  * 
  * OAuth & 로그인 페이지 기능 추가하기
  * 
+ * 
  * 계정 삭제, 비밀번호 변경 가능한 mypage 만들기
  * 계정 삭제되면 firestore, storage에 연결된 데이터도 삭제하기
+ * 
+ * 계정 새로 생성됐을 때 작동 확인하기
  * 
  * 배포 전 Firestore 보안규칙 업데이트하기(단순 true에서 새로운 규칙으로)
  * 

@@ -10,7 +10,7 @@ const ProtectedLayout = () => {
   useTitle()
 
   if (localStorageUser || user) {
-    console.log("GOTO ROOT");
+    // console.log("GOTO ROOT");
     return <Navigate to={"/"}/>  
   }
 

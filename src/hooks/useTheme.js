@@ -17,6 +17,11 @@ const useTheme = () => {
     const htmlElement = document.querySelector("html");
     if (!htmlElement) return;
 
+    if (!user) {
+      htmlElement.setAttribute("data-theme", "light");
+      return;
+    } 
+
     if (uiData && uiData.theme) {
       if (uiData.theme === "light") {
         htmlElement.setAttribute("data-theme", "light");

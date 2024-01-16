@@ -19,7 +19,6 @@ const useTitle = () => {
 
 
   useEffect(() => {
-    if (isTodosLoading) return;
     if (activeTasks.length === 1) {
       const todo = todos.find((todo) => todo.id === activeTasks[0]);
       document.title = `${todo.task} - To Do`;

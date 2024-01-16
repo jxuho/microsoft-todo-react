@@ -15,10 +15,11 @@ const searchSlice = createSlice({
     },
     switchShowCompleted: (state) => {
       state.showCompleted = !state.showCompleted
-    }
+    },
+    initializeSearch: (state) => ({...state, query: "", showCompleted: false})
   },
 });
 
-export const { addQuery, initializeQuery, switchShowCompleted } = searchSlice.actions;
+export const { addQuery, initializeQuery, switchShowCompleted, initializeSearch } = searchSlice.actions;
 
 export default searchSlice.reducer;

@@ -42,6 +42,13 @@ const activeSlice = createSlice({
     initializeActiveRange: (state) => {
       state.activeRange = [];
     },
+    initializeActive: (state) => ({
+      ...state,
+      activeTasks: [],
+      activeStep: "",
+      activeRange: [],
+      activeFileRef: "",
+    }),
   },
 });
 
@@ -54,6 +61,7 @@ export const {
   initializeActiveStep,
   setActiveRange,
   initializeActiveRange,
+  initializeActive,
 } = activeSlice.actions;
 
 export default activeSlice.reducer;

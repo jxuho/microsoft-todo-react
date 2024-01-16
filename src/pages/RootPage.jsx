@@ -53,7 +53,7 @@ const RootPage = () => {
 
   useEffect(() => {
     if (!isAuthLoading && !user) {
-      console.log("GO TO SIGNIN PAGE");
+      // console.log("GO TO SIGNIN PAGE");
       navigate("/user/signin");
     }
   }, [isAuthLoading, user, navigate]);

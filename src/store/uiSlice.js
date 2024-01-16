@@ -55,10 +55,24 @@ const uiSlice = createSlice({
     setInformationModal: (state, action) => {
       state.informationModalActive = action.payload.active;
       state.informationModalText = action.payload.text;
-    }
-    // setTheme: (state, action) => {
-    //   state.theme = action.payload;
-    // }
+    },
+    initializeUi: (state) => ({
+      ...state,
+      sidebar: false,
+      detail: false,
+      contextMenu: false,
+      deleteDialogTarget: "",
+      deleteDialogActive: false,
+      detailWidth: 360,
+      searchbarActive: false,
+      appLauncherActive: false,
+      accountManagerActive: false,
+      settingsActive: false,
+      helpActive: false,
+      whatsNewActive: false,
+      informationModalActive: false,
+      informationModalText: "",
+    }),
   },
 });
 
@@ -76,6 +90,6 @@ export const {
   setHeaderButton,
   switchHeaderButton,
   setInformationModal,
-  // setTheme,
+  initializeUi,
 } = uiSlice.actions;
 export default uiSlice.reducer;
