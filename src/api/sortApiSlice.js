@@ -17,29 +17,19 @@ export const sortApiSlice = firestoreApi.injectEndpoints({
           const docRef = doc(db, `users/${userId}/preference`, "sortDoc");
           const docSnap = await getDoc(docRef);
 
+          const initialSortStates = {
+            myday: { sortBy: "", order: "descending" },
+            important: { sortBy: "", order: "descending" },
+            completed: { sortBy: "", order: "descending" },
+            tasks: { sortBy: "", order: "descending" },
+            search: { sortBy: "", order: "descending" },
+          };
+
           if (!docSnap.exists()) {
-            await setDoc(
-              docRef,
-              {
-                myday: { sortBy: "", order: "descending" },
-                important: { sortBy: "", order: "descending" },
-                completed: { sortBy: "", order: "descending" },
-                tasks: { sortBy: "", order: "descending" },
-                search: { sortBy: "", order: "descending" },
-              },
-              { merge: true }
-            );
+            await setDoc(docRef, initialSortStates, { merge: true });
           }
 
-          const docData = docSnap.exists()
-            ? docSnap.data()
-            : {
-                myday: { sortBy: "", order: "descending" },
-                important: { sortBy: "", order: "descending" },
-                completed: { sortBy: "", order: "descending" },
-                tasks: { sortBy: "", order: "descending" },
-                search: { sortBy: "", order: "descending" },
-              };
+          const docData = docSnap.exists() ? docSnap.data() : initialSortStates;
 
           return { data: docData };
         } catch (error) {

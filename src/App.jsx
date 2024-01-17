@@ -147,6 +147,9 @@ export default App;
  * 
  * <할것>
  * 
+ * 
+ * detailWidth 초기값 api slice에서 설정 -> TaskDetail 간단하게 하기
+ * 
  * OAuth & 로그인 페이지 기능 추가하기
  * 
  * 
