@@ -19,7 +19,11 @@ export const userApiSlice = firestoreApi.injectEndpoints({
         try {
           const docRef = doc(db, "users", userId);
           const docSnap = await getDoc(docRef);
-          return { data: docSnap.data() };
+
+          const docData = docSnap.exists() ? docSnap.data() : {};
+
+
+          return { data: docData };
         } catch (error) {
           console.error(error.message);
           return { error: error.message };

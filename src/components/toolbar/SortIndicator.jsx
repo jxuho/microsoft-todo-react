@@ -1,5 +1,4 @@
-import { useDispatch, useSelector } from "react-redux";
-import { changeOrder, initializeSort } from "../../store/sortSlice";
+import { useSelector } from "react-redux";
 import { BsXLg, BsChevronUp, BsChevronDown } from "react-icons/bs";
 import {
   flip,
@@ -11,25 +10,60 @@ import {
   useHover,
 } from "@floating-ui/react";
 import { useEffect, useState } from "react";
+import {
+  useChangeSortOrderApiMutation,
+  useGetSortApiQuery,
+  useInitializeSortApiMutation,
+} from "../../api/sortApiSlice";
 
 const SortIndicator = ({ currentLocation }) => {
   const [reverseTooltipOpen, setReverseTooltipOpen] = useState(false);
   const [closeTooltipOpen, setCloseTooltipOpen] = useState(false);
-  const [sortIndicatorText, setSortIndicatorText] = useState("")
+  const [sortIndicatorText, setSortIndicatorText] = useState("");
 
-  const dispatch = useDispatch();
-  const sortOption = useSelector((state) => state.sort[currentLocation].sortBy);
-  const sortOrder = useSelector((state) => state.sort[currentLocation].order);
+  const user = useSelector((state) => state.auth.user);
+  const [initializeSortApi] = useInitializeSortApiMutation();
+  const [changeSortOrderApi] = useChangeSortOrderApiMutation();
 
-  const initializeSortHandler = () => {
-    dispatch(initializeSort(currentLocation));
+  const {
+    data: sortData,
+  } = useGetSortApiQuery(user?.uid, { skip: !user });
+
+  const sortOption = sortData?.[currentLocation]?.sortBy;
+  const sortOrder = sortData?.[currentLocation]?.order;
+
+
+  const initializeSortHandler = async () => {
+    try {
+      initializeSortApi({ userId: user.uid, location: currentLocation });
+    } catch (error) {
+      console.error(error);
+    }
   };
-  const changeOrderHandler = () => {
-    dispatch(changeOrder(currentLocation));
+
+  const changeOrderHandler = async () => {
+    try {
+      if (sortOrder === "ascending") {
+        changeSortOrderApi({
+          userId: user.uid,
+          location: currentLocation,
+          order: "descending",
+        });
+      } else if (sortOrder === "descending") {
+        changeSortOrderApi({
+          userId: user.uid,
+          location: currentLocation,
+          order: "ascending",
+        });
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   useEffect(() => {
-    switch (sortOption) {
+    switch (sortData[currentLocation].sortBy) {
+      // switch (sortOption) {
       case "importance":
         setSortIndicatorText("Sorted by importance");
         break;
@@ -48,11 +82,11 @@ const SortIndicator = ({ currentLocation }) => {
       case "completed":
         setSortIndicatorText("Sorted by Completed");
         break;
-  
+
       default:
         break;
     }
-  }, [sortOption])
+  }, [sortOption]);
 
   const {
     refs: reverseTooltipRefs,
@@ -96,9 +130,7 @@ const SortIndicator = ({ currentLocation }) => {
   return (
     <>
       <div className="h-10 text-ms-text-dark">
-        <div
-          className="flex items-center justify-end py-2.5 pr-0.5 pl-7 font-semibold text-xs"
-        >
+        <div className="flex items-center justify-end py-2.5 pr-0.5 pl-7 font-semibold text-xs">
           <div className="flex items-center">
             <button
               onClick={changeOrderHandler}
@@ -117,8 +149,8 @@ const SortIndicator = ({ currentLocation }) => {
             {...getCloseTooltipReferenceProps()}
             onClick={initializeSortHandler}
           >
-            <button >
-              <BsXLg/>
+            <button>
+              <BsXLg />
             </button>
           </div>
         </div>

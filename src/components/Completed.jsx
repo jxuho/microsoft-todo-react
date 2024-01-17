@@ -11,16 +11,13 @@ import CompleteList from "./tasks/CompleteList";
 import { useState } from "react";
 import sortTasks from "../utils/sortTasks";
 import { useGetTodosApiQuery } from "../api/todoApiSlice";
+import { useGetSortApiQuery } from "../api/sortApiSlice";
 
 const Completed = () => {
   const dispatch = useDispatch();
   const [todoArr, setTodoArr] = useState([]);
-  const sortOrder = useSelector((state) => state.sort.completed.order);
-  const sortBy = useSelector((state) => state.sort.completed.sortBy);
   const isSidebarOpen = useSelector((state) => state.ui.sidebar);
-  const isSortOptionSelected = useSelector(
-    (state) => state.sort.completed.sortBy
-  );
+  
   const user = useSelector((state) => state.auth.user);
   const {
     data: todos,
@@ -28,6 +25,26 @@ const Completed = () => {
     isLoading: isTodosLoading,
     refetch,
   } = useGetTodosApiQuery(user?.uid, { skip: !user });
+  
+  
+  // const sortOrder = useSelector((state) => state.sort.completed.order);
+  // const sortBy = useSelector((state) => state.sort.completed.sortBy);
+  // const isSortOptionSelected = useSelector(
+  //   (state) => state.sort.completed.sortBy
+  // );
+
+
+
+  const {
+    data: sortData,
+    isError: isSortError,
+    error: sortError,
+  } = useGetSortApiQuery(user?.uid);
+  const isSortOptionSelected = sortData.completed.sortBy;
+  const sortOrder =sortData.completed.order
+  const sortBy = sortData.completed.sortBy
+
+
 
 
   const openSidebarHandler = () => {
@@ -38,10 +55,12 @@ const Completed = () => {
     dispatch(setSortBy({ option: "completed", location: "completed" }));
   }, []);
 
-
   useEffect(() => {
     // myday, complete, sortBy 순서대로 적용해야함
-    let todoTemp = todos.slice().reverse().filter((todo) => todo.complete);
+    let todoTemp = todos
+      .slice()
+      .reverse()
+      .filter((todo) => todo.complete);
 
     // sort옵션 적용
     if (sortBy) {
@@ -50,8 +69,6 @@ const Completed = () => {
       setTodoArr(todoTemp);
     }
   }, [todos, sortBy, sortOrder]);
-
-
 
   return (
     <>
@@ -71,7 +88,9 @@ const Completed = () => {
                 )}
               </div>
               <div>
-                <h2 className="text-xl font-medium py-2 text-ms-blue">Completed</h2>
+                <h2 className="text-xl font-medium py-2 text-ms-blue">
+                  Completed
+                </h2>
               </div>
               <div className="px-3">
                 <PiDotsThreeBold />
@@ -90,7 +109,7 @@ const Completed = () => {
             <SortIndicator currentLocation="completed" />
           )}
         </div>
-        <CompleteList todoArr={todoArr} currentLocation={"completed"}/>
+        <CompleteList todoArr={todoArr} currentLocation={"completed"} />
       </div>
     </>
   );

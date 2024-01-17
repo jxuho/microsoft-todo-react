@@ -15,22 +15,38 @@ import sortTasks from "../utils/sortTasks";
 import CompleteList from "./tasks/CompleteList";
 import { addActiveTasks } from "../store/activeSlice";
 import { useGetTodosApiQuery } from "../api/todoApiSlice";
+import { useGetSortApiQuery } from "../api/sortApiSlice";
 
 const Inbox = () => {
   const isSidebarOpen = useSelector((state) => state.ui.sidebar);
   const activeRange = useSelector((state) => state.active.activeRange);
-  const isSortOptionSelected = useSelector((state) => state.sort.tasks.sortBy);
   const isGroupOptionSelected = useSelector(
     (state) => state.group.tasks.groupBy
   );
   const dispatch = useDispatch();
   const [todoArr, setTodoArr] = useState([]);
-  const sortOrder = useSelector((state) => state.sort.tasks.order);
-  const sortBy = useSelector((state) => state.sort.tasks.sortBy);
   const groupBy = useSelector((state) => state.group.tasks.groupBy);
-  
-  
+
   const user = useSelector((state) => state.auth.user);
+
+
+
+  // const isSortOptionSelected = useSelector((state) => state.sort.tasks.sortBy);
+  // const sortOrder = useSelector((state) => state.sort.tasks.order);
+  // const sortBy = useSelector((state) => state.sort.tasks.sortBy);
+
+  const {
+    data: sortData,
+    isError: isSortError,
+    error: sortError,
+  } = useGetSortApiQuery(user?.uid);
+  const isSortOptionSelected = sortData.tasks.sortBy;
+  const sortOrder =sortData.tasks.order
+  const sortBy = sortData.tasks.sortBy
+
+
+
+
   const {
     data: todos,
     error,
@@ -38,18 +54,17 @@ const Inbox = () => {
     refetch,
   } = useGetTodosApiQuery(user?.uid, { skip: !user });
 
-
-
   const openSidebarHandler = () => {
     dispatch(openSidebar());
   };
 
   useEffect(() => {
     //  todoArr 생성.
-    let allTasks = todos.slice()
-    .sort((a, b) => new Date(a.created) - new Date(b.created))
-    .reverse();
-    
+    let allTasks = todos
+      .slice()
+      .sort((a, b) => new Date(a.created) - new Date(b.created))
+      .reverse();
+
     if (sortBy) {
       allTasks = sortTasks(sortBy, sortOrder, allTasks);
     }

@@ -6,16 +6,13 @@ import BasicList from "./BasicList";
 import CompleteList from "./CompleteList";
 import { addActiveTasks } from "../../store/activeSlice";
 import { useGetTodosApiQuery } from "../../api/todoApiSlice";
+import { useGetSortApiQuery } from "../../api/sortApiSlice";
 
 const MydayList = ({ currentLocation }) => {
   const dispatch = useDispatch();
   const [todoArr, setTodoArr] = useState([]);
-  const sortOrder = useSelector((state) => state.sort.myday.order);
-  const sortBy = useSelector((state) => state.sort.myday.sortBy);
   const groupBy = useSelector((state) => state.group.myday.groupBy);
   const activeRange = useSelector((state) => state.active.activeRange);
-
-
 
   const user = useSelector((state) => state.auth.user);
   const {
@@ -25,15 +22,18 @@ const MydayList = ({ currentLocation }) => {
     refetch,
   } = useGetTodosApiQuery(user?.uid, { skip: !user });
 
+  const {
+    data: sortData,
+    isError: isSortError,
+    error: sortError,
+  } = useGetSortApiQuery(user?.uid, { skip: !user });
 
-  // console.log("mydaylist");
+  const sortOrder = sortData?.myday?.order;
+  const sortBy = sortData?.myday?.sortBy;
 
   useEffect(() => {
     // importance Boolean에서 Date Object string으로 변경함
     // importanct 설정되면 상단으로 render하는 logic을 여기에 작성해야 함
-
-    // console.log('mydaylist useEffect');
-    // console.log(todos);
 
     let mydayTodos;
 

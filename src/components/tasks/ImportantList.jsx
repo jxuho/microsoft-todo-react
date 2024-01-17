@@ -5,12 +5,11 @@ import TaskItem from "./TaskItem";
 import { addActiveTasks } from "../../store/activeSlice";
 import useInfiniteScroll from "../../hooks/useInfiniteScroll";
 import { useGetTodosApiQuery } from "../../api/todoApiSlice";
+import { useGetSortApiQuery } from "../../api/sortApiSlice";
 
 const ImportantList = ({ currentLocation }) => {
   const dispatch = useDispatch();
   const [todoArr, setTodoArr] = useState([]);
-  const sortOrder = useSelector((state) => state.sort.important.order);
-  const sortBy = useSelector((state) => state.sort.important.sortBy);
   const activeRange = useSelector((state) => state.active.activeRange);
   const activeTasksId = useSelector((state) => state.active.activeTasks);
 
@@ -21,6 +20,15 @@ const ImportantList = ({ currentLocation }) => {
     isLoading: isTodosLoading,
     refetch,
   } = useGetTodosApiQuery(user?.uid, { skip: !user });
+
+  const {
+    data: sortData,
+    isError: isSortError,
+    error: sortError,
+  } = useGetSortApiQuery(user?.uid);
+
+  const sortOrder = sortData.important.order;
+  const sortBy = sortData.important.sortBy;
 
   useEffect(() => {
     //  todoArr 생성.

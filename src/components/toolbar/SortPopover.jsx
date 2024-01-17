@@ -17,7 +17,7 @@ import CompletedSortItems from "./CompletedSortItems";
 import useViewport from "../../hooks/useViewPort";
 import { useSelector } from "react-redux";
 
-const SortPopover = ({currentLocation}) => {
+const SortPopover = ({ currentLocation }) => {
   const [popoverOpen, setPopoverOpen] = useState(false);
   const [tooltipOpen, setTooltipOpen] = useState(false);
 
@@ -46,7 +46,7 @@ const SortPopover = ({currentLocation}) => {
     context: tooltipContext,
   } = useFloating({
     open: tooltipOpen,
-    placement: 'top',
+    placement: "top",
     onOpenChange: setTooltipOpen,
     middleware: [offset(5), flip(), shift({ padding: 10 })],
   });
@@ -69,32 +69,50 @@ const SortPopover = ({currentLocation}) => {
     setPopoverOpen(true);
   };
   const popoverCloseHandler = () => {
-    setPopoverOpen(false)
-  }
+    setPopoverOpen(false);
+  };
 
   let sortItemsComponent;
   switch (currentLocation) {
     case "myday":
-      sortItemsComponent = <MydaySortItems onItemClick={popoverCloseHandler} currentLocation={"myday"}/>
+      sortItemsComponent = (
+        <MydaySortItems
+          onItemClick={popoverCloseHandler}
+          currentLocation={"myday"}
+        />
+      );
       break;
     case "important":
-      sortItemsComponent = <ImportantSortItems onItemClick={popoverCloseHandler} currentLocation={"important"}/>
+      sortItemsComponent = (
+        <ImportantSortItems
+          onItemClick={popoverCloseHandler}
+          currentLocation={"important"}
+        />
+      );
       break;
     case "completed":
-      sortItemsComponent = <CompletedSortItems onItemClick={popoverCloseHandler} currentLocation={"completed"}/>
+      sortItemsComponent = (
+        <CompletedSortItems
+          onItemClick={popoverCloseHandler}
+          currentLocation={"completed"}
+        />
+      );
       break;
     case "tasks":
-      sortItemsComponent = <CompletedSortItems onItemClick={popoverCloseHandler} currentLocation={"tasks"}/>
+      sortItemsComponent = (
+        <CompletedSortItems
+          onItemClick={popoverCloseHandler}
+          currentLocation={"tasks"}
+        />
+      );
       break;
-  
+
     default:
       break;
   }
 
-
   const { width: viewportWidth } = useViewport();
   const detailWidth = useSelector((state) => state.ui.detailWidth);
-
 
   return (
     <>
@@ -107,7 +125,9 @@ const SortPopover = ({currentLocation}) => {
       >
         <div className="flex items-center">
           <PiArrowsDownUpThin size="20px" />
-          {viewportWidth - detailWidth > 700 && <span className="ml-1 text-sm">Sort</span>}
+          {viewportWidth - detailWidth > 700 && (
+            <span className="ml-1 text-sm">Sort</span>
+          )}
         </div>
       </div>
       {popoverOpen && (
@@ -130,7 +150,7 @@ const SortPopover = ({currentLocation}) => {
             boxShadow:
               "rgba(0, 0, 0, 0.133) 0px 3.2px 7.2px 0px, rgba(0, 0, 0, 0.11) 0px 0.6px 1.8px 0px",
             zIndex: 50,
-            color: "black"
+            color: "black",
           }}
           {...getTooltipFloatingProps()}
           className="bg-white py-1.5 rounded-sm px-2 text-xs"

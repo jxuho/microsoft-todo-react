@@ -81,7 +81,11 @@ const AddTask = ({ currentLocation }) => {
       myday: isMyday,
       importance: isImportant,
     };
-    addTodoApi({ todo: newTask, user });
+    try {
+      addTodoApi({ todo: newTask, user });
+    } catch (error) {
+      console.log(error.message);
+    }
     
     setTaskInput(initialTask);
     initializeButtons();

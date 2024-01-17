@@ -21,6 +21,7 @@ import Loading from "../components/Loading";
 import useTitle from "../hooks/useTitle";
 import { useGetTodosApiQuery } from "../api/todoApiSlice";
 import InformationModal from "../components/modals/InformationModal";
+import { useGetSortApiQuery } from "../api/sortApiSlice";
 
 const RootPage = () => {
   const location = useLocation();
@@ -31,13 +32,13 @@ const RootPage = () => {
 
   // console.log("rootpage render");
 
+  const { isLoading: isTodosLoading } = useGetTodosApiQuery(user?.uid, {
+    skip: !user,
+  });
 
-  const {
-    data: todos,
-    error,
-    isLoading: isTodosLoading,
-    refetch,
-  } = useGetTodosApiQuery(user?.uid, { skip: !user });
+  const { isLoading: isSortLoading } = useGetSortApiQuery(user?.uid, {
+    skip: !user,
+  });
 
 
   useUpdateMyday();
@@ -53,16 +54,16 @@ const RootPage = () => {
 
   useEffect(() => {
     if (!isAuthLoading && !user) {
-      // console.log("GO TO SIGNIN PAGE");
       navigate("/user/signin");
     }
   }, [isAuthLoading, user, navigate]);
 
-
-  if (isAuthLoading || isTodosLoading) {
+  // if (isAuthLoading || isTodosLoading) {
+  if (isAuthLoading || isTodosLoading || isSortLoading) {
+    // 한번에 모든 useQuery에 대한 loading을 처리하는게 바람직한가?
+    // 로딩이 너무 길어지지는 않는가?
     return <Loading />;
   }
-
 
   return (
     <div className="flex flex-col bg-ms-background h-screen overflow-hidden text-black">
@@ -80,7 +81,7 @@ const RootPage = () => {
       </div>
       <TaskItemContextMenu />
       <DeleteDialog />
-      <InformationModal/>
+      <InformationModal />
     </div>
   );
 };

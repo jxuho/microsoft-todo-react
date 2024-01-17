@@ -1,33 +1,64 @@
 import { BsStar, BsCalendarPlus } from "react-icons/bs";
 import { IoCalendarOutline } from "react-icons/io5";
 import { PiArrowsDownUpThin } from "react-icons/pi";
-import { useDispatch } from "react-redux";
-import { setSortBy } from "../../store/sortSlice";
+import { useDispatch, useSelector } from "react-redux";
+// import { setSortBy } from "../../store/sortSlice";
+import { useSetSortByApiMutation } from "../api/sortApiSlice";
 const SortItems = ({onItemClick, currentLocation}) => {
   // 현재 페이지 가지고와서, 페이지에 따라 render 다르게해야 한다
   const dispatch = useDispatch()
+  const user = useSelector((state) => state.auth.user);
+  const [setSortByApi] = useSetSortByApiMutation();
 
   
   if (currentLocation === "today") currentLocation = 'myday'
 
   const importanceHandler = () => {
     onItemClick()
-    dispatch(setSortBy({option: "importance", location: currentLocation}))
+
+      setSortByApi({
+        userId: user.uid,
+        location: currentLocation,
+        sortBy: "importance",
+      })
+
+    // dispatch(setSortBy({option: "importance", location: currentLocation}))
   }
 
   const dueDateHandler = () => {
     onItemClick()
-    dispatch(setSortBy({option: "dueDate", location: currentLocation}))
+
+      setSortByApi({
+        userId: user.uid,
+        location: currentLocation,
+        sortBy: "dueDate",
+      })
+
+    // dispatch(setSortBy({option: "dueDate", location: currentLocation}))
   }
 
   const alphabeticallyHandler =() => {
     onItemClick()
-    dispatch(setSortBy({option: "alphabetically", location: currentLocation}))
+
+      setSortByApi({
+        userId: user.uid,
+        location: currentLocation,
+        sortBy: "alphabetically",
+      })
+
+    // dispatch(setSortBy({option: "alphabetically", location: currentLocation}))
   }
 
   const creationDateHandler = () => {
     onItemClick()
-    dispatch(setSortBy({option: "creationDate", location: currentLocation}))
+
+      setSortByApi({
+        userId: user.uid,
+        location: currentLocation,
+        sortBy: "creationDate",
+      })
+
+    // dispatch(setSortBy({option: "creationDate", location: currentLocation}))
   }
 
   return (

@@ -8,6 +8,7 @@ import { signOut } from "firebase/auth";
 import { logout } from "../store/authSlice";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import { initializeActive } from "../store/activeSlice";
+import { initializeSearch } from "../store/searchSlice";
 
 const AccountManager = () => {
   const navigate = useNavigate();

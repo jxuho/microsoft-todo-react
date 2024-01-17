@@ -19,12 +19,12 @@ import { login } from "../store/authSlice";
 
 const SignUp = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const [email, setEmail] = useState("");
   const [showEmailAlert, setShowEmailAlert] = useState(false);
   const [emailAlertContent, setEmailAlertContent] = useState("");
-  const [isEmailExist, setIsEmailExist] = useState(false)
+  const [isEmailExist, setIsEmailExist] = useState(false);
 
   const [showPasswordTab, setShowPasswordTab] = useState(false);
   const [password, setPassword] = useState("");
@@ -38,14 +38,14 @@ const SignUp = () => {
 
   useEffect(() => {
     if (user) {
-      navigate("/")
+      navigate("/");
     }
-  }, [user, navigate])
+  }, [user, navigate]);
 
   useEffect(() => {
     const handleEnterKeyPress = (event) => {
       if (event.key === "Enter") {
-        nextButtonClickHandler()
+        nextButtonClickHandler();
       }
     };
     document.addEventListener("keydown", handleEnterKeyPress);
@@ -67,7 +67,7 @@ const SignUp = () => {
           "Enter the email address in the format someone@example.com."
         );
       } else if (emailRegex.test(email) && !isEmailExist) {
-        setEmailAlertContent("")
+        setEmailAlertContent("");
       }
     }
   }, [email, showEmailAlert]);
@@ -79,7 +79,7 @@ const SignUp = () => {
   };
 
   useEffect(() => {
-    if(showPasswordAlert) {
+    if (showPasswordAlert) {
       const passwordRegex =
         /^(?=(?:.*[A-Z]){2,})(?=(?:.*[a-z]){2,})(?=(?:.*\d){2,})(?=(?:.*[!@#$%^&*()_+={}[\]:;<>,.?~\\/-]){2,}).{8,}$/;
       if (!password.trim()) {
@@ -110,7 +110,7 @@ const SignUp = () => {
       try {
         const querySnapshot = await getDocs(emailQuery);
         if (querySnapshot.size > 0) {
-          setIsEmailExist(true)
+          setIsEmailExist(true);
           setShowEmailAlert(true);
           setEmailAlertContent(
             `${email} is already a Microsoft account. Please try a different email address.`
@@ -138,15 +138,46 @@ const SignUp = () => {
           password
         );
         const user = userCredential.user;
-        
-        dispatch(login({
-          email: userCredential.user.email,
-          uid: userCredential.user.uid,
-          displayName: userCredential.user.displayName,
-          photoUrl: userCredential.user.photoURL,
-        }))
+
+        dispatch(
+          login({
+            email: userCredential.user.email,
+            uid: userCredential.user.uid,
+            displayName: userCredential.user.displayName,
+            photoUrl: userCredential.user.photoURL,
+          })
+        );
 
         await setDoc(doc(db, "users", user.uid), { email: user.email });
+
+        // signup 성공했을 때, Firestore 초기 configuration
+
+        // const sorDocRef = doc(db, `users/${user.uid}/preference`, "sortDoc");
+        // await setDoc(
+        //   sorDocRef,
+        //   {
+        //     myday: { sortBy: "", order: "descending" },
+        //     important: { sortBy: "", order: "descending" },
+        //     completed: { sortBy: "", order: "descending" },
+        //     tasks: { sortBy: "", order: "descending" },
+        //     search: { sortBy: "", order: "descending" },
+        //   },
+        //   { merge: true }
+        // );
+
+
+
+
+        // const uiDocRef = doc(db, `users/${user.uid}/preference`, "uiDoc");
+        // await setDoc(
+        //   uiDocRef,
+        //   {
+        //     detailWidth: 360,
+        //     theme: "light",
+        //   },
+        //   { merge: true }
+        // );
+
         navigate("/");
       } catch (error) {
         console.log(error);

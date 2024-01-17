@@ -13,9 +13,25 @@ export const uiApiSlice = firestoreApi.injectEndpoints({
           return { data: null };
         }
         try {
-          const docRef = doc(db, `users/${userId}/ui`, "uiDoc");
+          const docRef = doc(db, `users/${userId}/preference`, "uiDoc");
           const docSnap = await getDoc(docRef);
-          return { data: docSnap.data() };
+
+          if (!docSnap.exists()) {
+            await setDoc(
+              docRef,
+              {
+                detailWidth: 360,
+                theme: "light",
+              },
+              { merge: true }
+            );
+          }
+
+          const docData = docSnap.exists()
+            ? docSnap.data()
+            : { detailWidth: 360, theme: "light" };
+
+          return { data: docData };
         } catch (error) {
           console.error(error.message);
           return { error: error.message };
@@ -27,7 +43,7 @@ export const uiApiSlice = firestoreApi.injectEndpoints({
     setDetailWidthApi: builder.mutation({
       async queryFn({ user, value }) {
         try {
-          const docRef = doc(db, `users/${user.uid}/ui`, "uiDoc");
+          const docRef = doc(db, `users/${user.uid}/preference`, "uiDoc");
           await setDoc(
             docRef,
             {
@@ -61,7 +77,7 @@ export const uiApiSlice = firestoreApi.injectEndpoints({
     setThemeApi: builder.mutation({
       async queryFn({ user, value }) {
         try {
-          const docRef = doc(db, `users/${user.uid}/ui`, "uiDoc");
+          const docRef = doc(db, `users/${user.uid}/preference`, "uiDoc");
           await setDoc(
             docRef,
             {

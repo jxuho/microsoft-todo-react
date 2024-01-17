@@ -9,19 +9,32 @@ import SortIndicator from "./toolbar/SortIndicator";
 import { useEffect } from "react";
 import { setSortBy } from "../store/sortSlice";
 import ImportantList from "./tasks/ImportantList";
+import { useGetSortApiQuery } from "../api/sortApiSlice";
 
 const Important = () => {
   const isSidebarOpen = useSelector((state) => state.ui.sidebar);
-  const isSortOptionSelected = useSelector(
-    (state) => state.sort.important.sortBy
-  );
   const dispatch = useDispatch();
+
+
+
+  // const isSortOptionSelected = useSelector(
+  //   (state) => state.sort.important.sortBy
+  // );
+  const user = useSelector((state) => state.auth.user);
+  const {
+    data: sortData,
+    isError: isSortError,
+    error: sortError,
+  } = useGetSortApiQuery(user?.uid);
+  const isSortOptionSelected = sortData.important.sortBy;
+
 
   const openSidebarHandler = () => {
     dispatch(openSidebar());
   };
 
   useEffect(() => {
+    // 수정 필요
     dispatch(setSortBy({ option: "creationDate", location: "important" }));
   }, []);
 
