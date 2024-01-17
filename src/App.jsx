@@ -147,10 +147,13 @@ export default App;
  * 
  * <할것>
  * 
+ * groupSlice, sortSlice -> sortApiSlice, groupApiSlice로 migrate
  * 
  * detailWidth 초기값 api slice에서 설정 -> TaskDetail 간단하게 하기
  * 
  * OAuth & 로그인 페이지 기능 추가하기
+ * 
+ * 브라우저 종료 후 켰을 때 계정 정보 초기화
  * 
  * 
  * 계정 삭제, 비밀번호 변경 가능한 mypage 만들기

@@ -16,24 +16,15 @@ import CompleteList from "./tasks/CompleteList";
 import { addActiveTasks } from "../store/activeSlice";
 import { useGetTodosApiQuery } from "../api/todoApiSlice";
 import { useGetSortApiQuery } from "../api/sortApiSlice";
+import { useGetGroupApiQuery } from "../api/groupApiSlice";
 
 const Inbox = () => {
   const isSidebarOpen = useSelector((state) => state.ui.sidebar);
   const activeRange = useSelector((state) => state.active.activeRange);
-  const isGroupOptionSelected = useSelector(
-    (state) => state.group.tasks.groupBy
-  );
   const dispatch = useDispatch();
   const [todoArr, setTodoArr] = useState([]);
-  const groupBy = useSelector((state) => state.group.tasks.groupBy);
 
   const user = useSelector((state) => state.auth.user);
-
-
-
-  // const isSortOptionSelected = useSelector((state) => state.sort.tasks.sortBy);
-  // const sortOrder = useSelector((state) => state.sort.tasks.order);
-  // const sortBy = useSelector((state) => state.sort.tasks.sortBy);
 
   const {
     data: sortData,
@@ -41,11 +32,13 @@ const Inbox = () => {
     error: sortError,
   } = useGetSortApiQuery(user?.uid);
   const isSortOptionSelected = sortData.tasks.sortBy;
-  const sortOrder =sortData.tasks.order
-  const sortBy = sortData.tasks.sortBy
+  const sortOrder = sortData.tasks.order;
+  const sortBy = sortData.tasks.sortBy;
 
+  const { data: groupData } = useGetGroupApiQuery(user?.uid, { skip: !user });
 
-
+  const groupBy = groupData.tasks;
+  const isGroupOptionSelected = groupData.tasks;
 
   const {
     data: todos,

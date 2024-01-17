@@ -1,0 +1,112 @@
+import { fakeBaseQuery } from "@reduxjs/toolkit/dist/query";
+import { firestoreApi } from "./firestoreApi";
+import { doc, getDoc, setDoc } from "firebase/firestore";
+import { db } from "../firebase";
+
+export const groupApiSlice = firestoreApi.injectEndpoints({
+  baseQuery: fakeBaseQuery(),
+  tagTypes: ["group"],
+  endpoints: (builder) => ({
+    getGroupApi: builder.query({
+      async queryFn(userId) {
+        if (!userId) {
+          console.error("no user id");
+          return { data: {} };
+        }
+        try {
+          const docRef = doc(db, `users/${userId}/preference`, "groupDoc");
+          const docSnap = await getDoc(docRef);
+
+          const initialGroupStates = {
+            myday: "",
+            tasks: "",
+          };
+
+          if (!docSnap.exists()) {
+            await setDoc(docRef, initialGroupStates, { merge: true });
+          }
+
+          const docData = docSnap.exists()
+            ? docSnap.data()
+            : initialGroupStates;
+
+          return { data: docData };
+        } catch (error) {
+          return { error: error.message };
+        }
+      },
+      providesTags: ["group"],
+    }),
+
+    setGroupByApi: builder.mutation({
+      async queryFn({ userId, location, groupBy }) {
+        try {
+          const docRef = doc(db, `users/${userId}/preference`, "groupDoc");
+
+          await setDoc(docRef, { [location]: groupBy }, { merge: true });
+          return { data: null };
+        } catch (error) {
+          return { error: error.message };
+        }
+      },
+      // 위의 firestore 저장 정상작동
+
+      async onQueryStarted(
+        { userId, location, groupBy },
+        { dispatch, queryFulfilled }
+      ) {
+        const patchResult = dispatch(
+          firestoreApi.util.updateQueryData("getGroupApi", userId, (draft) => {
+            // console.log(JSON.stringify(draft));
+            if (JSON.stringify(draft)) draft[location] = groupBy;
+          })
+        );
+        try {
+          await queryFulfilled;
+        } catch {
+          patchResult.undo();
+        }
+      },
+
+      // invalidatesTags: ["group"],
+    }),
+
+    initializeGroupApi: builder.mutation({
+      async queryFn({ userId, location }) {
+        try {
+          const docRef = doc(db, `users/${userId}/preference`, "groupDoc");
+          await setDoc(
+            docRef,
+            {
+              [location]: "",
+            },
+            { merge: true }
+          );
+          return { data: null };
+        } catch (error) {
+          return { error: error.message };
+        }
+      },
+      async onQueryStarted({ userId, location }, { dispatch, queryFulfilled }) {
+        const patchResult = dispatch(
+          firestoreApi.util.updateQueryData("getGroupApi", userId, (draft) => {
+            // console.log(JSON.stringify(draft));
+            if (JSON.stringify(draft)) draft[location] = "";
+          })
+        );
+        try {
+          await queryFulfilled;
+        } catch {
+          patchResult.undo();
+        }
+      },
+      // invalidatesTags: ["group"],
+    }),
+  }),
+});
+
+export const {
+  useGetGroupApiQuery,
+  useSetGroupByApiMutation,
+  useInitializeGroupApiMutation,
+} = groupApiSlice;

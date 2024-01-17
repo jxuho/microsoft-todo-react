@@ -10,32 +10,37 @@ import {
   useHover,
 } from "@floating-ui/react";
 import { useEffect, useState } from "react";
-import { initializeGroup } from "../../store/groupSlice";
+import { useGetGroupApiQuery } from "../../api/groupApiSlice";
+import { useInitializeGroupApiMutation } from "../../api/groupApiSlice";
 
 const GroupIndicator = ({ currentLocation }) => {
+  const user = useSelector((state) => state.auth.user);
   const [closeTooltipOpen, setCloseTooltipOpen] = useState(false);
-  const [groupIndicatorText, setGroupIndicatorText] = useState("")
+  const [groupIndicatorText, setGroupIndicatorText] = useState("");
 
-  const dispatch = useDispatch();
-  const groupOption = useSelector((state) => state.group[currentLocation].groupBy);
+  const [initializeGroupApi] = useInitializeGroupApiMutation();
+  const { data: groupData } = useGetGroupApiQuery(user?.uid, { skip: !user });
 
+  const groupOption = groupData[currentLocation];
 
   const initializeGroupHandler = () => {
-    dispatch(initializeGroup(currentLocation));
+    try {
+      initializeGroupApi({ userId: user.uid, location: currentLocation });
+    } catch (error) {
+      console.error(error);
+    }
   };
-
 
   useEffect(() => {
     switch (groupOption) {
       case "category":
-        setGroupIndicatorText("Grouped by Categories")
+        setGroupIndicatorText("Grouped by Categories");
         break;
-  
+
       default:
         break;
     }
-  }, [groupOption])
-
+  }, [groupOption]);
 
   const {
     refs: closeTooltipRefs,
@@ -60,12 +65,8 @@ const GroupIndicator = ({ currentLocation }) => {
   return (
     <>
       <div className="h-10 text-ms-text-dark">
-        <div
-          className="flex items-center justify-end py-2.5 pr-0.5 pl-7 font-semibold text-xs"
-        >
-          <div className="flex items-center">
-            {groupIndicatorText}
-          </div>
+        <div className="flex items-center justify-end py-2.5 pr-0.5 pl-7 font-semibold text-xs">
+          <div className="flex items-center">{groupIndicatorText}</div>
 
           <div
             className="flex items-center cursor-pointer w-6 h-6 p-1 pt-1.5 mx-1"
@@ -73,8 +74,8 @@ const GroupIndicator = ({ currentLocation }) => {
             {...getCloseTooltipReferenceProps()}
             onClick={initializeGroupHandler}
           >
-            <button >
-              <BsXLg/>
+            <button>
+              <BsXLg />
             </button>
           </div>
         </div>

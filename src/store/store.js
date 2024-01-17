@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import uiSliceReducer from "./uiSlice";
 // import sortSliceReducer from "./sortSlice"
-import groupSliceReducer from "./groupSlice"
+// import groupSliceReducer from "./groupSlice"
 import activeSliceReducer from "./activeSlice"
 import searchSliceReducer from "./searchSlice";
 import authSliceReducer from "./authSlice";
@@ -15,7 +15,7 @@ export const store =  configureStore({
     [firestoreApi.reducerPath]: firestoreApi.reducer,
     ui: uiSliceReducer,
     // sort: sortSliceReducer,
-    group: groupSliceReducer,
+    // group: groupSliceReducer,
     active: activeSliceReducer,
     search: searchSliceReducer,
     auth: authSliceReducer,

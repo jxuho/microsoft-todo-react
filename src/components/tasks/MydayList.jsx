@@ -7,13 +7,13 @@ import CompleteList from "./CompleteList";
 import { addActiveTasks } from "../../store/activeSlice";
 import { useGetTodosApiQuery } from "../../api/todoApiSlice";
 import { useGetSortApiQuery } from "../../api/sortApiSlice";
+import { useGetGroupApiQuery } from "../../api/groupApiSlice";
 
 const MydayList = ({ currentLocation }) => {
   const dispatch = useDispatch();
   const [todoArr, setTodoArr] = useState([]);
-  const groupBy = useSelector((state) => state.group.myday.groupBy);
   const activeRange = useSelector((state) => state.active.activeRange);
-
+  
   const user = useSelector((state) => state.auth.user);
   const {
     data: todos,
@@ -21,15 +21,23 @@ const MydayList = ({ currentLocation }) => {
     isLoading: isTodosLoading,
     refetch,
   } = useGetTodosApiQuery(user?.uid, { skip: !user });
-
+  
   const {
     data: sortData,
     isError: isSortError,
     error: sortError,
   } = useGetSortApiQuery(user?.uid, { skip: !user });
-
+  
   const sortOrder = sortData?.myday?.order;
   const sortBy = sortData?.myday?.sortBy;
+  
+  
+  
+  const {data: groupData} = useGetGroupApiQuery(user?.uid, { skip: !user })
+  
+  const groupBy = groupData.myday
+
+
 
   useEffect(() => {
     // importance Boolean에서 Date Object string으로 변경함
@@ -80,6 +88,7 @@ const MydayList = ({ currentLocation }) => {
 
   return (
     <div className="overflow-y-auto">
+    {/* category가 아닌 경우 대비해서 !== "" 로 수정하기 */}
       {groupBy === "category" ? (
         <GroupLists todoArr={todoArr} currentLocation={currentLocation} />
       ) : (

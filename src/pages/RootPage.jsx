@@ -22,6 +22,7 @@ import useTitle from "../hooks/useTitle";
 import { useGetTodosApiQuery } from "../api/todoApiSlice";
 import InformationModal from "../components/modals/InformationModal";
 import { useGetSortApiQuery } from "../api/sortApiSlice";
+import { useGetGroupApiQuery } from "../api/groupApiSlice";
 
 const RootPage = () => {
   const location = useLocation();
@@ -39,6 +40,10 @@ const RootPage = () => {
   const { isLoading: isSortLoading } = useGetSortApiQuery(user?.uid, {
     skip: !user,
   });
+
+  const { isLoading: isGroupLoading } = useGetGroupApiQuery(user?.uid, {
+    skip: !user,
+  })
 
 
   useUpdateMyday();
@@ -59,7 +64,7 @@ const RootPage = () => {
   }, [isAuthLoading, user, navigate]);
 
   // if (isAuthLoading || isTodosLoading) {
-  if (isAuthLoading || isTodosLoading || isSortLoading) {
+  if (isAuthLoading || isTodosLoading || isSortLoading || isGroupLoading) {
     // 한번에 모든 useQuery에 대한 loading을 처리하는게 바람직한가?
     // 로딩이 너무 길어지지는 않는가?
     return <Loading />;
