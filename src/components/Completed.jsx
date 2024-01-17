@@ -5,54 +5,54 @@ import { PiDotsThreeBold } from "react-icons/pi";
 import SortPopover from "./toolbar/SortPopover";
 import SortIndicator from "./toolbar/SortIndicator";
 import { useEffect } from "react";
-import { setSortBy } from "../store/sortSlice";
 import { GoCheckCircle } from "react-icons/go";
 import CompleteList from "./tasks/CompleteList";
 import { useState } from "react";
 import sortTasks from "../utils/sortTasks";
 import { useGetTodosApiQuery } from "../api/todoApiSlice";
-import { useGetSortApiQuery } from "../api/sortApiSlice";
+import {
+  useGetSortApiQuery,
+  useSetSortByApiMutation,
+} from "../api/sortApiSlice";
 
 const Completed = () => {
   const dispatch = useDispatch();
   const [todoArr, setTodoArr] = useState([]);
   const isSidebarOpen = useSelector((state) => state.ui.sidebar);
-  
   const user = useSelector((state) => state.auth.user);
   const {
     data: todos,
-    error,
+    error: todosError,
     isLoading: isTodosLoading,
-    refetch,
+    refetch: todosRefetch,
   } = useGetTodosApiQuery(user?.uid, { skip: !user });
-  
-  
-  // const sortOrder = useSelector((state) => state.sort.completed.order);
-  // const sortBy = useSelector((state) => state.sort.completed.sortBy);
-  // const isSortOptionSelected = useSelector(
-  //   (state) => state.sort.completed.sortBy
-  // );
-
-
 
   const {
     data: sortData,
     isError: isSortError,
     error: sortError,
   } = useGetSortApiQuery(user?.uid);
+
+  const [setSortByApi] = useSetSortByApiMutation();
+
   const isSortOptionSelected = sortData.completed.sortBy;
-  const sortOrder =sortData.completed.order
-  const sortBy = sortData.completed.sortBy
-
-
-
+  const sortOrder = sortData.completed.order;
+  const sortBy = sortData.completed.sortBy;
 
   const openSidebarHandler = () => {
     dispatch(openSidebar());
   };
 
   useEffect(() => {
-    dispatch(setSortBy({ option: "completed", location: "completed" }));
+    try {
+      setSortByApi({
+        userId: user.uid,
+        location: "completed",
+        sortBy: "completed",
+      });
+    } catch (error) {
+      console.error(error);
+    }
   }, []);
 
   useEffect(() => {
