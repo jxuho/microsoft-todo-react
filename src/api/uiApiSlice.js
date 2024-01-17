@@ -16,20 +16,14 @@ export const uiApiSlice = firestoreApi.injectEndpoints({
           const docRef = doc(db, `users/${userId}/preference`, "uiDoc");
           const docSnap = await getDoc(docRef);
 
+          const initialUiStates = {
+            detailWidth: 360,
+            theme: "light",
+          };
           if (!docSnap.exists()) {
-            await setDoc(
-              docRef,
-              {
-                detailWidth: 360,
-                theme: "light",
-              },
-              { merge: true }
-            );
+            await setDoc(docRef, initialUiStates, { merge: true });
           }
-
-          const docData = docSnap.exists()
-            ? docSnap.data()
-            : { detailWidth: 360, theme: "light" };
+          const docData = docSnap.exists() ? docSnap.data() : initialUiStates;
 
           return { data: docData };
         } catch (error) {
