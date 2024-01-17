@@ -33,11 +33,15 @@ const Important = () => {
   };
 
   useEffect(() => {
-    setSortByApi({
-      userId: user.uid,
-      location: "important",
-      sortBy: "creationDate",
-    });
+    try {
+      setSortByApi({
+        userId: user.uid,
+        location: "important",
+        sortBy: "creationDate",
+      });
+    } catch (error) {
+      console.error(error);
+    }
   }, []);
 
   return (
