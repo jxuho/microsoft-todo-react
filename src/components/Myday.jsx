@@ -12,25 +12,36 @@ import GroupIndicator from "./toolbar/GroupIndicator";
 import useViewport from "../hooks/useViewPort";
 import { useGetSortApiQuery } from "../api/sortApiSlice";
 import { useGetGroupApiQuery } from "../api/groupApiSlice";
+import { useGetUiApiQuery } from "../api/uiApiSlice";
 
 const Myday = () => {
   const isSidebarOpen = useSelector((state) => state.ui.sidebar);
   const { width: viewportWidth } = useViewport();
-  const detailWidth = useSelector((state) => state.ui.detailWidth);
   const dispatch = useDispatch();
-
+  
   const user = useSelector((state) => state.auth.user);
   const {
     data: sortData,
     isError: isSortError,
     error: sortError,
   } = useGetSortApiQuery(user?.uid, { skip: !user });
+  
+  const {
+    data: uiData,
+    isLoading: isUiLoading,
+    isSuccess: isUiSuccess,
+    isError: isUiError,
+    error: uiError,
+  } = useGetUiApiQuery(user?.uid);
+  const detailWidth = uiData?.detailWidth;
+
+  // const detailWidth = useSelector((state) => state.ui.detailWidth);
 
   const isSortOptionSelected = sortData?.myday.sortBy;
 
   const { data: groupData } = useGetGroupApiQuery(user?.uid, { skip: !user });
 
-  const isGroupOptionSelected = groupData.myday;
+  const isGroupOptionSelected = groupData?.myday;
 
   const openSidebarHandler = () => {
     dispatch(openSidebar());

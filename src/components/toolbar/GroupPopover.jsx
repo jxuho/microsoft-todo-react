@@ -14,10 +14,23 @@ import { PiFolderSimpleThin } from "react-icons/pi";
 import GroupItems from "./GroupItems";
 import useViewport from "../../hooks/useViewPort";
 import { useSelector } from "react-redux";
+import { useGetUiApiQuery } from "../../api/uiApiSlice";
 
 const GroupPopover = ({currentLocation}) => {
   const [popoverOpen, setPopoverOpen] = useState(false);
   const [tooltipOpen, setTooltipOpen] = useState(false);
+  const { width: viewportWidth } = useViewport();
+
+  const user = useSelector(state => state.auth.user)
+  const {
+    data: uiData,
+    isLoading: isUiLoading,
+    isSuccess: isUiSuccess,
+    isError: isUiError,
+    error: uiError,
+  } = useGetUiApiQuery(user?.uid);
+  const detailWidth = uiData?.detailWidth;
+
 
   const {
     refs: popoverRefs,
@@ -72,8 +85,6 @@ const GroupPopover = ({currentLocation}) => {
   }
 
 
-  const { width: viewportWidth } = useViewport();
-  const detailWidth = useSelector((state) => state.ui.detailWidth);
 
   return (
     <>

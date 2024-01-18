@@ -7,6 +7,7 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { addQuery, initializeQuery } from "../../store/searchSlice";
 import useViewport from "../../hooks/useViewPort";
 import { setSearchbarActive } from "../../store/uiSlice";
+import { useGetUiApiQuery } from "../../api/uiApiSlice";
 
 const Searchbar = () => {
   const navigate = useNavigate();
@@ -15,8 +16,19 @@ const Searchbar = () => {
   const searchQuery = useSelector((state) => state.search.query);
   const dispatch = useDispatch();
   const isSearchbarActive = useSelector((state) => state.ui.searchbarActive);
-
   const { query: params } = useParams();
+  const { width: viewportWidth } = useViewport();
+  const isSidebarOpen = useSelector((state) => state.ui.sidebar);
+  const isDetailOpen = useSelector((state) => state.ui.detail);
+  const user = useSelector((state) => state.auth.user);
+  const {
+    data: uiData,
+    isLoading: isUiLoading,
+    isSuccess: isUiSuccess,
+    isError: isUiError,
+    error: uiError,
+  } = useGetUiApiQuery(user?.uid);
+  const detailWidth = uiData?.detailWidth;
 
   const searchHandler = (event) => {
     dispatch(addQuery(event.target.value));
@@ -77,11 +89,6 @@ const Searchbar = () => {
       clearButtonHandler();
     }
   };
-
-  const { width: viewportWidth } = useViewport();
-  const isSidebarOpen = useSelector((state) => state.ui.sidebar);
-  const isDetailOpen = useSelector((state) => state.ui.detail);
-  const detailWidth = useSelector((state) => state.ui.detailWidth);
 
   const commonClasses =
     "flex grow shrink-0 basis-auto items-center my-2 ml-0 mr-auto h-8 rounded-md bg-white z-10 hover:bg-ms-white-hover hover:h-2.1 hover:cursor-pointer text-black";

@@ -35,9 +35,9 @@ export const uiApiSlice = firestoreApi.injectEndpoints({
     }),
 
     setDetailWidthApi: builder.mutation({
-      async queryFn({ user, value }) {
+      async queryFn({ userId, value }) {
         try {
-          const docRef = doc(db, `users/${user.uid}/preference`, "uiDoc");
+          const docRef = doc(db, `users/${userId}/preference`, "uiDoc");
           await setDoc(
             docRef,
             {
@@ -51,9 +51,9 @@ export const uiApiSlice = firestoreApi.injectEndpoints({
           return { error: error.message };
         }
       },
-      async onQueryStarted({ user, value }, { dispatch, queryFulfilled }) {
+      async onQueryStarted({ userId, value }, { dispatch, queryFulfilled }) {
         const patchResult = dispatch(
-          firestoreApi.util.updateQueryData("getUiApi", user.uid, (draft) => {
+          firestoreApi.util.updateQueryData("getUiApi", userId, (draft) => {
             // console.log(JSON.stringify(draft));
             if (JSON.stringify(draft)) draft["detailWidth"] = value;
           })

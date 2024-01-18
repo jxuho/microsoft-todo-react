@@ -1,14 +1,10 @@
 import { useDispatch, useSelector } from "react-redux";
-import {
-  closeDetail,
-  closeSidebar,
-  setDeleteDialogActive,
-} from "../../store/uiSlice";
+import { closeDetail, closeSidebar, setDetailWidth, setDeleteDialogActive } from "../store/uiSlice";
 import { LuPanelRightClose } from "react-icons/lu";
 import { BsTrash3 } from "react-icons/bs";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { getCustomFormatDateString } from "../../utils/getDates";
-import Details from "./Details";
+import { getCustomFormatDateString } from "../utils/getDates";
+import Details from "../components/details/Details";
 import {
   flip,
   offset,
@@ -18,12 +14,12 @@ import {
   useHover,
   useInteractions,
 } from "@floating-ui/react";
-import useViewport from "../../hooks/useViewPort";
+import useViewport from "../hooks/useViewPort";
 import {
   useGetUiApiQuery,
   useSetDetailWidthApiMutation,
-} from "../../api/uiApiSlice";
-import { useGetTodosApiQuery } from "../../api/todoApiSlice";
+} from "../api/uiApiSlice";
+import { useGetTodosApiQuery } from "../api/todoApiSlice";
 
 const TaskDetail = () => {
   const dispatch = useDispatch();
@@ -33,12 +29,19 @@ const TaskDetail = () => {
   const [removeTooltipOpen, setRemoveTooltipOpen] = useState(false);
   const detailRef = useRef();
   const [isResizing, setIsResizing] = useState(false);
+  const [resizerPosition, setResizerPosition] = useState(360);
   const [isHover, setIsHover] = useState(false);
   const [createdTime, setCreatedTime] = useState("");
   const [firstRender, setFirstRender] = useState(true);
   const user = useSelector((state) => state.auth.user);
+  
+  
+  const detailWidth = useSelector((state) => state.ui.detailWidth);
 
-  const [resizerPosition, setResizerPosition] = useState(360);
+
+
+
+
 
   const {
     data: todos,
@@ -57,34 +60,50 @@ const TaskDetail = () => {
 
   const [setDetailWidthApi] = useSetDetailWidthApiMutation();
 
-  const detailWidth = uiData?.detailWidth;
+  // console.log('taskDetail');
 
   useEffect(() => {
-    // 첫 로딩 시 detailWidth를 resizerPosition state와 동기화
-    if (!isUiLoading && firstRender) {
-      setResizerPosition(detailWidth);
-      setFirstRender(false);
-    }
-  }, [isUiLoading, firstRender]);
-
-  useEffect(() => {
-    // resizerPosition state를 Firestore에 저장
-    if (!isResizing && !firstRender) {
-      try {
-        setDetailWidthApi({ userId: user.uid, value: resizerPosition });
-      } catch (error) {
-        console.error(error);
+    if (firstRender) {
+      // first render일 때,
+      if (!isUiLoading && isUiSuccess) {
+        // user가 login했다면, firestore에서 detailwidth를 가지고 온다
+        if (!uiData) {
+          setResizerPosition(360);
+        } else {
+          setResizerPosition(uiData?.detailWidth);
+        }
+        setFirstRender(false);
       }
     }
-  }, [isResizing, resizerPosition]);
+  }, [firstRender, isUiLoading, uiData, detailWidth]);
+
+  useEffect(() => {
+    // resizerPosition state를 Redux에 저장
+    if (!isResizing && !firstRender) {
+      dispatch(setDetailWidth(resizerPosition));
+
+      const setResizerPosition = setTimeout(() => {
+        setDetailWidthApi({ user, value: resizerPosition });
+      }, 300);
+      return () => clearTimeout(setResizerPosition);
+    }
+  }, [
+    isResizing,
+    resizerPosition,
+    firstRender,
+    dispatch,
+    user,
+    setDetailWidthApi,
+  ]);
 
   const closeDetailHandler = () => {
     dispatch(closeDetail());
   };
 
   const removeTaskHandler = () => {
-    dispatch(setDeleteDialogActive({ target: "task", active: true }));
+    dispatch(setDeleteDialogActive({target:"task", active:true}));
   };
+
 
   useEffect(() => {
     // set created time text
@@ -181,11 +200,13 @@ const TaskDetail = () => {
     }
   }, [viewportWidth, detailWidth]);
 
+
   useEffect(() => {
     if (viewportWidth - detailWidth < 560) {
       dispatch(closeSidebar());
     }
   }, [viewportWidth, detailWidth, dispatch]);
+
 
   return (
     isDetailOpen && (

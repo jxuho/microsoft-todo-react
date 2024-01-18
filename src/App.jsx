@@ -140,14 +140,13 @@ export default App;
  * (complete) useGetTodos Redux local store(todoSlice)말고 RTKQ만 사용해서 구현
  * (complete) file 업로드 개수, 용량, 확장자 제한하기
  * (complete) file 업로드 중 loading spinner render
+ * (complete) groupSlice, sortSlice -> sortApiSlice, groupApiSlice로 migrate
  * 
  * 
  * 
  * 
  * 
  * <할것>
- * 
- * groupSlice, sortSlice -> sortApiSlice, groupApiSlice로 migrate
  * 
  * detailWidth 초기값 api slice에서 설정 -> TaskDetail 간단하게 하기
  * 

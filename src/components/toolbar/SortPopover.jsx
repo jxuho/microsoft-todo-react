@@ -16,10 +16,22 @@ import ImportantSortItems from "./ImportantSortItems";
 import CompletedSortItems from "./CompletedSortItems";
 import useViewport from "../../hooks/useViewPort";
 import { useSelector } from "react-redux";
+import { useGetUiApiQuery } from "../../api/uiApiSlice";
 
 const SortPopover = ({ currentLocation }) => {
   const [popoverOpen, setPopoverOpen] = useState(false);
   const [tooltipOpen, setTooltipOpen] = useState(false);
+  const { width: viewportWidth } = useViewport();
+  const user = useSelector(state => state.auth.user)
+  const {
+    data: uiData,
+    isLoading: isUiLoading,
+    isSuccess: isUiSuccess,
+    isError: isUiError,
+    error: uiError,
+  } = useGetUiApiQuery(user?.uid);
+  const detailWidth = uiData?.detailWidth;
+  
 
   const {
     refs: popoverRefs,
@@ -111,8 +123,6 @@ const SortPopover = ({ currentLocation }) => {
       break;
   }
 
-  const { width: viewportWidth } = useViewport();
-  const detailWidth = useSelector((state) => state.ui.detailWidth);
 
   return (
     <>

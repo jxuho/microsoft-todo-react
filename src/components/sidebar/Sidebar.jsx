@@ -11,6 +11,7 @@ import { GoHome } from "react-icons/go";
 import { useEffect, useState } from "react";
 import useViewport from "../../hooks/useViewPort";
 import { useGetTodosApiQuery } from "../../api/todoApiSlice";
+import { useGetUiApiQuery } from "../../api/uiApiSlice";
 
 const Sidebar = () => {
   const dispatch = useDispatch();
@@ -22,8 +23,9 @@ const Sidebar = () => {
     planned: 0,
     tasks: 0,
   });
-  
-  
+
+  const { width: viewportWidth } = useViewport();
+  const isSidebarOpen = useSelector((state) => state.ui.sidebar);
   const user = useSelector((state) => state.auth.user);
   const {
     data: todos,
@@ -32,8 +34,14 @@ const Sidebar = () => {
     refetch,
   } = useGetTodosApiQuery(user?.uid, { skip: !user });
 
-
-
+  const {
+    data: uiData,
+    isLoading: isUiLoading,
+    isSuccess: isUiSuccess,
+    isError: isUiError,
+    error: uiError,
+  } = useGetUiApiQuery(user?.uid);
+  const detailWidth = uiData?.detailWidth;
 
   const closeSidebarHandler = () => {
     dispatch(closeSidebar());
@@ -66,10 +74,6 @@ const Sidebar = () => {
     }
     setCount(countTemp);
   }, [todos]);
-
-  const { width: viewportWidth } = useViewport();
-  const isSidebarOpen = useSelector((state) => state.ui.sidebar);
-  const detailWidth = useSelector((state) => state.ui.detailWidth);
 
   return (
     isSidebarOpen && (
