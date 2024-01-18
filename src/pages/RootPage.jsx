@@ -33,9 +33,12 @@ const RootPage = () => {
 
   // console.log("rootpage render");
 
-  const { isLoading: isTodosLoading } = useGetTodosApiQuery(user?.uid, {
-    skip: !user,
-  });
+  const { data: todos, isLoading: isTodosLoading } = useGetTodosApiQuery(
+    user?.uid,
+    {
+      skip: !user,
+    }
+  );
 
   const { isLoading: isSortLoading } = useGetSortApiQuery(user?.uid, {
     skip: !user,
@@ -43,7 +46,8 @@ const RootPage = () => {
 
   const { isLoading: isGroupLoading } = useGetGroupApiQuery(user?.uid, {
     skip: !user,
-  })
+  });
+
 
 
   useUpdateMyday();
@@ -59,12 +63,13 @@ const RootPage = () => {
 
   useEffect(() => {
     if (!isAuthLoading && !user) {
+      console.log("navigate to sign in");
       navigate("/user/signin");
     }
   }, [isAuthLoading, user, navigate]);
 
-  // if (isAuthLoading || isTodosLoading) {
-  if (isAuthLoading || isTodosLoading || isSortLoading || isGroupLoading) {
+  if (isAuthLoading || isTodosLoading || (!isTodosLoading && !todos)) {
+    // if (isAuthLoading || isTodosLoading || isSortLoading || isGroupLoading) {
     // 한번에 모든 useQuery에 대한 loading을 처리하는게 바람직한가?
     // 로딩이 너무 길어지지는 않는가?
     return <Loading />;

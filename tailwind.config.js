@@ -48,7 +48,8 @@ export default {
         fadeFill: "fadeFill 180ms",
         fadeFillSlow: "fadeFill 90ms",
         slideInFrames: "slideInFrames 180ms",
-        slideContentIn: "slideContentIn 280ms"
+        slideContentIn: "slideContentIn 280ms",
+        slideContent: "slideContent 300ms"
       },
       keyframes: {
         clock90: {
@@ -137,6 +138,16 @@ export default {
           "100%": {
             opacity: "1",
             transform:"translate3d(0)"
+          }
+        },
+        slideContent: {
+          "0%" : {
+            opacity: "0",
+            transform: "translateX(100%)"
+          },
+          "100%": {
+            opacity: "1",
+            transform: "translateX(0)"
           }
         }
       },

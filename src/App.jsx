@@ -141,6 +141,7 @@ export default App;
  * (complete) file 업로드 개수, 용량, 확장자 제한하기
  * (complete) file 업로드 중 loading spinner render
  * (complete) groupSlice, sortSlice -> sortApiSlice, groupApiSlice로 migrate
+ * (complete) detailWidth 초기값 api slice에서 설정 -> TaskDetail 간단하게 하기
  * 
  * 
  * 
@@ -148,11 +149,11 @@ export default App;
  * 
  * <할것>
  * 
- * detailWidth 초기값 api slice에서 설정 -> TaskDetail 간단하게 하기
  * 
  * OAuth & 로그인 페이지 기능 추가하기
  * 
  * 브라우저 종료 후 켰을 때 계정 정보 초기화
+ * signout했을 때, refresh 되도록 설정?
  * 
  * 
  * 계정 삭제, 비밀번호 변경 가능한 mypage 만들기

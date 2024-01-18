@@ -8,7 +8,7 @@ const uiSlice = createSlice({
     contextMenu: false,
     deleteDialogTarget: "",
     deleteDialogActive: false,
-    detailWidth: 360,
+    // detailWidth: 360,
     searchbarActive: false,
     appLauncherActive: false,
     accountManagerActive: false,
@@ -36,9 +36,9 @@ const uiSlice = createSlice({
       state.deleteDialogTarget = action.payload.target;
     },
 
-    setDetailWidth: (state, action) => {
-      state.detailWidth = action.payload;
-    },
+    // setDetailWidth: (state, action) => {
+    //   state.detailWidth = action.payload;
+    // },
     setSearchbarActive: (state, action) => {
       state.searchbarActive = action.payload;
     },
@@ -63,7 +63,7 @@ const uiSlice = createSlice({
       contextMenu: false,
       deleteDialogTarget: "",
       deleteDialogActive: false,
-      detailWidth: 360,
+      // detailWidth: 360,
       searchbarActive: false,
       appLauncherActive: false,
       accountManagerActive: false,
@@ -84,7 +84,7 @@ export const {
   openContextMenu,
   closeContextMenu,
   setDeleteDialogActive,
-  setDetailWidth,
+  // setDetailWidth,
   setSearchbarActive,
   setAppLauncherActive,
   setHeaderButton,

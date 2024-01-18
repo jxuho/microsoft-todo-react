@@ -17,11 +17,9 @@ const AccountManager = () => {
   const isAccountManagerActive = useSelector(
     (state) => state.ui.accountManagerActive
   );
-  const user = useSelector(state => state.auth.user)
-
+  const user = useSelector((state) => state.auth.user);
 
   const [localStorageUser, setLocalStorageUser] = useLocalStorage("user", null);
-
 
   useEffect(() => {
     const closeModalOnClickOutside = (event) => {
@@ -45,21 +43,22 @@ const AccountManager = () => {
     };
   }, [isAccountManagerActive]);
 
-  const signOutHandler =() => {
-    signOut(auth).then(() => {
-      dispatch(logout())
+  const signOutHandler = () => {
+    signOut(auth)
+      .then(() => {
+        dispatch(logout());
 
-      setLocalStorageUser(null)
-      dispatch(initializeUi())
-      dispatch(initializeActive())
-      dispatch(initializeSearch())
+        setLocalStorageUser(null);
+        dispatch(initializeUi());
+        dispatch(initializeActive());
+        dispatch(initializeSearch());
 
-      navigate('/user/signin')
-    }).catch((error) => {
-      console.log(error);
-    });
-  }
-
+        // navigate('/user/signin')
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   return (
     <>
@@ -81,11 +80,17 @@ const AccountManager = () => {
                 Welcome!
               </div>
               <div className="col-start-1 col-end-4 min-h-[132px self-center] flex">
-                <div className="w-20 h-20 m-5  overflow-hidden">
-                  <img src="/public\profile_image.svg" alt="profile image" />
+                <div className="w-20 h-20 m-5  overflow-hidden rounded-full">
+                  {user.photoUrl ? (
+                    <img src={user.photoUrl} alt="profile image" />
+                  ) : (
+                    <img src="/public\profile_image.svg" alt="profile image" />
+                  )}
                 </div>
                 <div className="flex-grow pr-3 mt-4">
-                  <div className="font-semibold text-lg">{user.email}</div>
+                  <div className="font-semibold text-lg">
+                    {user.displayName ?? user.email}
+                  </div>
                   <div className="mt-1 font-semibold">{user.email}</div>
                 </div>
               </div>
@@ -98,7 +103,11 @@ const AccountManager = () => {
             </div>
           ) : (
             <div className="p-8 h-full w-full flex flex-col justify-center items-center text-ms-light-text">
-              <h2 className="text-center">You're not logged in.<br/>Changes are not saved.</h2>
+              <h2 className="text-center">
+                You're not logged in.
+                <br />
+                Changes are not saved.
+              </h2>
               <button
                 className="text-2xl border rounded-md my-4 w-full pb-1 bg-ms-blue text-white hover:bg-ms-blue-hover duration-100"
                 onClick={() => navigate("/signup")}

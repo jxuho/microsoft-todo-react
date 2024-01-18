@@ -1,13 +1,26 @@
 import { BsKey } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import {
+  GoogleAuthProvider,
+  getRedirectResult,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  signInWithRedirect,
+} from "firebase/auth";
 import { auth, db } from "../firebase";
-import { collection, getDocs, query, where } from "firebase/firestore";
-import { useDispatch, useSelector } from "react-redux";
+import {
+  collection,
+  doc,
+  getDocs,
+  query,
+  setDoc,
+  where,
+} from "firebase/firestore";
+import { useDispatch } from "react-redux";
 import { login } from "../store/authSlice";
 import { useLocalStorage } from "../hooks/useLocalStorage";
-import { Oval } from "react-loader-spinner";
+import Loading from "./Loading";
 
 const SignIn = () => {
   const navigate = useNavigate();
@@ -22,10 +35,48 @@ const SignIn = () => {
   const [showPasswordAlert, setShowPasswordAlert] = useState(false);
   const [passwordAlertContent, setPasswordAlertContent] = useState("");
   const [isShowPasswordChecked, setIsShowPasswordChecked] = useState(false);
+  const [showSignInOptions, setShowSignInOptions] = useState(false);
 
   const checkboxRef = useRef();
 
   const [localStorageUser, setLocalStorageUser] = useLocalStorage("user", null);
+
+  // const [isLoading, setIsLoading] = useState(false);
+  // const [isGoogleRedirect, setIsGoogleRedirect] = useState(false);
+
+  const provider = new GoogleAuthProvider(); // provider 구글 설정
+
+  // redirect 사용 google login
+  useEffect(() => {
+    const redirectResult = async () => {
+      try {
+        const signInResult = await getRedirectResult(auth);
+
+        console.log(signInResult);
+
+        if (signInResult) {
+          dispatch(
+            login({
+              email: signInResult.user.email,
+              uid: signInResult.user.uid,
+              displayName: signInResult.user.displayName,
+              photoUrl: signInResult.user.photoURL,
+            })
+          );
+
+          await setDoc(doc(db, "users", signInResult.user.uid), {
+            email: signInResult.user.email,
+          });
+
+          navigate("/");
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    redirectResult();
+  }, []);
 
   useEffect(() => {
     const handleEnterKeyPress = (event) => {
@@ -103,6 +154,41 @@ const SignIn = () => {
     }
   };
 
+  const handleGoogleLogin = async () => {
+    try {
+      // redirect 사용 google login
+      await signInWithRedirect(auth, provider);
+
+      // // popup 사용 google login
+      // const signInResult = await signInWithPopup(auth, provider);
+      // const userCredential =
+      //   GoogleAuthProvider.credentialFromResult(signInResult);
+      // const token = userCredential.accessToken;
+
+      // console.log(signInResult.user);
+      // dispatch(
+      //   login({
+      //     email: signInResult.user.email,
+      //     uid: signInResult.user.uid,
+      //     displayName: signInResult.user.displayName,
+      //     photoUrl: signInResult.user.photoURL,
+      //   })
+      // );
+
+      // await setDoc(doc(db, "users", signInResult.user.uid), {
+      //   email: signInResult.user.email,
+      // });
+
+      // navigate("/");
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  // if (isLoading) {
+  //   return <Loading />;
+  // }
+
   return (
     <div className="absolute h-full w-full flex flex-col items-center justify-center bg-ms-background">
       <div
@@ -113,9 +199,8 @@ const SignIn = () => {
           <h2 className="text-xl font-medium pb-4 text-ms-light-text">
             Welcome!
           </h2>
-
-          {!showPasswordTab ? (
-            <>
+          {!showSignInOptions ? (
+            !showPasswordTab ? (
               <div className="flex flex-col">
                 <h1 className="text-2xl font-semibold mb-2">Sign in</h1>
                 {showEmailAlert && (
@@ -142,44 +227,60 @@ const SignIn = () => {
                   Can't access your account?
                 </span>
               </div>
-            </>
+            ) : (
+              <div className="flex flex-col">
+                <div className="flex items-center">
+                  <div>{email}</div>
+                </div>
+                <h1 className="text-2xl font-semibold mb-2">Enter password</h1>
+                {showPasswordAlert && (
+                  <p className="text-ms-alert-error">{passwordAlertContent}</p>
+                )}
+                <input
+                  className={`pt-2 pb-1.5 border-b  text-base pr-2.5 mb-4  ${
+                    showPasswordAlert && passwordAlertContent !== ""
+                      ? "border-ms-alert-error focus:border-ms-alert-error"
+                      : "border-ms-scrollbar focus:border-ms-blue"
+                  }`}
+                  type={`${isShowPasswordChecked ? "text" : "password"}`}
+                  name="password"
+                  autoFocus
+                  value={password}
+                  onChange={passwordInputHandler}
+                  placeholder="Create password"
+                />
+                <div className="flex text-sm text-ms-light-text mb-4">
+                  <input
+                    ref={checkboxRef}
+                    className="w-5 h-5 mr-2 hover:cursor-pointer"
+                    type="checkbox"
+                    onChange={() =>
+                      setIsShowPasswordChecked(!isShowPasswordChecked)
+                    }
+                  />
+                  <span
+                    className="hover:cursor-pointer"
+                    onClick={() => checkboxRef.current.click()}
+                  >
+                    Show password
+                  </span>
+                </div>
+              </div>
+            )
           ) : (
             <div className="flex flex-col">
-              <div className="flex items-center">
-                <div>{email}</div>
-              </div>
-              <h1 className="text-2xl font-semibold mb-2">Enter password</h1>
-              {showPasswordAlert && (
-                <p className="text-ms-alert-error">{passwordAlertContent}</p>
-              )}
-              <input
-                className={`pt-2 pb-1.5 border-b  text-base pr-2.5 mb-4  ${
-                  showPasswordAlert && passwordAlertContent !== ""
-                    ? "border-ms-alert-error focus:border-ms-alert-error"
-                    : "border-ms-scrollbar focus:border-ms-blue"
-                }`}
-                type={`${isShowPasswordChecked ? "text" : "password"}`}
-                name="password"
-                autoFocus
-                value={password}
-                onChange={passwordInputHandler}
-                placeholder="Create password"
-              />
-              <div className="flex text-sm text-ms-light-text mb-4">
-                <input
-                  ref={checkboxRef}
-                  className="w-5 h-5 mr-2 hover:cursor-pointer"
-                  type="checkbox"
-                  onChange={() =>
-                    setIsShowPasswordChecked(!isShowPasswordChecked)
-                  }
-                />
-                <span
-                  className="hover:cursor-pointer"
-                  onClick={() => checkboxRef.current.click()}
-                >
-                  Show password
-                </span>
+              <h1 className="text-2xl font-semibold mb-2">Sign-in options</h1>
+              <div
+                className="flex flex-col hover:bg-ms-white-hover hover:cursor-pointer py-3 px-11 ml-[-44px] mr-[-44px]"
+                onClick={handleGoogleLogin}
+              >
+                <div className="flex flex-row">
+                  <div>img</div>
+                  <div className="flex flex-col w-full px-3">
+                    <p>Sign in with Google</p>
+                    <p>information</p>
+                  </div>
+                </div>
               </div>
             </div>
           )}
@@ -205,6 +306,7 @@ const SignIn = () => {
         <div
           className="max-[599px]:hidden min-[600px]:w-[440px] min-[600px]:h-[48px] min-[600px]:relative bg-white text-ms-text-dark mt-5 flex items-center hover:bg-ms-white-button-hover hover:bg-opacity-20 hover:cursor-pointer text-base"
           style={{ boxShadow: "0 2px 6px rgba(0,0,0,0.2)" }}
+          onClick={() => setShowSignInOptions(true)}
         >
           <div className="flex items-center ml-12">
             <BsKey

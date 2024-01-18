@@ -37,8 +37,8 @@ const Inbox = () => {
 
   const { data: groupData } = useGetGroupApiQuery(user?.uid, { skip: !user });
 
-  const groupBy = groupData.tasks;
-  const isGroupOptionSelected = groupData.tasks;
+  const groupBy = groupData?.tasks;
+  const isGroupOptionSelected = groupData?.tasks;
 
   const {
     data: todos,

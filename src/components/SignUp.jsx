@@ -150,34 +150,6 @@ const SignUp = () => {
 
         await setDoc(doc(db, "users", user.uid), { email: user.email });
 
-        // signup 성공했을 때, Firestore 초기 configuration
-
-        // const sorDocRef = doc(db, `users/${user.uid}/preference`, "sortDoc");
-        // await setDoc(
-        //   sorDocRef,
-        //   {
-        //     myday: { sortBy: "", order: "descending" },
-        //     important: { sortBy: "", order: "descending" },
-        //     completed: { sortBy: "", order: "descending" },
-        //     tasks: { sortBy: "", order: "descending" },
-        //     search: { sortBy: "", order: "descending" },
-        //   },
-        //   { merge: true }
-        // );
-
-
-
-
-        // const uiDocRef = doc(db, `users/${user.uid}/preference`, "uiDoc");
-        // await setDoc(
-        //   uiDocRef,
-        //   {
-        //     detailWidth: 360,
-        //     theme: "light",
-        //   },
-        //   { merge: true }
-        // );
-
         navigate("/");
       } catch (error) {
         console.log(error);

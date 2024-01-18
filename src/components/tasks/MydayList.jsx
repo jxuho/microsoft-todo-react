@@ -35,7 +35,7 @@ const MydayList = ({ currentLocation }) => {
   
   const {data: groupData} = useGetGroupApiQuery(user?.uid, { skip: !user })
   
-  const groupBy = groupData.myday
+  const groupBy = groupData?.myday
 
 
 

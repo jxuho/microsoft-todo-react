@@ -26,6 +26,7 @@ import {
 } from "../../api/todoApiSlice";
 import uuid from "react-uuid";
 import { isValidElement } from "react";
+import Loading from "../Loading";
 
 const TaskItemContextMenu = () => {
   const location = useLocation();
@@ -48,6 +49,9 @@ const TaskItemContextMenu = () => {
     refetch,
   } = useGetTodosApiQuery(user?.uid, { skip: !user });
 
+  // if (!todos) {
+  //   return <Loading/>
+  // }
 
 
 

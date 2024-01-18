@@ -35,8 +35,6 @@ const Myday = () => {
   } = useGetUiApiQuery(user?.uid);
   const detailWidth = uiData?.detailWidth;
 
-  // const detailWidth = useSelector((state) => state.ui.detailWidth);
-
   const isSortOptionSelected = sortData?.myday.sortBy;
 
   const { data: groupData } = useGetGroupApiQuery(user?.uid, { skip: !user });
