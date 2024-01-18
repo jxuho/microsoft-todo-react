@@ -275,10 +275,10 @@ const SignIn = () => {
                 onClick={handleGoogleLogin}
               >
                 <div className="flex flex-row">
-                  <div>img</div>
+                  <img src="/public\googleLogo.png" alt="goole logo" className="w-10 h-10" />
                   <div className="flex flex-col w-full px-3">
-                    <p>Sign in with Google</p>
-                    <p>information</p>
+                    <p className="text-ms-text-dark font-medium">Sign in with Google</p>
+                    <p className="text-ms-light-text text-sm">Redirects to the sign in page</p>
                   </div>
                 </div>
               </div>
