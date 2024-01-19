@@ -44,7 +44,7 @@ const SignIn = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const [localStorageRedirect, setLocalStorageRedirect] = useLocalStorage(
-    "redirect",
+    "isRedirected",
     false
   );
 
