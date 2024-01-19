@@ -41,8 +41,12 @@ const SignIn = () => {
 
   const [localStorageUser, setLocalStorageUser] = useLocalStorage("user", null);
 
-  // const [isLoading, setIsLoading] = useState(false);
-  // const [isGoogleRedirect, setIsGoogleRedirect] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const [localStorageRedirect, setLocalStorageRedirect] = useLocalStorage(
+    "redirect",
+    false
+  );
 
   const provider = new GoogleAuthProvider(); // provider 구글 설정
 
@@ -50,6 +54,7 @@ const SignIn = () => {
   useEffect(() => {
     const redirectResult = async () => {
       try {
+        setIsLoading(true);
         const signInResult = await getRedirectResult(auth);
 
         console.log(signInResult);
@@ -75,7 +80,10 @@ const SignIn = () => {
       }
     };
 
-    redirectResult();
+    if (localStorageRedirect) {
+      redirectResult();
+      setLocalStorageRedirect(false);
+    }
   }, []);
 
   useEffect(() => {
@@ -156,6 +164,8 @@ const SignIn = () => {
 
   const handleGoogleLogin = async () => {
     try {
+      setIsLoading(true);
+      setLocalStorageRedirect(true);
       // redirect 사용 google login
       await signInWithRedirect(auth, provider);
 
@@ -185,9 +195,9 @@ const SignIn = () => {
     }
   };
 
-  // if (isLoading) {
-  //   return <Loading />;
-  // }
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <div className="absolute h-full w-full flex flex-col items-center justify-center bg-ms-background">
@@ -275,10 +285,18 @@ const SignIn = () => {
                 onClick={handleGoogleLogin}
               >
                 <div className="flex flex-row">
-                  <img src="/public\googleLogo.png" alt="goole logo" className="w-10 h-10" />
+                  <img
+                    src="/public\googleLogo.png"
+                    alt="goole logo"
+                    className="w-10 h-10"
+                  />
                   <div className="flex flex-col w-full px-3">
-                    <p className="text-ms-text-dark font-medium">Sign in with Google</p>
-                    <p className="text-ms-light-text text-sm">Redirects to the sign in page</p>
+                    <p className="text-ms-text-dark font-medium">
+                      Sign in with Google
+                    </p>
+                    <p className="text-ms-light-text text-sm">
+                      Redirects to the sign in page
+                    </p>
                   </div>
                 </div>
               </div>
@@ -302,7 +320,7 @@ const SignIn = () => {
         </div>
       </div>
 
-      {!showPasswordTab && (
+      {!showPasswordTab && !showSignInOptions && (
         <div
           className="max-[599px]:hidden min-[600px]:w-[440px] min-[600px]:h-[48px] min-[600px]:relative bg-white text-ms-text-dark mt-5 flex items-center hover:bg-ms-white-button-hover hover:bg-opacity-20 hover:cursor-pointer text-base"
           style={{ boxShadow: "0 2px 6px rgba(0,0,0,0.2)" }}
