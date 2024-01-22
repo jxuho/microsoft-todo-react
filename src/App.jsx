@@ -9,24 +9,26 @@ import ProtectedLayout from "./components/ProtectedLayout";
 import { Suspense, lazy } from "react";
 import Loading from "./components/Loading";
 
-
-const RootPage = lazy(() => import('./pages/RootPage')) 
-const MydayPage = lazy(() => import('./pages/MydayPage')) 
-const ImportantPage = lazy(() => import('./pages/ImportantPage')) 
-const PlannedPage = lazy(() => import('./pages/PlannedPage')) 
-const CompletedPage = lazy(() => import('./pages/CompletedPage')) 
-const InboxPage = lazy(() => import('./pages/InboxPage')) 
-const SearchPage = lazy(() => import('./pages/SearchPage')) 
-
+const RootPage = lazy(() => import("./pages/RootPage"));
+const MydayPage = lazy(() => import("./pages/MydayPage"));
+const ImportantPage = lazy(() => import("./pages/ImportantPage"));
+const PlannedPage = lazy(() => import("./pages/PlannedPage"));
+const CompletedPage = lazy(() => import("./pages/CompletedPage"));
+const InboxPage = lazy(() => import("./pages/InboxPage"));
+const SearchPage = lazy(() => import("./pages/SearchPage"));
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Suspense fallback={<Loading/>}><RootPage/></Suspense>,
+    element: (
+      <Suspense fallback={<Loading />}>
+        <RootPage />
+      </Suspense>
+    ),
     children: [
       {
         index: true,
-        loader: () => redirect("today")
+        loader: () => redirect("today"),
       },
       {
         path: "today",
@@ -38,55 +40,52 @@ const router = createBrowserRouter([
       },
       {
         path: "important",
-        element: <ImportantPage/>
+        element: <ImportantPage />,
       },
       {
         path: "planned",
-        element: <PlannedPage/>
+        element: <PlannedPage />,
       },
       {
         path: "completed",
-        element: <CompletedPage/>
+        element: <CompletedPage />,
       },
       {
         path: "inbox",
-        element: <InboxPage />
+        element: <InboxPage />,
       },
       {
         path: "search/:query?",
-        element: <SearchPage/>
+        element: <SearchPage />,
       },
     ],
   },
   {
     path: "/user",
-    element: <ProtectedLayout/>,
-    children : [
+    element: <ProtectedLayout />,
+    children: [
       {
         index: true,
         path: "signin",
-        element: <SignInPage/>
+        element: <SignInPage />,
       },
       {
         path: "signup",
-        element: <SignUpPage/>
-      }
-    ]
+        element: <SignUpPage />,
+      },
+    ],
   },
-
 ]);
 
 function App() {
-  return <RouterProvider router={router}/>;
+  return <RouterProvider router={router} />;
 }
 
 export default App;
 
-
-
 /**
  * TODO
- * (complete) ms todo app redirect https://to-do.office.com/ -> https://to-do.office.com/tasks/today 
+ * (complete) ms todo app redirect https://to-do.office.com/ -> https://to-do.office.com/tasks/today
  * (complete) sidebar retraction
  * (complete) TaskDetail에서 redux저장소에서 데이터 가지고와서 detail body 구현하기
  * (complete) basic layout
@@ -97,7 +96,7 @@ export default App;
  * (complete) implement date/remind/repeat compoenent popover
  * (complete) complete탭 task 순서 수정하기
  * (complete) Detail resizer <-> popover랑 겹치면 UI 오류발생 -> 안겹치게 바꾸기
- * (complete) activated task blue color  
+ * (complete) activated task blue color
  * (complete) UI -> searchbar x버튼 눌렀을 때 flickering문제 해결하기
  * (complete) Searchbar
  * (complete) taskList component scroll 가능하게 만들기
@@ -116,7 +115,7 @@ export default App;
  * (complete) Detailbar zIndex floating ui zIndex 조정해야함
  * (complete) searchbar esc버튼
  * (complete) dark theme -> toggle switch 만들기
- * (complete) sign-in, sign-up, 
+ * (complete) sign-in, sign-up,
  * (complete) backend 연결
  * (complete) Myday tab 아닌 곳에서 detail bar - add to myday button 작동 안함
  * (complete) Loading component 구현
@@ -143,65 +142,64 @@ export default App;
  * (complete) groupSlice, sortSlice -> sortApiSlice, groupApiSlice로 migrate
  * (complete) detailWidth 초기값 api slice에서 설정 -> TaskDetail 간단하게 하기
  * (complete) OAuth & 로그인 페이지 기능 추가하기
- * 
- * 
- * 
- * 
- * 
+ *
+ *
+ *
+ *
+ *
  * <할것>
- * 
+ *
  * login state에 대한 check가 redux를 통하지 않고, firebase에서 직접 받아온 정보여야 한다
- * 
+ *
  * 브라우저 종료 후 켰을 때 계정 정보 초기화
  * signout했을 때, refresh 되도록 설정?
- * 
- * 
+ *
+ *
  * 계정 삭제, 비밀번호 변경 가능한 mypage 만들기
  * 계정 삭제되면 firestore, storage에 연결된 데이터도 삭제하기
- * 
- * 
- * 
+ *
+ *
+ *
  * 계정 새로 생성됐을 때 작동 확인하기
- * 
+ *
  * 배포 전 Firestore 보안규칙 업데이트하기(단순 true에서 새로운 규칙으로)
- * 
+ *
  * completeList, PlannedList, GroupList에서 상위리스트가 모두 render된 이후에 하위리스트 render되도록 설정
- * 
- * 
+ *
+ *
  * signin page 배경 색깔 물결
- * 
- * 
- * 
+ *
+ *
+ *
  * print 설정하기
  * Notion 개발일지 가지고와서 list로 render하기(보류)
- * 
- * 
- * complete된 task remind 비활성화 하기
- * 
- * AddTask component retraction
- * 
- * taskDetail file 첨부했을때, 백엔드 저장 구현하기
- * 
- * 
- * floating ui -> useListNavigation 사용, 방향키로 선택 가능하도록 설정하기
- * 
- * 
- * UI -> task list scrollbar 생성될 때, taskItem 가로길이 바뀜. scrollbar 유무에 따라 padding 동적으로 변경하기
- * 
- * 
- * 
  *
- * 
+ *
+ * complete된 task remind 비활성화 하기
+ *
+ * AddTask component retraction
+ *
+ * taskDetail file 첨부했을때, 백엔드 저장 구현하기
+ *
+ *
+ * floating ui -> useListNavigation 사용, 방향키로 선택 가능하도록 설정하기
+ *
+ *
+ * UI -> task list scrollbar 생성될 때, taskItem 가로길이 바뀜. scrollbar 유무에 따라 padding 동적으로 변경하기
+ *
+ *
+ *
+ *
+ *
  * Popover, tooltip 독립된 component로 구현해서 코드 가독성 높이기
- * 
+ *
  * UI -> Sidebar mount될때, task 개수 0으로 표시됐다가 사라짐 -> flickering발생
- * 
+ *
  * Refactor -> GroupLists -> TaskHeader & TaskItemHeader 동일한 컴포넌트로 만들기
- * 
- * 
- * 
- * 
+ *
+ *
+ *
+ *
  * UI -> TaskItem myday sun icon 정렬 수정하기
- * 
-*/
-
+ *
+ */

@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { useGetUiApiQuery } from "../api/uiApiSlice";
 
 const useTheme = () => {
-  const userId = useSelector((state) => state.auth.user?.uid);
+  const userId = useSelector((state) => state.auth.user.uid);
 
   const {
     data: uiData,

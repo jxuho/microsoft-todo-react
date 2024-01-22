@@ -31,7 +31,7 @@ const RootPage = () => {
   const { isLoggedIn, isLoading: isAuthLoading, userId } = useAuth();
   const navigate = useNavigate();
 
-  // console.log("RootPage");
+  console.log("RootPage");
 
   const { isLoading: isTodosLoading } = useGetTodosApiQuery(userId, {
     skip: !userId,
@@ -67,7 +67,6 @@ const RootPage = () => {
     }
   }, [isAuthLoading, isLoggedIn, navigate]);
 
-  // if (isAuthLoading || isTodosLoading || (!isTodosLoading && !todos)) {
   if (
     isAuthLoading ||
     isTodosLoading ||
@@ -76,7 +75,6 @@ const RootPage = () => {
     isUiLoading ||
     (!isAuthLoading && !isLoggedIn)
   ) {
-    // console.log('loading...');
     return <Loading />;
   }
 

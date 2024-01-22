@@ -9,7 +9,7 @@ const useTitle = () => {
   const searchQuery = useSelector((state) => state.search.query);
 
 
-  const userId = useSelector((state) => state.auth.user?.uid);
+  const userId = useSelector((state) => state.auth.user.uid);
   const {
     data: todos,
     error,

@@ -5,7 +5,7 @@ import { useGetTodosApiQuery, useSetMydayTodoApiMutation } from "../api/todoApiS
 import { useGetUserApiQuery, useSetUpdatedApiMutation } from "../api/userApiSlice";
 
 const useUpdateMyday = () => {
-  const userId = useSelector((state) => state.auth.user?.uid);
+  const userId = useSelector((state) => state.auth.user.uid);
   const [setMydayTodoApi] = useSetMydayTodoApiMutation();
   
   const {data: userData} = useGetUserApiQuery(userId, { skip: !userId })
@@ -53,7 +53,7 @@ const useUpdateMyday = () => {
     setUpdatedApi({userId: userId, updated: new Date().toDateString()})
 
 
-  }, [todos, userId, userData]);
+  }, []);
 };
 
 export default useUpdateMyday;

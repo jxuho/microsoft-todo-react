@@ -58,7 +58,7 @@ const TaskItemContextMenu = () => {
   let addStepComplete = false;
   let removeStepComplete = false;
 
-  console.log('context menu');
+  // console.log('context menu');
 
   todos.forEach((todo) => {
     if (activeTasksId.includes(todo.id)) {

@@ -6,13 +6,16 @@ import {
 } from "../store/activeSlice";
 import { openDetail } from "../store/uiSlice";
 import { useEffect } from "react";
-import { useGetTodosApiQuery, useSetRemindedTodoApiMutation } from "../api/todoApiSlice";
+import {
+  useGetTodosApiQuery,
+  useSetRemindedTodoApiMutation,
+} from "../api/todoApiSlice";
 
 const useRemindNotification = () => {
   const dispatch = useDispatch();
-  const userId = useSelector((state) => state.auth.user?.uid);
+  const userId = useSelector((state) => state.auth.user.uid);
   const [setRemindedTodoApi] = useSetRemindedTodoApiMutation();
-  
+
   const {
     data: todos,
     error,
@@ -20,25 +23,24 @@ const useRemindNotification = () => {
     refetch,
   } = useGetTodosApiQuery(userId, { skip: !userId });
 
-
-
-
   useEffect(() => {
     if (!todos) return;
-    if (todos.some((todo) => todo.remind)) {
-      if (!("Notification" in window)) {
-        alert("This browser does not support desktop notification");
-      } else if (Notification.permission !== "denied") {
-        Notification.requestPermission();
-      }
+    if (!todos.some((todo) => todo.remind && !todo.reminded && !todo.complete))
+      return;
+    if (!("Notification" in window)) {
+      alert("This browser does not support desktop notification");
+    } else if (Notification.permission !== "denied") {
+      Notification.requestPermission();
     }
 
     const intervalId = setInterval(() => {
+      console.log("setInterval");
       const currentTime = new Date();
       for (const todo of todos) {
         if (
           todo.remind &&
           !todo.reminded &&
+          !todo.complete &&
           new Date(todo.remind) <= currentTime
         ) {
           notifyMe(todo);

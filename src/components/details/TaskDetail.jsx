@@ -37,8 +37,12 @@ const TaskDetail = () => {
   const [createdTime, setCreatedTime] = useState("");
   const [firstRender, setFirstRender] = useState(true);
   const userId = useSelector((state) => state.auth.user.uid);
+  const isSidebarOpen = useSelector(state => state.ui.sidebar)
 
   const [resizerPosition, setResizerPosition] = useState(360);
+
+  const { width: viewportWidth } = useViewport();
+  const isDetailOpen = useSelector((state) => state.ui.detail);
 
   const {
     data: todos,
@@ -86,15 +90,6 @@ const TaskDetail = () => {
     dispatch(setDeleteDialogActive({ target: "task", active: true }));
   };
 
-  useEffect(() => {
-    // set created time text
-    const todoDetail = todos.find((todo) => todo.id === detailId);
-    if (!todoDetail) return;
-    setCreatedTime(
-      getCustomFormatDateString(new Date(todoDetail.created), "plain")
-    );
-  }, [detailId, todos]);
-
   const resizerMouseDownHandler = () => {
     setIsResizing(true);
   };
@@ -119,6 +114,31 @@ const TaskDetail = () => {
     },
     [isResizing]
   );
+
+  useEffect(() => {
+    if (viewportWidth - detailWidth < 50 && viewportWidth > 450) {
+      setResizerPosition(viewportWidth - 50);
+    } else if (viewportWidth <= 450) {
+      setResizerPosition(viewportWidth);
+    }
+  }, [viewportWidth, detailWidth]);
+
+  useEffect(() => {
+    if (isSidebarOpen && viewportWidth - detailWidth < 560) {
+      dispatch(closeSidebar());
+    }
+  }, [viewportWidth, detailWidth, dispatch]);
+
+
+
+  useEffect(() => {
+    // set created time text
+    const todoDetail = todos.find((todo) => todo.id === detailId);
+    if (!todoDetail) return;
+    setCreatedTime(
+      getCustomFormatDateString(new Date(todoDetail.created), "plain")
+    );
+  }, [detailId, todos]);
 
   useEffect(() => {
     document.addEventListener("mousemove", resizeHandler); // resizer 이동조건
@@ -169,23 +189,6 @@ const TaskDetail = () => {
       referencePress: true,
     }),
   ]);
-
-  const { width: viewportWidth } = useViewport();
-  const isDetailOpen = useSelector((state) => state.ui.detail);
-
-  useEffect(() => {
-    if (viewportWidth - detailWidth < 50 && viewportWidth > 450) {
-      setResizerPosition(viewportWidth - 50);
-    } else if (viewportWidth <= 450) {
-      setResizerPosition(viewportWidth);
-    }
-  }, [viewportWidth, detailWidth]);
-
-  useEffect(() => {
-    if (viewportWidth - detailWidth < 560) {
-      dispatch(closeSidebar());
-    }
-  }, [viewportWidth, detailWidth, dispatch]);
 
   return (
     isDetailOpen && (

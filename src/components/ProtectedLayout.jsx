@@ -1,4 +1,4 @@
-import { Navigate, Outlet } from "react-router-dom"
+import { Navigate, Outlet } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import Loading from "./Loading";
 
@@ -6,17 +6,15 @@ const ProtectedLayout = () => {
   const { isLoggedIn, isLoading: isAuthLoading, userId } = useAuth();
 
   if (isAuthLoading) {
-    return <Loading/>
+    return <Loading />;
   }
 
   if (isLoggedIn) {
-    return <Navigate to={"/"}/>  
+    console.log('navigate to root');
+    return <Navigate to={"/"} />;
   }
 
-  return (
-    <Outlet/>
-  )
+  return <Outlet />;
+};
 
-}
-
-export default ProtectedLayout
+export default ProtectedLayout;
