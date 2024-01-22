@@ -13,6 +13,9 @@ export const uiApiSlice = firestoreApi.injectEndpoints({
           return { data: null };
         }
         try {
+
+          // console.log('getUiApi');
+
           const docRef = doc(db, `users/${userId}/preference`, "uiDoc");
           const docSnap = await getDoc(docRef);
 
@@ -27,7 +30,7 @@ export const uiApiSlice = firestoreApi.injectEndpoints({
 
           return { data: docData };
         } catch (error) {
-          console.error(error.message);
+          console.log(error.message);
           return { error: error.message };
         }
       },
@@ -65,13 +68,13 @@ export const uiApiSlice = firestoreApi.injectEndpoints({
         }
       },
 
-      // invalidatesTags: ["ui"],
+      invalidatesTags: ["ui"],
     }),
 
     setThemeApi: builder.mutation({
-      async queryFn({ user, value }) {
+      async queryFn({ userId, value }) {
         try {
-          const docRef = doc(db, `users/${user.uid}/preference`, "uiDoc");
+          const docRef = doc(db, `users/${userId}/preference`, "uiDoc");
           await setDoc(
             docRef,
             {
@@ -85,9 +88,9 @@ export const uiApiSlice = firestoreApi.injectEndpoints({
           return { error: error.message };
         }
       },
-      async onQueryStarted({ user, value }, { dispatch, queryFulfilled }) {
+      async onQueryStarted({ userId, value }, { dispatch, queryFulfilled }) {
         const patchResult = dispatch(
-          firestoreApi.util.updateQueryData("getUiApi", user.uid, (draft) => {
+          firestoreApi.util.updateQueryData("getUiApi", userId, (draft) => {
             if (JSON.stringify(draft)) draft["theme"] = value;
           })
         );

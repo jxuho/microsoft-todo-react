@@ -27,7 +27,7 @@ function DeleteDialog() {
   const deleteDialogTarget = useSelector(
     (state) => state.ui.deleteDialogTarget
   );
-  const user = useSelector((state) => state.auth.user);
+  const userId = useSelector((state) => state.auth.user.uid);
   const activeFileRef = useSelector((state) => state.active.activeFileRef);
 
   const {
@@ -35,7 +35,7 @@ function DeleteDialog() {
     error,
     isLoading: isTodosLoading,
     refetch,
-  } = useGetTodosApiQuery(user?.uid, { skip: !user });
+  } = useGetTodosApiQuery(userId, { skip: !userId });
 
   const [removeTodoApi] = useRemoveTodoApiMutation();
   const [removeFileTodoApi] = useRemoveFileTodoApiMutation();
@@ -61,7 +61,7 @@ function DeleteDialog() {
             deleteObject(ref(storage, fileItem.fileRef))
               .then(() => {
                 activeTasksId.forEach((todoId) => {
-                  removeTodoApi({ todoId, user });
+                  removeTodoApi({ todoId, userId });
                 });
               })
               .catch((error) => {
@@ -71,7 +71,7 @@ function DeleteDialog() {
         } else {
           // file 없는 경우
           activeTasksId.forEach((todoId) => {
-            removeTodoApi({ todoId, user });
+            removeTodoApi({ todoId, userId });
           });
         }
         dispatch(closeDetail());
@@ -82,7 +82,7 @@ function DeleteDialog() {
           .then(() => {
             removeFileTodoApi({
               todoId: targetTask.id,
-              user,
+              userId,
               fileRef: activeFileRef,
             });
           })

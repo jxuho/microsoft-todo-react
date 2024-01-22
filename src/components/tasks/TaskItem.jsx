@@ -36,7 +36,7 @@ import uuid from "react-uuid";
 const TaskItem = forwardRef(({ todo, currentLocation, isTaskActive }, ref) => {
   const dispatch = useDispatch();
   const [tooltipOpen, setTooltipOpen] = useState(false);
-  const user = useSelector((state) => state.auth.user);
+  const userId = useSelector((state) => state.auth.user.uid);
   const [setCompleteTodoApi] = useSetCompleteTodoApiMutation();
   const [setImportanceTodoApi] = useSetImportanceTodoApiMutation();
 
@@ -44,11 +44,11 @@ const TaskItem = forwardRef(({ todo, currentLocation, isTaskActive }, ref) => {
 
   const completeHandler = () => {
     if (todo.complete) {
-      setCompleteTodoApi({ todoId: todo.id, user, value: false });
+      setCompleteTodoApi({ todoId: todo.id, userId, value: false });
     } else {
       setCompleteTodoApi({
         todoId: todo.id,
-        user,
+        userId,
         value: true,
         newTaskId: uuid(),
       });
@@ -57,11 +57,11 @@ const TaskItem = forwardRef(({ todo, currentLocation, isTaskActive }, ref) => {
 
   const importanceHandler = () => {
     if (todo.importance) {
-      setImportanceTodoApi({ todoId: todo.id, user, value: "" });
+      setImportanceTodoApi({ todoId: todo.id, userId, value: "" });
     } else {
       setImportanceTodoApi({
         todoId: todo.id,
-        user,
+        userId,
         value: new Date().toISOString(),
       });
     }

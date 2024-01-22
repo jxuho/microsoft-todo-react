@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { useGetUiApiQuery } from "../api/uiApiSlice";
 
 const useTheme = () => {
-  const user = useSelector((state) => state.auth.user);
+  const userId = useSelector((state) => state.auth.user?.uid);
 
   const {
     data: uiData,
@@ -11,13 +11,13 @@ const useTheme = () => {
     isSuccess: isUiSuccess,
     isError: isUiError,
     error: uiError,
-  } = useGetUiApiQuery(user?.uid);
+  } = useGetUiApiQuery(userId, { skip: !userId });
 
   useEffect(() => {
     const htmlElement = document.querySelector("html");
     if (!htmlElement) return;
 
-    if (!user) {
+    if (!userId) {
       htmlElement.setAttribute("data-theme", "light");
       return;
     } 

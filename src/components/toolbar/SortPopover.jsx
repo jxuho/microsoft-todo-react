@@ -22,14 +22,14 @@ const SortPopover = ({ currentLocation }) => {
   const [popoverOpen, setPopoverOpen] = useState(false);
   const [tooltipOpen, setTooltipOpen] = useState(false);
   const { width: viewportWidth } = useViewport();
-  const user = useSelector(state => state.auth.user)
+  const userId = useSelector(state => state.auth.user.uid)
   const {
     data: uiData,
     isLoading: isUiLoading,
     isSuccess: isUiSuccess,
     isError: isUiError,
     error: uiError,
-  } = useGetUiApiQuery(user?.uid);
+  } = useGetUiApiQuery(userId, { skip: !userId });
   const detailWidth = uiData?.detailWidth;
   
 

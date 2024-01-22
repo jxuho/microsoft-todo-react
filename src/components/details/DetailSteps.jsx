@@ -14,7 +14,7 @@ const DetailSteps = ({ taskId, todo }) => {
   const [newStep, setNewStep] = useState("");
   const [isFocused, setIsFocused] = useState(false);
   const [addStepApi] = useAddStepApiMutation()
-  const user = useSelector(state => state.auth.user)
+  const userId = useSelector(state => state.auth.user.uid)
 
 
   const todoSteps = todo?.steps ?? [];
@@ -25,7 +25,7 @@ const DetailSteps = ({ taskId, todo }) => {
 
   const addStepHandler = () => {
 
-      addStepApi({todoId: taskId, user, value: { id: uuid(), content: newStep, complete: false }})
+      addStepApi({todoId: taskId, userId, value: { id: uuid(), content: newStep, complete: false }})
 
     setNewStep("");
   };

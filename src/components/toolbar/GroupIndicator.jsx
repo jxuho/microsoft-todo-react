@@ -14,20 +14,20 @@ import { useGetGroupApiQuery } from "../../api/groupApiSlice";
 import { useInitializeGroupApiMutation } from "../../api/groupApiSlice";
 
 const GroupIndicator = ({ currentLocation }) => {
-  const user = useSelector((state) => state.auth.user);
+  const userId = useSelector((state) => state.auth.user.uid);
   const [closeTooltipOpen, setCloseTooltipOpen] = useState(false);
   const [groupIndicatorText, setGroupIndicatorText] = useState("");
 
   const [initializeGroupApi] = useInitializeGroupApiMutation();
-  const { data: groupData } = useGetGroupApiQuery(user?.uid, { skip: !user });
+  const { data: groupData } = useGetGroupApiQuery(userId, { skip: !userId });
 
   const groupOption = groupData[currentLocation];
 
   const initializeGroupHandler = () => {
     try {
-      initializeGroupApi({ userId: user.uid, location: currentLocation });
+      initializeGroupApi({ userId: userId, location: currentLocation });
     } catch (error) {
-      console.error(error);
+      console.log(error);
     }
   };
 

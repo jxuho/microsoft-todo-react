@@ -2,6 +2,7 @@ import { BsKey } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import {
+  FacebookAuthProvider,
   GoogleAuthProvider,
   getRedirectResult,
   signInWithEmailAndPassword,
@@ -48,16 +49,17 @@ const SignIn = () => {
     false
   );
 
-  const provider = new GoogleAuthProvider(); // provider 구글 설정
+  const googleProvider = new GoogleAuthProvider(); // provider 구글 설정
+  // const facebookProvider = new FacebookAuthProvider();
 
-  // redirect 사용 google login
+  // redirect 사용 login
   useEffect(() => {
     const redirectResult = async () => {
       try {
         setIsLoading(true);
         const signInResult = await getRedirectResult(auth);
 
-        console.log(signInResult);
+        // console.log(signInResult);
 
         if (signInResult) {
           dispatch(
@@ -167,10 +169,10 @@ const SignIn = () => {
       setIsLoading(true);
       setLocalStorageRedirect(true);
       // redirect 사용 google login
-      await signInWithRedirect(auth, provider);
+      await signInWithRedirect(auth, googleProvider);
 
       // // popup 사용 google login
-      // const signInResult = await signInWithPopup(auth, provider);
+      // const signInResult = await signInWithPopup(auth, googleProvider);
       // const userCredential =
       //   GoogleAuthProvider.credentialFromResult(signInResult);
       // const token = userCredential.accessToken;
@@ -191,9 +193,21 @@ const SignIn = () => {
 
       // navigate("/");
     } catch (error) {
-      console.error(error);
+      console.log(error);
     }
   };
+
+
+  // const handleFacebookLogin = async () => {
+  //   try {
+  //     setIsLoading(true);
+  //     setLocalStorageRedirect(true);
+  //     await signInWithRedirect(auth, facebookProvider);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }
+
 
   if (isLoading) {
     return <Loading />;
@@ -300,6 +314,26 @@ const SignIn = () => {
                   </div>
                 </div>
               </div>
+              {/* <div
+                className="flex flex-col hover:bg-ms-white-hover hover:cursor-pointer py-3 px-11 ml-[-44px] mr-[-44px]"
+                onClick={handleFacebookLogin}
+              >
+                <div className="flex flex-row">
+                  <img
+                    src="/public\googleLogo.png"
+                    alt="goole logo"
+                    className="w-10 h-10"
+                  />
+                  <div className="flex flex-col w-full px-3">
+                    <p className="text-ms-text-dark font-medium">
+                      Sign in with Facebook
+                    </p>
+                    <p className="text-ms-light-text text-sm">
+                      Redirects to the sign in page
+                    </p>
+                  </div>
+                </div>
+              </div> */}
             </div>
           )}
 

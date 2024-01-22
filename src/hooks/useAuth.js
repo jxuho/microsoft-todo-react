@@ -6,15 +6,24 @@ import { useLocalStorage } from "./useLocalStorage";
 
 const useAuth = () => {
   const [isLoading, setIsLoading] = useState(true)
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [userId, setUserId] = useState("")
 
   const dispatch = useDispatch();
   const [localStorageUser, setLocalStorageUser] = useLocalStorage("user", null);
 
   useEffect(() => {
+
+    console.log("AUTH EFFECT");
+
     setIsLoading(true)
     const auth = getAuth();
     const unsubscribe = onAuthStateChanged(auth, (authUser) => {
       if (authUser) {
+
+        console.log("AUTH CHECKED");
+
+        setIsLoggedIn(true)
         dispatch(
           login({
             email: authUser.email,
@@ -24,17 +33,19 @@ const useAuth = () => {
           })
         );
         setLocalStorageUser(authUser.email)
-        setIsLoading(false)
+        setUserId(authUser.uid)
       } else {
+        setIsLoggedIn(false)
         setLocalStorageUser(null)
         dispatch(logout());
-        setIsLoading(false)
+       
       }
+      setIsLoading(false)
     });
     return () => unsubscribe();
   }, []);
 
-  return {isLoading}
+  return {isLoggedIn, isLoading, userId}
 
 };
 

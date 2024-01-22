@@ -6,7 +6,7 @@ import SortCreationDateItem from "./sortListItems/SortCreationDateItem";
 import { useSetSortByApiMutation } from "../../api/sortApiSlice";
 const MydaySortItems = ({ onItemClick, currentLocation }) => {
   // 현재 페이지 가지고와서, 페이지에 따라 render 다르게해야 한다
-  const user = useSelector((state) => state.auth.user);
+  const userId = useSelector((state) => state.auth.user.uid);
   if (currentLocation === "today") currentLocation = "myday";
 
   const [setSortByApi] = useSetSortByApiMutation();
@@ -15,12 +15,12 @@ const MydaySortItems = ({ onItemClick, currentLocation }) => {
     onItemClick();
     try {
       setSortByApi({
-        userId: user.uid,
+        userId,
         location: currentLocation,
         sortBy: "importance",
       });
     } catch (error) {
-      console.error(error.message);
+      console.log(error.message);
     }
   };
 
@@ -28,12 +28,12 @@ const MydaySortItems = ({ onItemClick, currentLocation }) => {
     onItemClick();
     try {
       setSortByApi({
-        userId: user.uid,
+        userId,
         location: currentLocation,
         sortBy: "dueDate",
       });
     } catch (error) {
-      console.error(error.message);
+      console.log(error.message);
     }
   };
 
@@ -41,12 +41,12 @@ const MydaySortItems = ({ onItemClick, currentLocation }) => {
     onItemClick();
     try {
       setSortByApi({
-        userId: user.uid,
+        userId,
         location: currentLocation,
         sortBy: "alphabetically",
       });
     } catch (error) {
-      console.error(error.message);
+      console.log(error.message);
     }
   };
 
@@ -54,12 +54,12 @@ const MydaySortItems = ({ onItemClick, currentLocation }) => {
     onItemClick();
     try {
       setSortByApi({
-        userId: user.uid,
+        userId,
         location: currentLocation,
         sortBy: "creationDate",
       });
     } catch (error) {
-      console.error(error.message);
+      console.log(error.message);
     }
   };
 

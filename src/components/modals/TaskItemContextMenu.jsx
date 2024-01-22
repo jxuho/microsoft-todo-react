@@ -25,14 +25,12 @@ import {
   useSetMydayTodoApiMutation,
 } from "../../api/todoApiSlice";
 import uuid from "react-uuid";
-import { isValidElement } from "react";
-import Loading from "../Loading";
 
 const TaskItemContextMenu = () => {
   const location = useLocation();
   const activeTasksId = useSelector((state) => state.active.activeTasks);
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.auth.user);
+  const userId = useSelector((state) => state.auth.user.uid);
   const [setMydayTodoApi] = useSetMydayTodoApiMutation();
   const [changeOptionTodoApi] = useChangeOptionTodoApiMutation();
   const [setImportanceTodoApi] = useSetImportanceTodoApiMutation();
@@ -47,15 +45,7 @@ const TaskItemContextMenu = () => {
     error,
     isLoading: isTodosLoading,
     refetch,
-  } = useGetTodosApiQuery(user?.uid, { skip: !user });
-
-  // if (!todos) {
-  //   return <Loading/>
-  // }
-
-
-
-
+  } = useGetTodosApiQuery(userId, { skip: !userId });
 
   let addMyday = false;
   let removeMyday = false;
@@ -67,6 +57,8 @@ const TaskItemContextMenu = () => {
 
   let addStepComplete = false;
   let removeStepComplete = false;
+
+  console.log('context menu');
 
   todos.forEach((todo) => {
     if (activeTasksId.includes(todo.id)) {
@@ -104,42 +96,42 @@ const TaskItemContextMenu = () => {
   const clickHandler = (option) => {
     const actionMap = {
       addMyday: (taskId) => {
-        setMydayTodoApi({ todoId: taskId, user, value: true });
+        setMydayTodoApi({ todoId: taskId, userId, value: true });
       },
 
       removeMyday: (taskId) => {
-        setMydayTodoApi({ todoId: taskId, user, value: false });
+        setMydayTodoApi({ todoId: taskId, userId, value: false });
       },
 
       addImportance: (taskId) => {
         setImportanceTodoApi({
           todoId: taskId,
-          user,
+          userId,
           value: new Date().toISOString(),
         });
       },
 
       removeImportance: (taskId) => {
-        setImportanceTodoApi({ todoId: taskId, user, value: "" });
+        setImportanceTodoApi({ todoId: taskId, userId, value: "" });
       },
 
       addComplete: (taskId) => {
         setCompleteTodoApi({
           todoId: taskId,
-          user,
+          userId,
           value: true,
           newTaskId: uuid(),
         });
       },
 
       removeComplete: (taskId) => {
-        setCompleteTodoApi({ todoId: taskId, user, value: false });
+        setCompleteTodoApi({ todoId: taskId, userId, value: false });
       },
 
       dueToday: (taskId) => {
         changeOptionTodoApi({
           todoId: taskId,
-          user,
+          userId,
           option: "dueDate",
           content: new Date().toISOString(),
           currentLocation: location.pathname,
@@ -149,7 +141,7 @@ const TaskItemContextMenu = () => {
       dueTomorrow: (taskId) => {
         changeOptionTodoApi({
           todoId: taskId,
-          user,
+          userId,
           option: "dueDate",
           content: getLastTimeOfDay(1).toISOString(),
           currentLocation: location.pathname,
@@ -159,7 +151,7 @@ const TaskItemContextMenu = () => {
       removeDuedate: (taskId) => {
         changeOptionTodoApi({
           todoId: taskId,
-          user,
+          userId,
           option: "dueDate",
           content: "",
           currentLocation: location.pathname,
@@ -172,15 +164,15 @@ const TaskItemContextMenu = () => {
 
       // step 함수 추가
       addStepComplete: (taskId, stepId) => {
-        completeStepApi({ todoId: taskId, user, stepId });
+        completeStepApi({ todoId: taskId, userId, stepId });
       },
 
       removeStepComplete: (taskId, stepId) => {
-        completeStepApi({ todoId: taskId, user, stepId });
+        completeStepApi({ todoId: taskId, userId, stepId });
       },
 
       deleteStep: (taskId, stepId) => {
-        removeStepApi({ todoId: taskId, user, stepId });
+        removeStepApi({ todoId: taskId, userId, stepId });
       },
     };
 

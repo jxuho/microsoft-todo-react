@@ -7,7 +7,7 @@ import { useGetUiApiQuery, useSetThemeApiMutation } from "../api/uiApiSlice";
 const Settings = () => {
   const dispatch = useDispatch();
   const isSettingsActive = useSelector((state) => state.ui.settingsActive);
-  const user = useSelector((state) => state.auth.user);
+  const userId = useSelector((state) => state.auth.user.uid);
 
   const [setThemeApi] = useSetThemeApiMutation();
 
@@ -17,7 +17,7 @@ const Settings = () => {
     isSuccess: isUiSuccess,
     isError: isUiError,
     error: uiError,
-  } = useGetUiApiQuery(user?.uid);
+  } = useGetUiApiQuery(userId, { skip: !userId });
 
   return (
     <>
@@ -46,7 +46,7 @@ const Settings = () => {
                 <div className="flex items-center opacity-70 pt-2">
                   <button
                     className="w-11 h-5 border border-ms-blue rounded-xl flex justify-end items-center bg-ms-blue"
-                    onClick={() => setThemeApi({ user, value: "light" })}
+                    onClick={() => setThemeApi({ userId, value: "light" })}
                   >
                     <div className="w-3 h-3 rounded-full bg-ms-header border border-ms-header mr-1"></div>
                   </button>
@@ -55,7 +55,7 @@ const Settings = () => {
                 <div className="flex items-center opacity-70 pt-2">
                   <button
                     className="w-11 h-5 border border-black rounded-xl flex justify-start items-center"
-                    onClick={() => setThemeApi({ user, value: "dark" })}
+                    onClick={() => setThemeApi({ userId, value: "dark" })}
                   >
                     <div className="w-3 h-3 rounded-full bg-black border border-black ml-1"></div>
                   </button>

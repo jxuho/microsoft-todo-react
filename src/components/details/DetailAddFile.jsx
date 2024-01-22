@@ -16,7 +16,7 @@ import uuid from "react-uuid";
 const DetailAddFile = ({ taskId, todo }) => {
   const dispatch = useDispatch();
   const inputRef = useRef();
-  const user = useSelector((state) => state.auth.user);
+  const userId = useSelector((state) => state.auth.user.uid);
 
   const [isFileUploading, setIsFileUploading] = useState(false);
 
@@ -46,7 +46,7 @@ const DetailAddFile = ({ taskId, todo }) => {
     }
 
     const extension = file.name.slice(file.name.lastIndexOf(".") + 1) ?? "";
-    const fileRef = `${user.uid}-${taskId}-${uuid()}`;
+    const fileRef = `${userId}-${taskId}-${uuid()}`;
     const storageRef = ref(storage, fileRef);
     const uploadTask = uploadBytesResumable(storageRef, file, {
       customMetadata: { extension, fileName: file.name },
@@ -86,7 +86,7 @@ const DetailAddFile = ({ taskId, todo }) => {
             console.log("File available at", downloadURL);
             addFileTodoApi({
               todoId: taskId,
-              user,
+              userId,
               content: { fileName: file.name, downloadURL, fileRef },
             });
             if (isAddFileError) {

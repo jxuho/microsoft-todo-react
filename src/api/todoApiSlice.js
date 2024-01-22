@@ -27,6 +27,7 @@ export const todoApiSlice = firestoreApi.injectEndpoints({
           return { data: null };
         }
         try {
+          // console.log('getTodosApi');
           const querySnapshot = await getDocs(
             collection(db, `users/${userId}/todos`)
           );
@@ -37,7 +38,7 @@ export const todoApiSlice = firestoreApi.injectEndpoints({
 
           return { data: todosArr };
         } catch (error) {
-          console.error(error.message);
+          console.log(error.message);
           return { error: error.message };
         }
       },
@@ -45,7 +46,7 @@ export const todoApiSlice = firestoreApi.injectEndpoints({
     }),
 
     addTodoApi: builder.mutation({
-      async queryFn({ todo, user }) {
+      async queryFn({ todo, userId }) {
         try {
           const created = new Date().toISOString();
 
@@ -58,20 +59,20 @@ export const todoApiSlice = firestoreApi.injectEndpoints({
           }
           if (!todo.myday) {
             if (isDateToday(new Date(todo.dueDate))) {
-              await setDoc(doc(db, `users/${user.uid}/todos`, todo.id), {
+              await setDoc(doc(db, `users/${userId}/todos`, todo.id), {
                 ...todo,
                 myday: true,
                 created,
               });
             } else {
-              await setDoc(doc(db, `users/${user.uid}/todos`, todo.id), {
+              await setDoc(doc(db, `users/${userId}/todos`, todo.id), {
                 ...todo,
                 myday: false,
                 created,
               });
             }
           } else {
-            await setDoc(doc(db, `users/${user.uid}/todos`, todo.id), {
+            await setDoc(doc(db, `users/${userId}/todos`, todo.id), {
               ...todo,
               created,
             });
@@ -84,11 +85,11 @@ export const todoApiSlice = firestoreApi.injectEndpoints({
         }
       },
 
-      async onQueryStarted({ todo, user }, { dispatch, queryFulfilled }) {
+      async onQueryStarted({ todo, userId }, { dispatch, queryFulfilled }) {
         const patchResult = dispatch(
           firestoreApi.util.updateQueryData(
             "getTodosApi",
-            user.uid,
+            userId,
             (draft) => {
               const created = new Date().toISOString();
               const modifiedDue = repeatDueSynchronizer(todo);
@@ -118,13 +119,13 @@ export const todoApiSlice = firestoreApi.injectEndpoints({
         }
       },
 
-      // invalidatesTags: ["todos"],
+      invalidatesTags: ["todos"],
     }),
 
     removeTodoApi: builder.mutation({
-      async queryFn({ todoId, user }) {
+      async queryFn({ todoId, userId }) {
         try {
-          await deleteDoc(doc(db, `users/${user.uid}/todos`, todoId));
+          await deleteDoc(doc(db, `users/${userId}/todos`, todoId));
           return { data: null };
         } catch (error) {
           console.log(error.message);
@@ -135,7 +136,7 @@ export const todoApiSlice = firestoreApi.injectEndpoints({
         const patchResult = dispatch(
           firestoreApi.util.updateQueryData(
             "getTodosApi",
-            args.user.uid,
+            args.userId,
             (draft) => {
               return draft.filter((taskItem) => taskItem.id !== args.todoId);
             }
@@ -148,62 +149,32 @@ export const todoApiSlice = firestoreApi.injectEndpoints({
         }
       },
 
-      // invalidatesTags: ["todos"],
+      invalidatesTags: ["todos"],
     }),
 
-    // removeTodoApi: builder.mutation({
-    //   async queryFn({ todoId, user }) {
-    //     try {
-    //       await deleteDoc(doc(db, `users/${user.uid}/todos`, todoId));
-    //       return { data: null };
-    //     } catch (error) {
-    //       console.log(error.message);
-    //       return { error: error.message };
-    //     }
-    //   },
-    //   async onQueryStarted(args, { dispatch, queryFulfilled }) {
-    //     const patchResult = dispatch(
-    //       firestoreApi.util.updateQueryData(
-    //         "getTodosApi",
-    //         args.user.uid,
-    //         (draft) => {
-    //           return draft.filter((taskItem) => taskItem.id !== args.todoId);
-    //         }
-    //       )
-    //     );
-    //     try {
-    //       await queryFulfilled;
-    //     } catch {
-    //       patchResult.undo();
-    //     }
-    //   },
-
-    //   // invalidatesTags: ["todos"],
-    // }),
-
     setCompleteTodoApi: builder.mutation({
-      async queryFn({ todoId, user, value, newTaskId }) {
+      async queryFn({ todoId, userId, value, newTaskId }) {
         // console.log("setCompleteTodo");
         try {
           const docSnap = await getDoc(
-            doc(db, `users/${user.uid}/todos`, todoId)
+            doc(db, `users/${userId}/todos`, todoId)
           );
           const docData = docSnap.data();
           if (!value) {
-            await updateDoc(doc(db, `users/${user.uid}/todos`, todoId), {
+            await updateDoc(doc(db, `users/${userId}/todos`, todoId), {
               complete: "",
             });
           } else {
-            await updateDoc(doc(db, `users/${user.uid}/todos`, todoId), {
+            await updateDoc(doc(db, `users/${userId}/todos`, todoId), {
               complete: new Date().toISOString(),
             });
             if (docData.repeatRule && !docData.repeated) {
-              await updateDoc(doc(db, `users/${user.uid}/todos`, todoId), {
+              await updateDoc(doc(db, `users/${userId}/todos`, todoId), {
                 repeated: true,
               });
               const newRepeatTask = getNextRepeatTask(docData, newTaskId);
               await setDoc(
-                doc(db, `users/${user.uid}/todos`, newRepeatTask.id),
+                doc(db, `users/${userId}/todos`, newRepeatTask.id),
                 newRepeatTask
               );
             }
@@ -216,13 +187,13 @@ export const todoApiSlice = firestoreApi.injectEndpoints({
       },
 
       async onQueryStarted(
-        { todoId, user, value, newTaskId },
+        { todoId, userId, value, newTaskId },
         { dispatch, queryFulfilled }
       ) {
         const patchResult = dispatch(
           firestoreApi.util.updateQueryData(
             "getTodosApi",
-            user.uid,
+            userId,
             (draft) => {
               const taskToChange = draft.find((task) => task.id === todoId);
               if (value === true) new Audio(popSound).play();
@@ -252,13 +223,13 @@ export const todoApiSlice = firestoreApi.injectEndpoints({
           patchResult.undo();
         }
       },
-      // invalidatesTags: ["todos"],
+      invalidatesTags: ["todos"],
     }),
 
     setImportanceTodoApi: builder.mutation({
-      async queryFn({ todoId, user, value }) {
+      async queryFn({ todoId, userId, value }) {
         try {
-          await updateDoc(doc(db, `users/${user.uid}/todos`, todoId), {
+          await updateDoc(doc(db, `users/${userId}/todos`, todoId), {
             importance: value,
           });
           return { data: null };
@@ -269,13 +240,13 @@ export const todoApiSlice = firestoreApi.injectEndpoints({
       },
 
       async onQueryStarted(
-        { todoId, user, value },
+        { todoId, userId, value },
         { dispatch, queryFulfilled }
       ) {
         const patchResult = dispatch(
           firestoreApi.util.updateQueryData(
             "getTodosApi",
-            user.uid,
+            userId,
             (draft) => {
               const taskToChange = draft.find((task) => task.id === todoId);
               taskToChange.importance = value;
@@ -289,13 +260,13 @@ export const todoApiSlice = firestoreApi.injectEndpoints({
         }
       },
 
-      // invalidatesTags: ["todos"],
+      invalidatesTags: ["todos"],
     }),
 
     changeTaskTodoApi: builder.mutation({
-      async queryFn({ todoId, user, value }) {
+      async queryFn({ todoId, userId, value }) {
         try {
-          await updateDoc(doc(db, `users/${user.uid}/todos`, todoId), {
+          await updateDoc(doc(db, `users/${userId}/todos`, todoId), {
             task: value,
           });
           return { data: null };
@@ -306,13 +277,13 @@ export const todoApiSlice = firestoreApi.injectEndpoints({
       },
 
       async onQueryStarted(
-        { todoId, user, value },
+        { todoId, userId, value },
         { dispatch, queryFulfilled }
       ) {
         const patchResult = dispatch(
           firestoreApi.util.updateQueryData(
             "getTodosApi",
-            user.uid,
+            userId,
             (draft) => {
               const taskToChange = draft.find((task) => task.id === todoId);
               taskToChange.task = value;
@@ -326,13 +297,13 @@ export const todoApiSlice = firestoreApi.injectEndpoints({
         }
       },
 
-      // invalidatesTags: ["todos"],
+      invalidatesTags: ["todos"],
     }),
 
     setMydayTodoApi: builder.mutation({
-      async queryFn({ todoId, user, value }) {
+      async queryFn({ todoId, userId, value }) {
         try {
-          await updateDoc(doc(db, `users/${user.uid}/todos`, todoId), {
+          await updateDoc(doc(db, `users/${userId}/todos`, todoId), {
             myday: value,
           });
           return { data: null };
@@ -343,13 +314,13 @@ export const todoApiSlice = firestoreApi.injectEndpoints({
       },
 
       async onQueryStarted(
-        { todoId, user, value },
+        { todoId, userId, value },
         { dispatch, queryFulfilled }
       ) {
         const patchResult = dispatch(
           firestoreApi.util.updateQueryData(
             "getTodosApi",
-            user.uid,
+            userId,
             (draft) => {
               const taskToChange = draft.find((task) => task.id === todoId);
               taskToChange.myday = value;
@@ -363,24 +334,24 @@ export const todoApiSlice = firestoreApi.injectEndpoints({
         }
       },
 
-      // invalidatesTags: ["todos"],
+      invalidatesTags: ["todos"],
     }),
 
     changeOptionTodoApi: builder.mutation({
-      async queryFn({ todoId, user, option, content, currentLocation }) {
+      async queryFn({ todoId, userId, option, content, currentLocation }) {
         try {
           const docSnap = await getDoc(
-            doc(db, `users/${user.uid}/todos`, todoId)
+            doc(db, `users/${userId}/todos`, todoId)
           );
           const docData = docSnap.data();
 
-          await updateDoc(doc(db, `users/${user.uid}/todos`, todoId), {
+          await updateDoc(doc(db, `users/${userId}/todos`, todoId), {
             [option]: content,
           });
 
           const modifiedDue = repeatDueSynchronizer(docData);
           if (modifiedDue) {
-            await updateDoc(doc(db, `users/${user.uid}/todos`, todoId), {
+            await updateDoc(doc(db, `users/${userId}/todos`, todoId), {
               dueDate: modifiedDue.toISOString(),
             });
           }
@@ -390,7 +361,7 @@ export const todoApiSlice = firestoreApi.injectEndpoints({
             option === "dueDate" &&
             isDateToday(new Date(content))
           ) {
-            await updateDoc(doc(db, `users/${user.uid}/todos`, todoId), {
+            await updateDoc(doc(db, `users/${userId}/todos`, todoId), {
               myday: true,
             });
           }
@@ -399,7 +370,7 @@ export const todoApiSlice = firestoreApi.injectEndpoints({
           //   option === "dueDate" &&
           //   !isDateToday(new Date(content))
           // ) {
-          //   await updateDoc(doc(db, `users/${user.uid}/todos`, todoId), {
+          //   await updateDoc(doc(db, `users/${userId}/todos`, todoId), {
           //     myday: false,
           //   });
           // }
@@ -411,13 +382,13 @@ export const todoApiSlice = firestoreApi.injectEndpoints({
       },
 
       async onQueryStarted(
-        { todoId, user, option, content, currentLocation },
+        { todoId, userId, option, content, currentLocation },
         { dispatch, queryFulfilled }
       ) {
         const patchResult = dispatch(
           firestoreApi.util.updateQueryData(
             "getTodosApi",
-            user.uid,
+            userId,
             (draft) => {
               const taskToChange = draft.find((task) => task.id === todoId);
               taskToChange[option] = content;
@@ -445,14 +416,14 @@ export const todoApiSlice = firestoreApi.injectEndpoints({
         }
       },
 
-      // invalidatesTags: ["todos"],
+      invalidatesTags: ["todos"],
     }),
 
     setRemindedTodoApi: builder.mutation({
       // change reminded value
-      async queryFn({ todoId, user, value }) {
+      async queryFn({ todoId, userId, value }) {
         try {
-          await updateDoc(doc(db, `users/${user.uid}/todos`, todoId), {
+          await updateDoc(doc(db, `users/${userId}/todos`, todoId), {
             reminded: value,
           });
           return { data: null };
@@ -463,13 +434,13 @@ export const todoApiSlice = firestoreApi.injectEndpoints({
       },
 
       async onQueryStarted(
-        { todoId, user, value },
+        { todoId, userId, value },
         { dispatch, queryFulfilled }
       ) {
         const patchResult = dispatch(
           firestoreApi.util.updateQueryData(
             "getTodosApi",
-            user.uid,
+            userId,
             (draft) => {
               const taskToChange = draft.find((task) => task.id === todoId);
               taskToChange.reminded = value;
@@ -483,13 +454,13 @@ export const todoApiSlice = firestoreApi.injectEndpoints({
         }
       },
 
-      // invalidatesTags: ["todos"],
+      invalidatesTags: ["todos"],
     }),
 
     addCategoryTodoApi: builder.mutation({
-      async queryFn({ todoId, user, category }) {
+      async queryFn({ todoId, userId, category }) {
         try {
-          await updateDoc(doc(db, `users/${user.uid}/todos`, todoId), {
+          await updateDoc(doc(db, `users/${userId}/todos`, todoId), {
             category: arrayUnion(category),
           });
           return { data: null };
@@ -499,13 +470,13 @@ export const todoApiSlice = firestoreApi.injectEndpoints({
         }
       },
       async onQueryStarted(
-        { todoId, user, category },
+        { todoId, userId, category },
         { dispatch, queryFulfilled }
       ) {
         const patchResult = dispatch(
           firestoreApi.util.updateQueryData(
             "getTodosApi",
-            user.uid,
+            userId,
             (draft) => {
               const taskToChange = draft.find((task) => task.id === todoId);
               taskToChange.category.push(category);
@@ -519,13 +490,13 @@ export const todoApiSlice = firestoreApi.injectEndpoints({
         }
       },
 
-      // invalidatesTags: ["todos"],
+      invalidatesTags: ["todos"],
     }),
 
     removeCategoryTodoApi: builder.mutation({
-      async queryFn({ todoId, user, category }) {
+      async queryFn({ todoId, userId, category }) {
         try {
-          await updateDoc(doc(db, `users/${user.uid}/todos`, todoId), {
+          await updateDoc(doc(db, `users/${userId}/todos`, todoId), {
             category: arrayRemove(category),
           });
           return { data: null };
@@ -536,13 +507,13 @@ export const todoApiSlice = firestoreApi.injectEndpoints({
       },
 
       async onQueryStarted(
-        { todoId, user, category },
+        { todoId, userId, category },
         { dispatch, queryFulfilled }
       ) {
         const patchResult = dispatch(
           firestoreApi.util.updateQueryData(
             "getTodosApi",
-            user.uid,
+            userId,
             (draft) => {
               const taskToChange = draft.find((task) => task.id === todoId);
               taskToChange.category = taskToChange.category.filter(
@@ -558,14 +529,14 @@ export const todoApiSlice = firestoreApi.injectEndpoints({
         }
       },
 
-      // invalidatesTags: ["todos"],
+      invalidatesTags: ["todos"],
     }),
 
     addNoteTodoApi: builder.mutation({
-      async queryFn({ todoId, user, content }) {
+      async queryFn({ todoId, userId, content }) {
         try {
           const updated = new Date().toISOString();
-          await updateDoc(doc(db, `users/${user.uid}/todos`, todoId), {
+          await updateDoc(doc(db, `users/${userId}/todos`, todoId), {
             "note.content": content,
             "note.updated": updated,
           });
@@ -577,13 +548,13 @@ export const todoApiSlice = firestoreApi.injectEndpoints({
       },
 
       async onQueryStarted(
-        { todoId, user, content },
+        { todoId, userId, content },
         { dispatch, queryFulfilled }
       ) {
         const patchResult = dispatch(
           firestoreApi.util.updateQueryData(
             "getTodosApi",
-            user.uid,
+            userId,
             (draft) => {
               const taskToChange = draft.find((task) => task.id === todoId);
               taskToChange.note.content = content;
@@ -598,13 +569,13 @@ export const todoApiSlice = firestoreApi.injectEndpoints({
         }
       },
 
-      // invalidatesTags: ["todos"],
+      invalidatesTags: ["todos"],
     }),
 
     addFileTodoApi: builder.mutation({
-      async queryFn({ todoId, user, content }) {
+      async queryFn({ todoId, userId, content }) {
         try {
-          await updateDoc(doc(db, `users/${user.uid}/todos`, todoId), {
+          await updateDoc(doc(db, `users/${userId}/todos`, todoId), {
             file: arrayUnion(content),
           });
           return { data: null };
@@ -617,17 +588,17 @@ export const todoApiSlice = firestoreApi.injectEndpoints({
     }),
 
     removeFileTodoApi: builder.mutation({
-      async queryFn({ todoId, user, fileRef }) {
+      async queryFn({ todoId, userId, fileRef }) {
         try {
           const docSnap = await getDoc(
-            doc(db, `users/${user.uid}/todos`, todoId)
+            doc(db, `users/${userId}/todos`, todoId)
           );
           const docData = docSnap.data();
           const flieToRemove = docData.file.find(
             (fileItem) => fileItem.fileRef === fileRef
           );
 
-          await updateDoc(doc(db, `users/${user.uid}/todos`, todoId), {
+          await updateDoc(doc(db, `users/${userId}/todos`, todoId), {
             file: arrayRemove(flieToRemove),
           });
           return { data: null };
@@ -640,9 +611,9 @@ export const todoApiSlice = firestoreApi.injectEndpoints({
     }),
 
     addStepApi: builder.mutation({
-      async queryFn({ todoId, user, value }) {
+      async queryFn({ todoId, userId, value }) {
         try {
-          await updateDoc(doc(db, `users/${user.uid}/todos`, todoId), {
+          await updateDoc(doc(db, `users/${userId}/todos`, todoId), {
             steps: arrayUnion(value),
           });
           return { data: null };
@@ -653,13 +624,13 @@ export const todoApiSlice = firestoreApi.injectEndpoints({
       },
 
       async onQueryStarted(
-        { todoId, user, value },
+        { todoId, userId, value },
         { dispatch, queryFulfilled }
       ) {
         const patchResult = dispatch(
           firestoreApi.util.updateQueryData(
             "getTodosApi",
-            user.uid,
+            userId,
             (draft) => {
               const taskToChange = draft.find((task) => task.id === todoId);
               taskToChange.steps.push(value);
@@ -673,19 +644,19 @@ export const todoApiSlice = firestoreApi.injectEndpoints({
         }
       },
 
-      // invalidatesTags: ["todos"],
+      invalidatesTags: ["todos"],
     }),
 
     completeStepApi: builder.mutation({
-      async queryFn({ todoId, user, stepId }) {
+      async queryFn({ todoId, userId, stepId }) {
         try {
           const docSnap = await getDoc(
-            doc(db, `users/${user.uid}/todos`, todoId)
+            doc(db, `users/${userId}/todos`, todoId)
           );
           const docData = docSnap.data();
           const index = docData.steps.findIndex((step) => step.id === stepId);
           docData.steps[index].complete = !docData.steps[index].complete;
-          await updateDoc(doc(db, `users/${user.uid}/todos`, todoId), {
+          await updateDoc(doc(db, `users/${userId}/todos`, todoId), {
             steps: docData.steps,
           });
           return { data: null };
@@ -696,13 +667,13 @@ export const todoApiSlice = firestoreApi.injectEndpoints({
       },
 
       async onQueryStarted(
-        { todoId, user, stepId },
+        { todoId, userId, stepId },
         { dispatch, queryFulfilled }
       ) {
         const patchResult = dispatch(
           firestoreApi.util.updateQueryData(
             "getTodosApi",
-            user.uid,
+            userId,
             (draft) => {
               const taskToChange = draft.find((task) => task.id === todoId);
               const stepToChange = taskToChange.steps.find(
@@ -720,19 +691,19 @@ export const todoApiSlice = firestoreApi.injectEndpoints({
         }
       },
 
-      // invalidatesTags: ["todos"],
+      invalidatesTags: ["todos"],
     }),
 
     removeStepApi: builder.mutation({
-      async queryFn({ todoId, user, stepId }) {
+      async queryFn({ todoId, userId, stepId }) {
         try {
           const docSnap = await getDoc(
-            doc(db, `users/${user.uid}/todos`, todoId)
+            doc(db, `users/${userId}/todos`, todoId)
           );
           const docData = docSnap.data();
           const docToRemove = docData.steps.find((step) => step.id === stepId);
 
-          await updateDoc(doc(db, `users/${user.uid}/todos`, todoId), {
+          await updateDoc(doc(db, `users/${userId}/todos`, todoId), {
             steps: arrayRemove(docToRemove),
           });
           return { data: null };
@@ -743,13 +714,13 @@ export const todoApiSlice = firestoreApi.injectEndpoints({
       },
 
       async onQueryStarted(
-        { todoId, user, stepId },
+        { todoId, userId, stepId },
         { dispatch, queryFulfilled }
       ) {
         const patchResult = dispatch(
           firestoreApi.util.updateQueryData(
             "getTodosApi",
-            user.uid,
+            userId,
             (draft) => {
               const taskToChange = draft.find((task) => task.id === todoId);
               taskToChange.steps = taskToChange.steps.filter(
@@ -764,19 +735,19 @@ export const todoApiSlice = firestoreApi.injectEndpoints({
           patchResult.undo();
         }
       },
-      // invalidatesTags: ["todos"],
+      invalidatesTags: ["todos"],
     }),
 
     changeStepApi: builder.mutation({
-      async queryFn({ todoId, user, stepId, value }) {
+      async queryFn({ todoId, userId, stepId, value }) {
         try {
           const docSnap = await getDoc(
-            doc(db, `users/${user.uid}/todos`, todoId)
+            doc(db, `users/${userId}/todos`, todoId)
           );
           const docData = docSnap.data();
           const index = docData.steps.findIndex((step) => step.id === stepId);
           docData.steps[index].content = value;
-          await updateDoc(doc(db, `users/${user.uid}/todos`, todoId), {
+          await updateDoc(doc(db, `users/${userId}/todos`, todoId), {
             steps: docData.steps,
           });
 
@@ -788,13 +759,13 @@ export const todoApiSlice = firestoreApi.injectEndpoints({
       },
 
       async onQueryStarted(
-        { todoId, user, stepId, value },
+        { todoId, userId, stepId, value },
         { dispatch, queryFulfilled }
       ) {
         const patchResult = dispatch(
           firestoreApi.util.updateQueryData(
             "getTodosApi",
-            user.uid,
+            userId,
             (draft) => {
               const taskToChange = draft.find((task) => task.id === todoId);
               const stepToChange = taskToChange.steps.find(
@@ -811,7 +782,7 @@ export const todoApiSlice = firestoreApi.injectEndpoints({
         }
       },
 
-      // invalidatesTags: ["todos"],
+      invalidatesTags: ["todos"],
     }),
   }),
 });

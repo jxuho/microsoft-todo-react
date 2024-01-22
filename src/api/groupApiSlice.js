@@ -10,10 +10,12 @@ export const groupApiSlice = firestoreApi.injectEndpoints({
     getGroupApi: builder.query({
       async queryFn(userId) {
         if (!userId) {
-          console.error("no user id");
+          console.log("no user id");
           return { data: {} };
         }
         try {
+          // console.log('getGroupApi');
+
           const docRef = doc(db, `users/${userId}/preference`, "groupDoc");
           const docSnap = await getDoc(docRef);
 
@@ -68,7 +70,7 @@ export const groupApiSlice = firestoreApi.injectEndpoints({
         }
       },
 
-      // invalidatesTags: ["group"],
+      invalidatesTags: ["group"],
     }),
 
     initializeGroupApi: builder.mutation({
@@ -100,7 +102,7 @@ export const groupApiSlice = firestoreApi.injectEndpoints({
           patchResult.undo();
         }
       },
-      // invalidatesTags: ["group"],
+      invalidatesTags: ["group"],
     }),
   }),
 });

@@ -34,13 +34,14 @@ const SignUp = () => {
 
   const checkboxRef = useRef();
 
-  const user = useSelector((state) => state.auth.user);
+  const userId = useSelector((state) => state.auth.user.uid);
+  
 
   useEffect(() => {
-    if (user) {
+    if (userId) {
       navigate("/");
     }
-  }, [user, navigate]);
+  }, [userId, navigate]);
 
   useEffect(() => {
     const handleEnterKeyPress = (event) => {
@@ -148,7 +149,7 @@ const SignUp = () => {
           })
         );
 
-        await setDoc(doc(db, "users", user.uid), { email: user.email });
+        await setDoc(doc(db, "users", userId), { email: user.email });
 
         navigate("/");
       } catch (error) {

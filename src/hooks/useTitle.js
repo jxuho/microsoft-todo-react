@@ -9,13 +9,13 @@ const useTitle = () => {
   const searchQuery = useSelector((state) => state.search.query);
 
 
-  const user = useSelector((state) => state.auth.user);
+  const userId = useSelector((state) => state.auth.user?.uid);
   const {
     data: todos,
     error,
     isLoading: isTodosLoading,
     refetch,
-  } = useGetTodosApiQuery(user?.uid, { skip: !user });
+  } = useGetTodosApiQuery(userId, { skip: !userId });
 
 
   useEffect(() => {

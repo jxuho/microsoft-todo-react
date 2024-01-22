@@ -12,17 +12,18 @@ import {
   useGetSortApiQuery,
   useSetSortByApiMutation,
 } from "../api/sortApiSlice";
+import Loading from "./Loading";
 
 const Important = () => {
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.auth.user);
+  const userId = useSelector((state) => state.auth.user.uid);
   const isSidebarOpen = useSelector((state) => state.ui.sidebar);
 
   const {
     data: sortData,
     isError: isSortError,
     error: sortError,
-  } = useGetSortApiQuery(user?.uid);
+  } = useGetSortApiQuery(userId, { skip: !userId });
 
   const [setSortByApi] = useSetSortByApiMutation();
 
@@ -35,12 +36,12 @@ const Important = () => {
   useEffect(() => {
     try {
       setSortByApi({
-        userId: user.uid,
+        userId,
         location: "important",
         sortBy: "creationDate",
       });
     } catch (error) {
-      console.error(error);
+      console.log(error);
     }
   }, []);
 

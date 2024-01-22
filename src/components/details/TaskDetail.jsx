@@ -36,7 +36,7 @@ const TaskDetail = () => {
   const [isHover, setIsHover] = useState(false);
   const [createdTime, setCreatedTime] = useState("");
   const [firstRender, setFirstRender] = useState(true);
-  const user = useSelector((state) => state.auth.user);
+  const userId = useSelector((state) => state.auth.user.uid);
 
   const [resizerPosition, setResizerPosition] = useState(360);
 
@@ -45,7 +45,7 @@ const TaskDetail = () => {
     error,
     isLoading: isTodosLoading,
     refetch,
-  } = useGetTodosApiQuery(user?.uid, { skip: !user });
+  } = useGetTodosApiQuery(userId, { skip: !userId });
 
   const {
     data: uiData,
@@ -53,7 +53,7 @@ const TaskDetail = () => {
     isSuccess: isUiSuccess,
     isError: isUiError,
     error: uiError,
-  } = useGetUiApiQuery(user?.uid);
+  } = useGetUiApiQuery(userId, { skip: !userId });
 
   const [setDetailWidthApi] = useSetDetailWidthApiMutation();
 
@@ -71,9 +71,9 @@ const TaskDetail = () => {
     // resizerPosition state를 Firestore에 저장
     if (!isResizing && !firstRender) {
       try {
-        setDetailWidthApi({ userId: user.uid, value: resizerPosition });
+        setDetailWidthApi({ userId: userId, value: resizerPosition });
       } catch (error) {
-        console.error(error);
+        console.log(error);
       }
     }
   }, [isResizing, resizerPosition]);

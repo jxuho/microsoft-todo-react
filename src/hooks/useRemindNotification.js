@@ -10,7 +10,7 @@ import { useGetTodosApiQuery, useSetRemindedTodoApiMutation } from "../api/todoA
 
 const useRemindNotification = () => {
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.auth.user);
+  const userId = useSelector((state) => state.auth.user?.uid);
   const [setRemindedTodoApi] = useSetRemindedTodoApiMutation();
   
   const {
@@ -18,7 +18,7 @@ const useRemindNotification = () => {
     error,
     isLoading: isTodosLoading,
     refetch,
-  } = useGetTodosApiQuery(user?.uid, { skip: !user });
+  } = useGetTodosApiQuery(userId, { skip: !userId });
 
 
 
@@ -42,7 +42,7 @@ const useRemindNotification = () => {
           new Date(todo.remind) <= currentTime
         ) {
           notifyMe(todo);
-          setRemindedTodoApi({ todoId: todo.id, user, value: true });
+          setRemindedTodoApi({ todoId: todo.id, userId, value: true });
         }
       }
     }, 1000);

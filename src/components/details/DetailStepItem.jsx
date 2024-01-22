@@ -27,7 +27,7 @@ const DetailStepItem = ({ step, taskId }) => {
   const dispatch = useDispatch();
   const isActive = useSelector((state) => state.active.activeStep);
 
-  const user = useSelector((state) => state.auth.user);
+  const userId = useSelector((state) => state.auth.user.uid);
   const [completeStepApi] = useCompleteStepApiMutation();
   const [removeStepApi] = useRemoveStepApiMutation();
   const [changeStepApi] = useChangeStepApiMutation();
@@ -37,11 +37,11 @@ const DetailStepItem = ({ step, taskId }) => {
   };
 
   const completeStepHandler = () => {
-    completeStepApi({ todoId: taskId, user, stepId: step.id });
+    completeStepApi({ todoId: taskId, userId, stepId: step.id });
   };
 
   const removeStepHandler = () => {
-    removeStepApi({ todoId: taskId, user, stepId: step.id });
+    removeStepApi({ todoId: taskId, userId, stepId: step.id });
   };
 
   const inputRef = useRef();
@@ -62,7 +62,7 @@ const DetailStepItem = ({ step, taskId }) => {
         return;
       }
 
-      changeStepApi({ todoId: taskId, user, stepId: step.id, value: newStep });
+      changeStepApi({ todoId: taskId, userId, stepId: step.id, value: newStep });
     }
     setIsFocused(false);
   };

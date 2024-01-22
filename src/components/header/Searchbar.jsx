@@ -20,14 +20,14 @@ const Searchbar = () => {
   const { width: viewportWidth } = useViewport();
   const isSidebarOpen = useSelector((state) => state.ui.sidebar);
   const isDetailOpen = useSelector((state) => state.ui.detail);
-  const user = useSelector((state) => state.auth.user);
+  const userId = useSelector((state) => state.auth.user.uid);
   const {
     data: uiData,
     isLoading: isUiLoading,
     isSuccess: isUiSuccess,
     isError: isUiError,
     error: uiError,
-  } = useGetUiApiQuery(user?.uid);
+  } = useGetUiApiQuery(userId, { skip: !userId });
   const detailWidth = uiData?.detailWidth;
 
   const searchHandler = (event) => {

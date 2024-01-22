@@ -19,7 +19,7 @@ import {
 
 const DetailCategories = ({ taskId, todo }) => {
   const [popoverOpen, setPopoverOpen] = useState(false);
-  const user = useSelector((state) => state.auth.user);
+  const userId = useSelector((state) => state.auth.user.uid);
 
   const [addCategoryTodoApi] = useAddCategoryTodoApiMutation();
   const [removeCategoryTodoApi] = useRemoveCategoryTodoApiMutation();
@@ -28,9 +28,9 @@ const DetailCategories = ({ taskId, todo }) => {
 
   const categoryHandler = (category) => {
     if (!todoCategory.includes(category)) {
-      addCategoryTodoApi({ todoId: taskId, user, category });
+      addCategoryTodoApi({ todoId: taskId, userId, category });
     } else {
-      removeCategoryTodoApi({ todoId: taskId, user, category });
+      removeCategoryTodoApi({ todoId: taskId, userId, category });
     }
   };
 

@@ -10,7 +10,7 @@ const DetailNote = ({ taskId, todo }) => {
   const [note, setNote] = useState("");
   const [updatedText, setUpdatedText] = useState("");
 
-  const user = useSelector((state) => state.auth.user);
+  const userId = useSelector((state) => state.auth.user.uid);
   const [addNoteTodoApi] = useAddNoteTodoApiMutation();
 
   const todoNote = todo.note;
@@ -20,7 +20,7 @@ const DetailNote = ({ taskId, todo }) => {
   };
 
   const blurHandler = () => {
-    addNoteTodoApi({ todoId: taskId, user, content: note });
+    addNoteTodoApi({ todoId: taskId, userId, content: note });
   };
 
   const noteSectionClickHandler = () => {

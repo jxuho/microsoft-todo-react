@@ -21,13 +21,13 @@ const SortIndicator = ({ currentLocation }) => {
   const [closeTooltipOpen, setCloseTooltipOpen] = useState(false);
   const [sortIndicatorText, setSortIndicatorText] = useState("");
 
-  const user = useSelector((state) => state.auth.user);
+  const userId = useSelector((state) => state.auth.user.uid);
   const [initializeSortApi] = useInitializeSortApiMutation();
   const [changeSortOrderApi] = useChangeSortOrderApiMutation();
 
   const {
     data: sortData,
-  } = useGetSortApiQuery(user?.uid, { skip: !user });
+  } = useGetSortApiQuery(userId, { skip: !userId });
 
   const sortOption = sortData?.[currentLocation]?.sortBy;
   const sortOrder = sortData?.[currentLocation]?.order;
@@ -35,9 +35,9 @@ const SortIndicator = ({ currentLocation }) => {
 
   const initializeSortHandler = async () => {
     try {
-      initializeSortApi({ userId: user.uid, location: currentLocation });
+      initializeSortApi({ userId: userId, location: currentLocation });
     } catch (error) {
-      console.error(error);
+      console.log(error);
     }
   };
 
@@ -45,19 +45,19 @@ const SortIndicator = ({ currentLocation }) => {
     try {
       if (sortOrder === "ascending") {
         changeSortOrderApi({
-          userId: user.uid,
+          userId: userId,
           location: currentLocation,
           order: "descending",
         });
       } else if (sortOrder === "descending") {
         changeSortOrderApi({
-          userId: user.uid,
+          userId: userId,
           location: currentLocation,
           order: "ascending",
         });
       }
     } catch (error) {
-      console.error(error);
+      console.log(error);
     }
   };
 

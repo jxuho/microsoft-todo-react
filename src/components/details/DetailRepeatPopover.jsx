@@ -27,7 +27,7 @@ const DetailRepeatPopover = ({ taskId, todo }) => {
   const [repeatText, setRepeatText] = useState({ title: "", description: "" });
   const [isHover, setIsHover] = useState(false);
   const [tooltipOpen, setTooltipOpen] = useState(false);
-  const user = useSelector(state => state.auth.user)
+  const userId = useSelector(state => state.auth.user.uid)
   const [changeOptionTodoApi] = useChangeOptionTodoApiMutation();
 
   const todoRepeatRule = todo?.repeatRule
@@ -105,7 +105,7 @@ const DetailRepeatPopover = ({ taskId, todo }) => {
 
           changeOptionTodoApi({
             todoId: taskId,
-            user,
+            userId,
             option: "repeatRule",
             content: "1-day",
             currentLocation: location.pathname,
@@ -116,7 +116,7 @@ const DetailRepeatPopover = ({ taskId, todo }) => {
 
           changeOptionTodoApi({
             todoId: taskId,
-            user,
+            userId,
             option: "repeatRule",
             content: "1-week-mon-tue-wed-thu-fri",
             currentLocation: location.pathname,
@@ -128,7 +128,7 @@ const DetailRepeatPopover = ({ taskId, todo }) => {
 
           changeOptionTodoApi({
             todoId: taskId,
-            user,
+            userId,
             option: "repeatRule",
             content: "1-week-" + currentDay,
             currentLocation: location.pathname,
@@ -138,7 +138,7 @@ const DetailRepeatPopover = ({ taskId, todo }) => {
       case "monthly":
           changeOptionTodoApi({
             todoId: taskId,
-            user,
+            userId,
             option: "repeatRule",
             content: "1-month",
             currentLocation: location.pathname,
@@ -149,7 +149,7 @@ const DetailRepeatPopover = ({ taskId, todo }) => {
 
           changeOptionTodoApi({
             todoId: taskId,
-            user,
+            userId,
             option: "repeatRule",
             content: "1-year",
             currentLocation: location.pathname,
@@ -166,7 +166,7 @@ const DetailRepeatPopover = ({ taskId, todo }) => {
 
       changeOptionTodoApi({
         todoId: taskId,
-        user,
+        userId,
         option: "repeatRule",
         content: "",
         currentLocation: location.pathname,
@@ -184,7 +184,7 @@ const DetailRepeatPopover = ({ taskId, todo }) => {
 
       changeOptionTodoApi({
         todoId: taskId,
-        user,
+        userId,
         option,
         content,
         currentLocation: location.pathname,

@@ -26,7 +26,7 @@ const DetailDuePopover = ({ taskId, todo }) => {
   const [dueText, setDueText] = useState("");
   const [isHover, setIsHover] = useState(false);
   const [tooltipOpen, setTooltipOpen] = useState(false);
-  const user = useSelector((state) => state.auth.user);
+  const userId = useSelector((state) => state.auth.user.uid);
 
   const [changeOptionTodoApi] = useChangeOptionTodoApiMutation();
 
@@ -107,7 +107,7 @@ const DetailDuePopover = ({ taskId, todo }) => {
 
     changeOptionTodoApi({
       todoId: taskId,
-      user,
+      userId,
       option: "dueDate",
       content,
       currentLocation: location.pathname,
@@ -121,7 +121,7 @@ const DetailDuePopover = ({ taskId, todo }) => {
 
     changeOptionTodoApi({
       todoId: taskId,
-      user,
+      userId,
       option: "dueDate",
       content: "",
       currentLocation: location.pathname,

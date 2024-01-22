@@ -4,7 +4,13 @@ const authSlice = createSlice({
   name: "auth", 
   initialState: {
     isAuthenticated: false,
-    user: null
+    // user: null
+    user: {
+      email: "",
+      uid: "",
+      displayName: "",
+      photoUrl: ""
+    }
   },
 
   reducers: {
@@ -14,7 +20,13 @@ const authSlice = createSlice({
     },
     logout: (state) => {
       state.isAuthenticated = false;
-      state.user = null;
+      // state.user = null;
+      state.user = {
+        email: "",
+        uid: "",
+        displayName: "",
+        photoUrl: ""
+      };
     },
   }
 })

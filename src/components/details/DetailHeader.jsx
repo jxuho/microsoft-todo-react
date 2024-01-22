@@ -35,7 +35,7 @@ const DetailHeader = ({ taskId, todo }) => {
   const [isActive, setIsActive] = useState(false);
 
   const [changeTaskTodoApi] = useChangeTaskTodoApiMutation();
-  const user = useSelector((state) => state.auth.user);
+  const userId = useSelector((state) => state.auth.user.uid);
 
   const [setCompleteTodoApi] = useSetCompleteTodoApiMutation();
   const [setImportanceTodoApi] = useSetImportanceTodoApiMutation();
@@ -50,9 +50,9 @@ const DetailHeader = ({ taskId, todo }) => {
   const completedHandler = () => {
     if (!todo) return;
     if (todoComplete) {
-      setCompleteTodoApi({ todoId: todo.id, user, value: false });
+      setCompleteTodoApi({ todoId: todo.id, userId, value: false });
     } else {
-      setCompleteTodoApi({ todoId: todo.id, user, value: true, newTaskId: uuid() });
+      setCompleteTodoApi({ todoId: todo.id, userId, value: true, newTaskId: uuid() });
       
       setIsFocused(false);
       setIsActive(false);
@@ -62,11 +62,11 @@ const DetailHeader = ({ taskId, todo }) => {
   const importanceHandler = () => {
     if (!todo) return;
     if (todoImportance) {
-      setImportanceTodoApi({ todoId: todo.id, user, value: "" });
+      setImportanceTodoApi({ todoId: todo.id, userId, value: "" });
     } else {
       setImportanceTodoApi({
         todoId: todo.id,
-        user,
+        userId,
         value: new Date().toISOString(),
       });
     }
@@ -80,7 +80,7 @@ const DetailHeader = ({ taskId, todo }) => {
         return;
       }
 
-      changeTaskTodoApi({ todoId: todo.id, user, value: newTask });
+      changeTaskTodoApi({ todoId: todo.id, userId, value: newTask });
     }
     setIsFocused(false);
     setIsActive(false);

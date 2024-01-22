@@ -25,7 +25,7 @@ export const userApiSlice = firestoreApi.injectEndpoints({
 
           return { data: docData };
         } catch (error) {
-          console.error(error.message);
+          console.log(error.message);
           return { error: error.message };
         }
       },

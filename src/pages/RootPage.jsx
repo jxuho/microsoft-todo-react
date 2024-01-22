@@ -2,7 +2,7 @@ import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import Header from "../components/header/Header";
 import Sidebar from "../components/sidebar/Sidebar";
 import TaskDetail from "../components/details/TaskDetail";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Suspense, useEffect } from "react";
 import {
   initializeActiveStep,
@@ -23,32 +23,31 @@ import { useGetTodosApiQuery } from "../api/todoApiSlice";
 import InformationModal from "../components/modals/InformationModal";
 import { useGetSortApiQuery } from "../api/sortApiSlice";
 import { useGetGroupApiQuery } from "../api/groupApiSlice";
+import { useGetUiApiQuery } from "../api/uiApiSlice";
 
 const RootPage = () => {
   const location = useLocation();
   const dispatch = useDispatch();
-  const { isLoading: isAuthLoading } = useAuth();
+  const { isLoggedIn, isLoading: isAuthLoading, userId } = useAuth();
   const navigate = useNavigate();
-  const user = useSelector((state) => state.auth.user);
 
-  // console.log("rootpage render");
+  // console.log("RootPage");
 
-  const { data: todos, isLoading: isTodosLoading } = useGetTodosApiQuery(
-    user?.uid,
-    {
-      skip: !user,
-    }
-  );
-
-  const { isLoading: isSortLoading } = useGetSortApiQuery(user?.uid, {
-    skip: !user,
+  const { isLoading: isTodosLoading } = useGetTodosApiQuery(userId, {
+    skip: !userId,
   });
 
-  const { isLoading: isGroupLoading } = useGetGroupApiQuery(user?.uid, {
-    skip: !user,
+  const { isLoading: isSortLoading } = useGetSortApiQuery(userId, {
+    skip: !userId,
   });
 
+  const { isLoading: isGroupLoading } = useGetGroupApiQuery(userId, {
+    skip: !userId,
+  });
 
+  const { isLoading: isUiLoading } = useGetUiApiQuery(userId, {
+    skip: !userId,
+  });
 
   useUpdateMyday();
   useRemindNotification();
@@ -62,16 +61,22 @@ const RootPage = () => {
   }, [location]);
 
   useEffect(() => {
-    if (!isAuthLoading && !user) {
+    if (!isAuthLoading && !isLoggedIn) {
       console.log("navigate to sign in");
       navigate("/user/signin");
     }
-  }, [isAuthLoading, user, navigate]);
+  }, [isAuthLoading, isLoggedIn, navigate]);
 
-  if (isAuthLoading || isTodosLoading || (!isTodosLoading && !todos)) {
-    // if (isAuthLoading || isTodosLoading || isSortLoading || isGroupLoading) {
-    // 한번에 모든 useQuery에 대한 loading을 처리하는게 바람직한가?
-    // 로딩이 너무 길어지지는 않는가?
+  // if (isAuthLoading || isTodosLoading || (!isTodosLoading && !todos)) {
+  if (
+    isAuthLoading ||
+    isTodosLoading ||
+    isSortLoading ||
+    isGroupLoading ||
+    isUiLoading ||
+    (!isAuthLoading && !isLoggedIn)
+  ) {
+    // console.log('loading...');
     return <Loading />;
   }
 

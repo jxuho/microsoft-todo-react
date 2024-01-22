@@ -52,8 +52,9 @@ const AccountManager = () => {
         dispatch(initializeUi());
         dispatch(initializeActive());
         dispatch(initializeSearch());
+        
 
-        // navigate('/user/signin')
+        navigate('/user/signin')
       })
       .catch((error) => {
         console.log(error);

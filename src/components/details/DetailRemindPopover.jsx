@@ -33,7 +33,7 @@ const DetailRemindPopover = ({ taskId, todo }) => {
   const [isHover, setIsHover] = useState(false);
   const [tooltipOpen, setTooltipOpen] = useState(false);
 
-  const user = useSelector((state) => state.auth.user);
+  const userId = useSelector((state) => state.auth.user.uid);
   const [changeOptionTodoApi] = useChangeOptionTodoApiMutation();
   const [setRemindedTodoApi] = useSetRemindedTodoApiMutation();
 
@@ -113,13 +113,13 @@ const DetailRemindPopover = ({ taskId, todo }) => {
 
     changeOptionTodoApi({
       todoId: taskId,
-      user,
+      userId,
       option: "remind",
       content,
       currentLocation: location.pathname,
     });
 
-    setRemindedTodoApi({ todoId: taskId, user, value: false });
+    setRemindedTodoApi({ todoId: taskId, userId, value: false });
 
     setPopoverOpen(false);
   };
@@ -129,13 +129,13 @@ const DetailRemindPopover = ({ taskId, todo }) => {
 
     changeOptionTodoApi({
       todoId: taskId,
-      user,
+      userId,
       option: "remind",
       content: "",
       currentLocation: location.pathname,
     });
 
-    setRemindedTodoApi({ todoId: taskId, user, value: false });
+    setRemindedTodoApi({ todoId: taskId, userId, value: false });
 
     setPopoverOpen(false);
   };

@@ -19,12 +19,13 @@ const Myday = () => {
   const { width: viewportWidth } = useViewport();
   const dispatch = useDispatch();
   
-  const user = useSelector((state) => state.auth.user);
+  const userId = useSelector((state) => state.auth.user.uid);
+
   const {
     data: sortData,
     isError: isSortError,
     error: sortError,
-  } = useGetSortApiQuery(user?.uid, { skip: !user });
+  } = useGetSortApiQuery(userId, { skip: !userId });
   
   const {
     data: uiData,
@@ -32,12 +33,15 @@ const Myday = () => {
     isSuccess: isUiSuccess,
     isError: isUiError,
     error: uiError,
-  } = useGetUiApiQuery(user?.uid);
+  } = useGetUiApiQuery(userId, { skip: !userId });
+  
+  // console.log("MYDAY");
+  
   const detailWidth = uiData?.detailWidth;
 
   const isSortOptionSelected = sortData?.myday.sortBy;
 
-  const { data: groupData } = useGetGroupApiQuery(user?.uid, { skip: !user });
+  const { data: groupData } = useGetGroupApiQuery(userId, { skip: !userId });
 
   const isGroupOptionSelected = groupData?.myday;
 

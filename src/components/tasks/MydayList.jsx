@@ -14,26 +14,30 @@ const MydayList = ({ currentLocation }) => {
   const [todoArr, setTodoArr] = useState([]);
   const activeRange = useSelector((state) => state.active.activeRange);
   
-  const user = useSelector((state) => state.auth.user);
+  // const userId = useSelector((state) => state.auth.user.uid);
+  const userId = useSelector((state) => state.auth.user.uid);
+
+
+
   const {
     data: todos,
     error,
     isLoading: isTodosLoading,
     refetch,
-  } = useGetTodosApiQuery(user?.uid, { skip: !user });
+  } = useGetTodosApiQuery(userId, { skip: !userId });
   
   const {
     data: sortData,
     isError: isSortError,
     error: sortError,
-  } = useGetSortApiQuery(user?.uid, { skip: !user });
+  } = useGetSortApiQuery(userId, { skip: !userId });
   
   const sortOrder = sortData?.myday?.order;
   const sortBy = sortData?.myday?.sortBy;
   
   
   
-  const {data: groupData} = useGetGroupApiQuery(user?.uid, { skip: !user })
+  const {data: groupData} = useGetGroupApiQuery(userId, { skip: !userId })
   
   const groupBy = groupData?.myday
 

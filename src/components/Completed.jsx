@@ -19,19 +19,19 @@ const Completed = () => {
   const dispatch = useDispatch();
   const [todoArr, setTodoArr] = useState([]);
   const isSidebarOpen = useSelector((state) => state.ui.sidebar);
-  const user = useSelector((state) => state.auth.user);
+  const userId = useSelector((state) => state.auth.user.uid);
   const {
     data: todos,
     error: todosError,
     isLoading: isTodosLoading,
     refetch: todosRefetch,
-  } = useGetTodosApiQuery(user?.uid, { skip: !user });
+  } = useGetTodosApiQuery(userId, { skip: !userId });
 
   const {
     data: sortData,
     isError: isSortError,
     error: sortError,
-  } = useGetSortApiQuery(user?.uid);
+  } = useGetSortApiQuery(userId, { skip: !userId });
 
   const [setSortByApi] = useSetSortByApiMutation();
 
@@ -46,12 +46,12 @@ const Completed = () => {
   useEffect(() => {
     try {
       setSortByApi({
-        userId: user.uid,
+        userId,
         location: "completed",
         sortBy: "completed",
       });
     } catch (error) {
-      console.error(error);
+      console.log(error);
     }
   }, []);
 

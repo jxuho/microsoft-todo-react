@@ -5,14 +5,14 @@ import { useEffect } from "react";
 
 const useGetTodos = () => {
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.auth.user);
+  const userId = useSelector((state) => state.auth.user.uid);
 
   const {
     data: todoArrData,
     error,
     isLoading: isTodoLoading,
     refetch,
-  } = useGetTodosApiQuery(user?.uid, { skip: !user?.uid });
+  } = useGetTodosApiQuery(userId, { skip: !userId });
 
 
   useEffect(() => {

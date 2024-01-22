@@ -24,18 +24,19 @@ const Inbox = () => {
   const dispatch = useDispatch();
   const [todoArr, setTodoArr] = useState([]);
 
-  const user = useSelector((state) => state.auth.user);
+  const userId = useSelector((state) => state.auth.user.uid);
 
   const {
     data: sortData,
     isError: isSortError,
     error: sortError,
-  } = useGetSortApiQuery(user?.uid);
-  const isSortOptionSelected = sortData.tasks.sortBy;
-  const sortOrder = sortData.tasks.order;
-  const sortBy = sortData.tasks.sortBy;
+  } = useGetSortApiQuery(userId, { skip: !userId });
 
-  const { data: groupData } = useGetGroupApiQuery(user?.uid, { skip: !user });
+  const isSortOptionSelected = sortData?.tasks.sortBy;
+  const sortOrder = sortData?.tasks.order;
+  const sortBy = sortData?.tasks.sortBy;
+
+  const { data: groupData } = useGetGroupApiQuery(userId, { skip: !userId });
 
   const groupBy = groupData?.tasks;
   const isGroupOptionSelected = groupData?.tasks;
@@ -45,7 +46,7 @@ const Inbox = () => {
     error,
     isLoading: isTodosLoading,
     refetch,
-  } = useGetTodosApiQuery(user?.uid, { skip: !user });
+  } = useGetTodosApiQuery(userId, { skip: !userId });
 
   const openSidebarHandler = () => {
     dispatch(openSidebar());

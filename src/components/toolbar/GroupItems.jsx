@@ -5,7 +5,7 @@ import { useSetGroupByApiMutation } from "../../api/groupApiSlice";
 const GroupItems = ({ onItemClick, currentLocation }) => {
   if (currentLocation === "today") currentLocation = "myday";
 
-  const user = useSelector((state) => state.auth.user);
+  const userId = useSelector((state) => state.auth.user.uid);
 
   const [setGroupByApi] = useSetGroupByApiMutation();
 
@@ -13,12 +13,12 @@ const GroupItems = ({ onItemClick, currentLocation }) => {
     onItemClick();
     try {
       setGroupByApi({
-        userId: user.uid,
+        userId: userId,
         location: currentLocation,
         groupBy: "category",
       });
     } catch (error) {
-      console.error(error);
+      console.log(error);
     }
   };
 

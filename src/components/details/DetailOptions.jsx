@@ -9,7 +9,7 @@ import { useSetMydayTodoApiMutation } from "../../api/todoApiSlice";
 const DetailOptions = ({ taskId, todo }) => {
   const [isMyday, setIsMyday] = useState(false);
   const [isMydayHover, setIsMydayHover] = useState(false);
-  const user = useSelector((state) => state.auth.user);
+  const userId = useSelector((state) => state.auth.user.uid);
   const [setMydayTodoApi] = useSetMydayTodoApiMutation();
 
   const todoMyday = todo?.myday;
@@ -20,13 +20,13 @@ const DetailOptions = ({ taskId, todo }) => {
 
   const addMydayHandler = () => {
     if (!todoMyday) {
-      setMydayTodoApi({ todoId: taskId, user, value: true });
+      setMydayTodoApi({ todoId: taskId, userId, value: true });
     }
   };
 
   const removeMydayHandler = () => {
     if (todoMyday) {
-      setMydayTodoApi({ todoId: taskId, user, value: false });
+      setMydayTodoApi({ todoId: taskId, userId, value: false });
     }
   };
 

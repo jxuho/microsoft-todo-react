@@ -10,10 +10,12 @@ export const sortApiSlice = firestoreApi.injectEndpoints({
     getSortApi: builder.query({
       async queryFn(userId) {
         if (!userId) {
-          console.error("no user id");
+          // console.log("no user id");
           return { data: {} };
         }
         try {
+          // console.log("getSortApi");
+
           const docRef = doc(db, `users/${userId}/preference`, "sortDoc");
           const docSnap = await getDoc(docRef);
 
@@ -70,7 +72,7 @@ export const sortApiSlice = firestoreApi.injectEndpoints({
         }
       },
 
-      // invalidatesTags: ["sort"],
+      invalidatesTags: ["sort"],
     }),
 
     changeSortOrderApi: builder.mutation({
@@ -101,7 +103,7 @@ export const sortApiSlice = firestoreApi.injectEndpoints({
           patchResult.undo();
         }
       },
-      // invalidatesTags: ["sort"],
+      invalidatesTags: ["sort"],
     }),
 
     initializeSortApi: builder.mutation({
@@ -135,7 +137,7 @@ export const sortApiSlice = firestoreApi.injectEndpoints({
           patchResult.undo();
         }
       },
-      // invalidatesTags: ["sort"],
+      invalidatesTags: ["sort"],
     }),
   }),
 });

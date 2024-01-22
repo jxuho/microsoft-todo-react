@@ -35,7 +35,7 @@ const AddTask = ({ currentLocation }) => {
   const remindRef = useRef();
   const repeatRef = useRef();
   const inputRef = useRef();
-  const user = useSelector((state) => state.auth.user);
+  const userId = useSelector((state) => state.auth.user.uid);
 
   const [addTodoApi] = useAddTodoApiMutation();
 
@@ -82,7 +82,7 @@ const AddTask = ({ currentLocation }) => {
       importance: isImportant,
     };
     try {
-      addTodoApi({ todo: newTask, user });
+      addTodoApi({ todo: newTask, userId });
     } catch (error) {
       console.log(error.message);
     }

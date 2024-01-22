@@ -25,7 +25,7 @@ const DetailNote = lazy(() => import("./DetailNote"));
 const Details = ({ taskId, todos }) => {
   const location = useLocation();
   const todo = todos.find((todo) => todo.id === taskId);
-  const user = useSelector((state) => state.auth.user);
+  const userId = useSelector((state) => state.auth.user.uid);
   const [changeOptionTodoApi] = useChangeOptionTodoApiMutation();
 
   useEffect(() => {
@@ -34,7 +34,7 @@ const Details = ({ taskId, todos }) => {
     if (!todo.dueDate && todo.repeatRule) {
       changeOptionTodoApi({
         todoId: taskId,
-        user,
+        userId,
         option: "repeatRule",
         content: "",
         currentLocation: location.pathname,
@@ -51,7 +51,7 @@ const Details = ({ taskId, todos }) => {
 
         changeOptionTodoApi({
           todoId: taskId,
-          user,
+          userId,
           option: "dueDate",
           content: getLastTimeOfDay().toISOString(),
           currentLocation: location.pathname,
@@ -61,7 +61,7 @@ const Details = ({ taskId, todos }) => {
 
         changeOptionTodoApi({
           todoId: taskId,
-          user,
+          userId,
           option: "dueDate",
           content: getNextClosestDayOfWeekFromDate(
             today,
@@ -115,10 +115,10 @@ export default Details;
 // useEffect(() => {
 //   // due 제거되면 repeat도 제거
 //   if (!todo.dueDate && todo.repeatRule) {
-//     if (user) {
+//     if (userId) {
 //       changeOptionTodoApi({
 //         todoId: taskId,
-//         user,
+//         userId,
 //         option: "repeatRule",
 //         content: "",
 //         currentLocation: location.pathname,
@@ -141,10 +141,10 @@ export default Details;
 //   if (todo.repeatRule && !todo.dueDate) {
 //     if (todo.repeatRule.split("-").length === 2) {
 //       // due를 getLastTimeOfDay()로 설정
-//       if (user) {
+//       if (userId) {
 //         changeOptionTodoApi({
 //           todoId: taskId,
-//           user,
+//           userId,
 //           option: "dueDate",
 //           content: getLastTimeOfDay().toISOString(),
 //           currentLocation: location.pathname,
@@ -161,10 +161,10 @@ export default Details;
 //       }
 //     } else {
 //       const today = new Date();
-//       if (user) {
+//       if (userId) {
 //         changeOptionTodoApi({
 //           todoId: taskId,
-//           user,
+//           userId,
 //           option: "dueDate",
 //           content: getNextClosestDayOfWeekFromDate(
 //             today,

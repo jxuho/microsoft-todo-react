@@ -1,16 +1,15 @@
-import { useSelector } from "react-redux";
 import { Navigate, Outlet } from "react-router-dom"
-import { useLocalStorage } from "../hooks/useLocalStorage";
-import useTitle from "../hooks/useTitle";
+import useAuth from "../hooks/useAuth";
+import Loading from "./Loading";
 
 const ProtectedLayout = () => {
-  const user = useSelector((state) => state.auth.user);
-  const [localStorageUser, setLocalStorageUser] = useLocalStorage("user", null);
+  const { isLoggedIn, isLoading: isAuthLoading, userId } = useAuth();
 
-  useTitle()
+  if (isAuthLoading) {
+    return <Loading/>
+  }
 
-  if (localStorageUser || user) {
-    // console.log("GOTO ROOT");
+  if (isLoggedIn) {
     return <Navigate to={"/"}/>  
   }
 

@@ -5,10 +5,10 @@ import { useGetTodosApiQuery, useSetMydayTodoApiMutation } from "../api/todoApiS
 import { useGetUserApiQuery, useSetUpdatedApiMutation } from "../api/userApiSlice";
 
 const useUpdateMyday = () => {
-  const user = useSelector((state) => state.auth.user);
+  const userId = useSelector((state) => state.auth.user?.uid);
   const [setMydayTodoApi] = useSetMydayTodoApiMutation();
   
-  const {data: userData} = useGetUserApiQuery(user?.uid)
+  const {data: userData} = useGetUserApiQuery(userId, { skip: !userId })
   const [setUpdatedApi] = useSetUpdatedApiMutation()
   
   const {
@@ -16,7 +16,7 @@ const useUpdateMyday = () => {
     error,
     isLoading: isTodosLoading,
     refetch,
-  } = useGetTodosApiQuery(user?.uid, { skip: !user });
+  } = useGetTodosApiQuery(userId, { skip: !userId });
 
 
   // console.log('useUpdateMyday');
@@ -24,7 +24,7 @@ const useUpdateMyday = () => {
   useEffect(() => {
     // reload될 때, 날짜 변경됐으면 myday변경
     // db의 updated 항목이 오늘 toDateString과 일치하면 pass, 일치하지 않으면 아래 코드 실행하고 today를 오늘로 설정.
-    if (!todos || !user || !userData) return;
+    if (!todos || !userId || !userData) return;
 
     if (userData.updated === new Date().toDateString()) return;
     
@@ -35,25 +35,25 @@ const useUpdateMyday = () => {
         todo.myday &&
         !isDateToday(new Date(todo.dueDate))
       ) {
-        setMydayTodoApi({ todoId: todo.id, user, value: false });
+        setMydayTodoApi({ todoId: todo.id, userId, value: false });
       } else if (
         !isDateToday(new Date(todo.created)) &&
         isDateToday(new Date(todo.dueDate))
       ) {
-        setMydayTodoApi({ todoId: todo.id, user, value: true });
+        setMydayTodoApi({ todoId: todo.id, userId, value: true });
       } else if (
         !todo.dueDate &&
         !isDateToday(new Date(todo.created)) &&
         todo.myday
       ) {
-        setMydayTodoApi({ todoId: todo.id, user, value: false });
+        setMydayTodoApi({ todoId: todo.id, userId, value: false });
       }
     });
 
-    setUpdatedApi({userId: user.uid, updated: new Date().toDateString()})
+    setUpdatedApi({userId: userId, updated: new Date().toDateString()})
 
 
-  }, [todos, user, userData]);
+  }, [todos, userId, userData]);
 };
 
 export default useUpdateMyday;

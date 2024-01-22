@@ -7,19 +7,19 @@ import { useSetSortByApiMutation } from "../../api/sortApiSlice";
 
 const ImportantSortItems = ({ onItemClick, currentLocation }) => {
   // 현재 페이지 가지고와서, 페이지에 따라 render 다르게해야 한다
-  const user = useSelector((state) => state.auth.user);
+  const userId = useSelector((state) => state.auth.user.uid);
   const [setSortByApi] = useSetSortByApiMutation();
 
   const dueDateHandler = async () => {
     onItemClick();
     try {
       setSortByApi({
-        userId: user.uid,
+        userId,
         location: currentLocation,
         sortBy: "dueDate",
       });
     } catch (error) {
-      console.error(error.message);
+      console.log(error.message);
     }
   };
 
@@ -27,12 +27,12 @@ const ImportantSortItems = ({ onItemClick, currentLocation }) => {
     onItemClick();
     try {
       setSortByApi({
-        userId: user.uid,
+        userId,
         location: currentLocation,
         sortBy: "alphabetically",
       });
     } catch (error) {
-      console.error(error.message);
+      console.log(error.message);
     }
   };
 
@@ -40,12 +40,12 @@ const ImportantSortItems = ({ onItemClick, currentLocation }) => {
     onItemClick();
     try {
       setSortByApi({
-        userId: user.uid,
+        userId,
         location: currentLocation,
         sortBy: "creationDate",
       });
     } catch (error) {
-      console.error(error.message);
+      console.log(error.message);
     }
   };
 
@@ -53,12 +53,12 @@ const ImportantSortItems = ({ onItemClick, currentLocation }) => {
     onItemClick();
     try {
       setSortByApi({
-        userId: user.uid,
+        userId,
         location: currentLocation,
         sortBy: "myday",
       });
     } catch (error) {
-      console.error(error.message);
+      console.log(error.message);
     }
   };
 

@@ -14,13 +14,13 @@ const PlannedList = () => {
   const activeTasksId = useSelector((state) => state.active.activeTasks);
   
   
-  const user = useSelector((state) => state.auth.user);
+  const userId = useSelector((state) => state.auth.user.uid);
   const {
     data: todos,
     error,
     isLoading: isTodosLoading,
     refetch,
-  } = useGetTodosApiQuery(user?.uid, { skip: !user });
+  } = useGetTodosApiQuery(userId, { skip: !userId });
 
 
 
