@@ -74,12 +74,13 @@ const SignIn = () => {
           await setDoc(doc(db, "users", signInResult.user.uid), {
             email: signInResult.user.email,
           });
-
+          
           navigate("/");
         }
       } catch (error) {
         console.log(error);
       }
+      setIsLoading(false);
     };
 
     if (localStorageRedirect) {
@@ -195,6 +196,7 @@ const SignIn = () => {
     } catch (error) {
       console.log(error);
     }
+    setIsLoading(false)
   };
 
 

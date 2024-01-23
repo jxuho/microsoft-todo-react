@@ -16,6 +16,7 @@ const PlannedPage = lazy(() => import("./pages/PlannedPage"));
 const CompletedPage = lazy(() => import("./pages/CompletedPage"));
 const InboxPage = lazy(() => import("./pages/InboxPage"));
 const SearchPage = lazy(() => import("./pages/SearchPage"));
+const MyAccountPage = lazy(() => import("./pages/MyAccountPage"))
 
 const router = createBrowserRouter([
   {
@@ -57,6 +58,10 @@ const router = createBrowserRouter([
       {
         path: "search/:query?",
         element: <SearchPage />,
+      },
+      {
+        path: "/myaccount",
+        element: <MyAccountPage/>,
       },
     ],
   },
@@ -142,6 +147,9 @@ export default App;
  * (complete) groupSlice, sortSlice -> sortApiSlice, groupApiSlice로 migrate
  * (complete) detailWidth 초기값 api slice에서 설정 -> TaskDetail 간단하게 하기
  * (complete) OAuth & 로그인 페이지 기능 추가하기
+ * (complete) login state에 대한 check가 redux를 통하지 않고, firebase에서 직접 받아온 정보여야 한다
+ * (complete) signout했을 때, refresh 되도록 설정?
+ * (complete) 브라우저 종료 후 켰을 때 계정 정보 초기화
  *
  *
  *
@@ -149,16 +157,15 @@ export default App;
  *
  * <할것>
  *
- * login state에 대한 check가 redux를 통하지 않고, firebase에서 직접 받아온 정보여야 한다
  *
- * 브라우저 종료 후 켰을 때 계정 정보 초기화
- * signout했을 때, refresh 되도록 설정?
  *
  *
  * 계정 삭제, 비밀번호 변경 가능한 mypage 만들기
  * 계정 삭제되면 firestore, storage에 연결된 데이터도 삭제하기
  *
  *
+ * 잘못된 route 처리 (/abc)
+ * 
  *
  * 계정 새로 생성됐을 때 작동 확인하기
  *

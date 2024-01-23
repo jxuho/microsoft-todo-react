@@ -34,7 +34,7 @@ const useRemindNotification = () => {
     }
 
     const intervalId = setInterval(() => {
-      console.log("setInterval");
+      // console.log("Interval");
       const currentTime = new Date();
       for (const todo of todos) {
         if (

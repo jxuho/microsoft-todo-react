@@ -14,14 +14,14 @@ const useAuth = () => {
 
   useEffect(() => {
 
-    console.log("AUTH EFFECT");
+    // console.log("AUTH EFFECT");
 
     setIsLoading(true)
     const auth = getAuth();
     const unsubscribe = onAuthStateChanged(auth, (authUser) => {
       if (authUser) {
 
-        console.log("AUTH CHECKED");
+        // console.log("AUTH CHECKED");
 
         setIsLoggedIn(true)
         dispatch(

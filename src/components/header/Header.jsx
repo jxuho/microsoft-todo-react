@@ -87,7 +87,7 @@ const Header = () => {
 
       <div className="flex flex-1 justify-start items-center">
         <div className="pl-2 pr-3 hover:underline text-base font-semibold whitespace-nowrap">
-          <Link to="/">To Do</Link>
+          <a href="/">To Do</a>
         </div>
         <Searchbar />
 

@@ -52,13 +52,17 @@ const AccountManager = () => {
         dispatch(initializeUi());
         dispatch(initializeActive());
         dispatch(initializeSearch());
-        
 
-        navigate('/user/signin')
+        // navigate('/user/signin')
+        // window.location.pathname = "/user/signin";
       })
       .catch((error) => {
         console.log(error);
       });
+  };
+
+  const myAccountClickHandler = () => {
+    window.location.pathname = "/myaccount";
   };
 
   return (
@@ -93,6 +97,12 @@ const AccountManager = () => {
                     {user.displayName ?? user.email}
                   </div>
                   <div className="mt-1 font-semibold">{user.email}</div>
+                  <div
+                    className="mt-1 font-semibold underline text-ms-blue-hover hover:cursor-pointer"
+                    onClick={myAccountClickHandler}
+                  >
+                    My account
+                  </div>
                 </div>
               </div>
               <div

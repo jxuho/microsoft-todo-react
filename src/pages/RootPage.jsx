@@ -31,7 +31,7 @@ const RootPage = () => {
   const { isLoggedIn, isLoading: isAuthLoading, userId } = useAuth();
   const navigate = useNavigate();
 
-  console.log("RootPage");
+  // console.log("RootPage");
 
   const { isLoading: isTodosLoading } = useGetTodosApiQuery(userId, {
     skip: !userId,
@@ -55,6 +55,7 @@ const RootPage = () => {
   useTitle();
 
   useEffect(() => {
+    // console.log(location.key);
     dispatch(initializeActiveTasks());
     dispatch(initializeActiveStep());
     dispatch(closeDetail());
