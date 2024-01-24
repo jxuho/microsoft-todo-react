@@ -64,7 +64,8 @@ const RootPage = () => {
   useEffect(() => {
     if (!isAuthLoading && !isLoggedIn) {
       console.log("navigate to sign in");
-      navigate("/user/signin");
+      // navigate("/user/signin");
+      window.location.pathname = "/user/signin";
     }
   }, [isAuthLoading, isLoggedIn, navigate]);
 

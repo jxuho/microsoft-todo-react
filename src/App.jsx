@@ -8,6 +8,7 @@ import SignUpPage from "./pages/SignUpPage";
 import ProtectedLayout from "./components/ProtectedLayout";
 import { Suspense, lazy } from "react";
 import Loading from "./components/Loading";
+import ChangePassword from "./components/account/ChangePassword";
 
 const RootPage = lazy(() => import("./pages/RootPage"));
 const MydayPage = lazy(() => import("./pages/MydayPage"));
@@ -16,7 +17,7 @@ const PlannedPage = lazy(() => import("./pages/PlannedPage"));
 const CompletedPage = lazy(() => import("./pages/CompletedPage"));
 const InboxPage = lazy(() => import("./pages/InboxPage"));
 const SearchPage = lazy(() => import("./pages/SearchPage"));
-const MyAccountPage = lazy(() => import("./pages/MyAccountPage"))
+const MyAccountPage = lazy(() => import("./pages/MyAccountPage"));
 
 const router = createBrowserRouter([
   {
@@ -61,7 +62,16 @@ const router = createBrowserRouter([
       },
       {
         path: "/myaccount",
-        element: <MyAccountPage/>,
+        children: [
+          {
+            index: true,
+            element: <MyAccountPage />,
+          },
+          {
+            path: "changepassword",
+            element: <ChangePassword />,
+          },
+        ],
       },
     ],
   },
@@ -157,15 +167,19 @@ export default App;
  *
  * <할것>
  *
- *
- *
+ * 로딩 페이지 dark mode
+ * 
+ * Signin component에서 google provider(ljhcow@knou.ac.kr)입력하면 계정 연결하도록 설정
+ * 
+ * 이메일 사용 signup할 때, 메일 인증
+ * provider와 기존 계정 연결하기 (firebase auth - settings 설정 참고)
  *
  * 계정 삭제, 비밀번호 변경 가능한 mypage 만들기
  * 계정 삭제되면 firestore, storage에 연결된 데이터도 삭제하기
  *
  *
  * 잘못된 route 처리 (/abc)
- * 
+ *
  *
  * 계정 새로 생성됐을 때 작동 확인하기
  *
