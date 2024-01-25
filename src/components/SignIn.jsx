@@ -37,6 +37,7 @@ const SignIn = () => {
   const [passwordAlertContent, setPasswordAlertContent] = useState("");
   const [isShowPasswordChecked, setIsShowPasswordChecked] = useState(false);
   const [showSignInOptions, setShowSignInOptions] = useState(false);
+  const [nextButtonDisable, setNextButtonDisable] = useState(false)
 
   const checkboxRef = useRef();
 
@@ -44,50 +45,54 @@ const SignIn = () => {
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const [localStorageRedirect, setLocalStorageRedirect] = useLocalStorage(
-    "isRedirected",
-    false
-  );
+  // const [localStorageRedirect, setLocalStorageRedirect] = useLocalStorage(
+  //   "isRedirected",
+  //   false
+  // );
 
   const googleProvider = new GoogleAuthProvider(); // provider 구글 설정
-  // const facebookProvider = new FacebookAuthProvider();
 
-  // redirect 사용 login
-  useEffect(() => {
-    const redirectResult = async () => {
-      try {
-        setIsLoading(true);
-        const signInResult = await getRedirectResult(auth);
+  // // redirect 사용 login
+  // useEffect(() => {
+  //   const redirectResult = async () => {
+  //     try {
+  //       setIsLoading(true);
+  //       const signInResult = await getRedirectResult(auth);
 
-        // console.log(signInResult);
+  //       console.log(signInResult);
 
-        if (signInResult) {
-          dispatch(
-            login({
-              email: signInResult.user.email,
-              uid: signInResult.user.uid,
-              displayName: signInResult.user.displayName,
-              photoUrl: signInResult.user.photoURL,
-            })
-          );
+  //       if (signInResult) {
+  //         dispatch(
+  //           login({
+  //             email: signInResult.user.email,
+  //             uid: signInResult.user.uid,
+  //             displayName: signInResult.user.displayName,
+  //             photoUrl: signInResult.user.photoURL,
+  //           })
+  //         );
 
-          await setDoc(doc(db, "users", signInResult.user.uid), {
-            email: signInResult.user.email,
-          });
-          
-          navigate("/");
-        }
-      } catch (error) {
-        console.log(error);
-      }
-      setIsLoading(false);
-    };
+  //         await setDoc(doc(db, "users", signInResult.user.uid), {
+  //           email: signInResult.user.email,
+  //         });
 
-    if (localStorageRedirect) {
-      redirectResult();
-      setLocalStorageRedirect(false);
-    }
-  }, []);
+  //         navigate("/");
+  //       }
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //     setIsLoading(false);
+  //   };
+
+  //   console.log('1');
+
+  //   if (localStorageRedirect) {
+  //     console.log('2');
+  //     redirectResult();
+  //     setLocalStorageRedirect(false);
+  //   }
+  // }, []);
+
+
 
   useEffect(() => {
     const handleEnterKeyPress = (event) => {
@@ -101,6 +106,7 @@ const SignIn = () => {
 
   const emailInputHandler = (e) => {
     setEmail(e.target.value);
+    setNextButtonDisable(false)
   };
 
   const passwordInputHandler = (e) => {
@@ -116,13 +122,22 @@ const SignIn = () => {
       );
       try {
         const querySnapshot = await getDocs(emailQuery);
+
         if (querySnapshot.size === 0) {
           setEmailAlertContent(
             "We couldn't find an account with that username. Try another, or get a new Microsoft account."
           );
           setShowEmailAlert(true);
         } else {
-          setShowPasswordTab(true);
+          if (querySnapshot.docs[0]._document.data.value.mapValue.fields.provider.stringValue === "google.com") {
+            setEmailAlertContent(
+              "It looks like you've already linked your account with this email address through Google. Please login through Google."
+            );
+            setNextButtonDisable(true)
+            setShowEmailAlert(true);
+          } else {
+            setShowPasswordTab(true);
+          }
         }
       } catch (error) {
         console.log(error);
@@ -157,10 +172,8 @@ const SignIn = () => {
           setPasswordAlertContent(
             "Please enter the password for your Microsoft account."
           );
-        } else {
-          console.log(error.code);
-          console.log(error.message);
         }
+        console.error(error);
       }
     }
   };
@@ -168,48 +181,35 @@ const SignIn = () => {
   const handleGoogleLogin = async () => {
     try {
       setIsLoading(true);
-      setLocalStorageRedirect(true);
-      // redirect 사용 google login
-      await signInWithRedirect(auth, googleProvider);
+      // // redirect 사용 google login
+      // setLocalStorageRedirect(true);
+      // await signInWithRedirect(auth, googleProvider);
 
-      // // popup 사용 google login
-      // const signInResult = await signInWithPopup(auth, googleProvider);
-      // const userCredential =
-      //   GoogleAuthProvider.credentialFromResult(signInResult);
-      // const token = userCredential.accessToken;
+      // popup 사용 google login
+      const signInResult = await signInWithPopup(auth, googleProvider);
+      const userCredential =
+        GoogleAuthProvider.credentialFromResult(signInResult);
+      const token = userCredential.accessToken;
+      dispatch(
+        login({
+          email: signInResult.user.email,
+          uid: signInResult.user.uid,
+          displayName: signInResult.user.displayName,
+          photoUrl: signInResult.user.photoURL,
+        })
+      );
+      await setDoc(doc(db, "users", signInResult.user.uid), {
+        email: signInResult.user.email,
+        provider: signInResult.user.providerData[0].providerId
+      });
+      navigate("/");
 
-      // console.log(signInResult.user);
-      // dispatch(
-      //   login({
-      //     email: signInResult.user.email,
-      //     uid: signInResult.user.uid,
-      //     displayName: signInResult.user.displayName,
-      //     photoUrl: signInResult.user.photoURL,
-      //   })
-      // );
-
-      // await setDoc(doc(db, "users", signInResult.user.uid), {
-      //   email: signInResult.user.email,
-      // });
-
-      // navigate("/");
+      
     } catch (error) {
       console.log(error);
     }
-    setIsLoading(false)
+    setIsLoading(false);
   };
-
-
-  // const handleFacebookLogin = async () => {
-  //   try {
-  //     setIsLoading(true);
-  //     setLocalStorageRedirect(true);
-  //     await signInWithRedirect(auth, facebookProvider);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // }
-
 
   if (isLoading) {
     return <Loading />;
@@ -316,26 +316,6 @@ const SignIn = () => {
                   </div>
                 </div>
               </div>
-              {/* <div
-                className="flex flex-col hover:bg-ms-white-hover hover:cursor-pointer py-3 px-11 ml-[-44px] mr-[-44px]"
-                onClick={handleFacebookLogin}
-              >
-                <div className="flex flex-row">
-                  <img
-                    src="/public\googleLogo.png"
-                    alt="goole logo"
-                    className="w-10 h-10"
-                  />
-                  <div className="flex flex-col w-full px-3">
-                    <p className="text-ms-text-dark font-medium">
-                      Sign in with Facebook
-                    </p>
-                    <p className="text-ms-light-text text-sm">
-                      Redirects to the sign in page
-                    </p>
-                  </div>
-                </div>
-              </div> */}
             </div>
           )}
 
@@ -347,8 +327,9 @@ const SignIn = () => {
               Back
             </button>
             <button
-              className="py-1 px-3 bg-ms-blue min-w-[108px] min-h-[32px] text-white hover:bg-ms-blue-hover"
+              className={`py-1 px-3 bg-ms-blue min-w-[108px] min-h-[32px] text-white hover:bg-ms-blue-hover ${nextButtonDisable && "bg-ms-scrollbar hover:bg-ms-scrollbar hover:cursor-not-allowed"}`}
               onClick={nextButtonClickHandler}
+              disabled={nextButtonDisable}
             >
               Next
             </button>

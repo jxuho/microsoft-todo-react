@@ -5,7 +5,7 @@ import {
   reauthenticateWithCredential,
   updatePassword,
 } from "firebase/auth";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const ChangePassword = () => {
   const navigate = useNavigate();
@@ -148,6 +148,11 @@ const ChangePassword = () => {
     window.location.pathname = "/myaccount";
   };
 
+  if (auth.currentUser.providerData[0].providerId !== "password") {
+    return <Navigate to={"/myaccount"}/>
+  }
+
+
   if (showMessage.changeSuccess) {
     return (
       <div className="w-full h-full flex justify-center items-center">
@@ -160,9 +165,8 @@ const ChangePassword = () => {
         >
           <form
             className="flex flex-col m-6"
-            onSubmit={submitNewPasswordHandler}
           >
-            <h1 className="text-xl font-normal mb-10">Change Succeed</h1>
+            <h1 className="text-xl font-normal mb-10">Password is successfully changed</h1>
 
             <div className="flex justify-center items-center">
               <button
@@ -277,4 +281,7 @@ const ChangePassword = () => {
   );
 };
 
+
+
 export default ChangePassword;
+

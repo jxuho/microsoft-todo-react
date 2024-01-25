@@ -10,7 +10,7 @@ const ProtectedLayout = () => {
   }
 
   if (isLoggedIn) {
-    console.log('navigate to root');
+    // console.log('navigate to root');
     return <Navigate to={"/"} />;
   }
 

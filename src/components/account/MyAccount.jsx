@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
-import {  MdKeyboardArrowRight } from "react-icons/md";
-import { PiUserCircleThin,PiTrashThin,PiKeyThin } from "react-icons/pi";
+import { MdKeyboardArrowRight } from "react-icons/md";
+import { PiUserCircleThin, PiTrashThin, PiKeyThin } from "react-icons/pi";
 import { signOut } from "firebase/auth";
 import { auth } from "../../firebase";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
@@ -28,8 +28,8 @@ import { Outlet, useLocation, useNavigate } from "react-router-dom";
  */
 const MyAccount = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate()
-  const location = useLocation()
+  const navigate = useNavigate();
+  const location = useLocation();
   const user = useSelector((state) => state.auth.user);
   const [localStorageUser, setLocalStorageUser] = useLocalStorage("user", null);
 
@@ -53,10 +53,20 @@ const MyAccount = () => {
 
   const changePasswordHandler = () => {
     // navigate("changepassword")
+
+    if (auth.currentUser.providerData[0].providerId !== "password") {
+      console.log(auth.currentUser.providerData[0].providerId);
+      console.log("This account is not connected with email address");
+      return;
+    }
+
     window.location.pathname = "/myaccount/changepassword";
-  }
+  };
 
-
+  const updateProfileHandler = () => {
+    // console.log(auth.currentUser);
+    window.location.pathname = "/myaccount/updateprofile";
+  };
 
   return (
     <div className="w-full h-full p-12 mx-auto max-w-[1680px] overflow-auto">
@@ -69,7 +79,7 @@ const MyAccount = () => {
           }}
         >
           <div className="flex flex-col items-center">
-            <div className="w-20 h-20">
+            <div className="w-20 h-20 overflow-hidden rounded-full">
               {user.photoUrl ? (
                 <img
                   className="rounded-full"
@@ -100,7 +110,7 @@ const MyAccount = () => {
           </div>
         </div>
 
-        <div
+        {auth.currentUser.providerData[0].providerId === "password" && <div
           className="flex flex-col max-w-xs p-4 bg-white rounded h-full row-span-1"
           style={{
             boxShadow:
@@ -109,7 +119,9 @@ const MyAccount = () => {
         >
           <div className="flex flex-col items-center justify-between h-full mt-4">
             <div className="flex flex-col items-center">
-              <div className="text-2xl font-normal pb-4 max-[400px]:text-lg">Profile</div>
+              <div className="text-2xl font-normal pb-4 max-[400px]:text-lg">
+                Profile
+              </div>
 
               <PiUserCircleThin
                 className="text-ms-light-text scale-x-[-1]"
@@ -121,16 +133,21 @@ const MyAccount = () => {
               </p>
             </div>
 
-            <div className="font-medium text-ms-blue flex hover:underline hover:cursor-pointer pb-2 pt-4 border-t">
-              <span className="uppercase max-[400px]:text-sm">Update Profile</span>
+            <div
+              className="font-medium text-ms-blue flex hover:underline hover:cursor-pointer pb-2 pt-4 border-t"
+              onClick={updateProfileHandler}
+            >
+              <span className="uppercase max-[400px]:text-sm">
+                Update Profile
+              </span>
               <span>
                 <MdKeyboardArrowRight size={"22px"} />
               </span>
             </div>
           </div>
-        </div>
+        </div>}
 
-        <div
+        {auth.currentUser.providerData[0].providerId === "password" &&<div
           className="flex flex-col max-w-xs p-4 bg-white rounded h-full row-span-1"
           style={{
             boxShadow:
@@ -139,7 +156,9 @@ const MyAccount = () => {
         >
           <div className="flex flex-col items-center justify-between h-full mt-4">
             <div className="flex flex-col items-center">
-              <div className="text-2xl font-normal pb-4 max-[400px]:text-lg">Password</div>
+              <div className="text-2xl font-normal pb-4 max-[400px]:text-lg">
+                Password
+              </div>
               <PiKeyThin
                 className="text-ms-light-text scale-x-[-1]"
                 size={"60px"}
@@ -149,16 +168,19 @@ const MyAccount = () => {
                 it.
               </p>
             </div>
-            <div className="font-medium text-ms-blue flex hover:underline hover:cursor-pointer pb-2 pt-4  border-t"
+            <div
+              className="font-medium text-ms-blue flex hover:underline hover:cursor-pointer pb-2 pt-4  border-t"
               onClick={changePasswordHandler}
             >
-              <span className="uppercase max-[400px]:text-xs">Change Password</span>
+              <span className="uppercase max-[400px]:text-xs">
+                Change Password
+              </span>
               <span>
                 <MdKeyboardArrowRight size={"22px"} />
               </span>
             </div>
           </div>
-        </div>
+        </div>}
 
         <div
           className="flex flex-col max-w-xs p-4 bg-white rounded h-full row-span-1 "
@@ -169,7 +191,9 @@ const MyAccount = () => {
         >
           <div className="flex flex-col items-center justify-between h-full mt-4">
             <div className="flex flex-col items-center">
-              <div className="text-2xl font-normal pb-4 max-[400px]:text-lg">Delete Account</div>
+              <div className="text-2xl font-normal pb-4 max-[400px]:text-lg">
+                Delete Account
+              </div>
 
               <PiTrashThin
                 className="text-ms-light-text scale-x-[-1]"
@@ -182,7 +206,9 @@ const MyAccount = () => {
               </p>
             </div>
             <div className="font-medium text-ms-alert-error flex hover:underline hover:cursor-pointer pb-2 pt-4  border-t ">
-              <span className="uppercase max-[400px]:text-xs">Delete Account</span>
+              <span className="uppercase max-[400px]:text-xs">
+                Delete Account
+              </span>
               <span>
                 <MdKeyboardArrowRight size={"22px"} />
               </span>
@@ -198,11 +224,11 @@ export default MyAccount;
 
 /**
  * TODO
- * 
+ *
  * myaccount route의 children으로 changepassword, profile route render하는 것 생각해보기
  * 만약 changepassword page가 myaccount의 children이 된다면, myaccount에서 render되는 내용을 outlet인 changepassword가 덮어써야 한다
- * 
+ *
  * google로 로그인 했을 때, 개인정보 변경버튼 비활성화 해야 함
- * 
- * 
+ *
+ *
  */

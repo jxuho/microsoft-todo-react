@@ -28,8 +28,11 @@ const authSlice = createSlice({
         photoUrl: ""
       };
     },
+    updateUser: (state, action) => {
+      state.user[action.payload.property] = action.payload.content
+    }
   }
 })
 
-export const {login, logout} = authSlice.actions;
+export const {login, logout, updateUser} = authSlice.actions;
 export default authSlice.reducer;

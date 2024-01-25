@@ -46,7 +46,7 @@ const DetailAddFile = ({ taskId, todo }) => {
     }
 
     const extension = file.name.slice(file.name.lastIndexOf(".") + 1) ?? "";
-    const fileRef = `${userId}-${taskId}-${uuid()}`;
+    const fileRef = `${userId}/tasks/${taskId}/${uuid()}`;
     const storageRef = ref(storage, fileRef);
     const uploadTask = uploadBytesResumable(storageRef, file, {
       customMetadata: { extension, fileName: file.name },

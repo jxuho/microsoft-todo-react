@@ -8,7 +8,6 @@ const useTitle = () => {
   const activeTasks = useSelector((state) => state.active.activeTasks);
   const searchQuery = useSelector((state) => state.search.query);
 
-
   const userId = useSelector((state) => state.auth.user.uid);
   const {
     data: todos,
@@ -16,7 +15,6 @@ const useTitle = () => {
     isLoading: isTodosLoading,
     refetch,
   } = useGetTodosApiQuery(userId, { skip: !userId });
-
 
   useEffect(() => {
     if (activeTasks.length === 1) {
@@ -41,6 +39,12 @@ const useTitle = () => {
           break;
         case "Usersignup":
           text = "Sign up";
+          break;
+        case "Myaccount":
+          text = "My Account";
+          break;
+        case "Myaccountchangepassword":
+          text = "Change Password";
           break;
         default:
           break;

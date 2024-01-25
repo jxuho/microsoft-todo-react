@@ -35,7 +35,6 @@ const SignUp = () => {
   const checkboxRef = useRef();
 
   const userId = useSelector((state) => state.auth.user.uid);
-  
 
   useEffect(() => {
     if (userId) {
@@ -149,7 +148,15 @@ const SignUp = () => {
           })
         );
 
-        await setDoc(doc(db, "users", userId), { email: user.email });
+
+        await setDoc(doc(db, "users", user.uid), {
+          email: user.email,
+          provider: user.providerData[0].providerId,
+        });
+        // console.log(auth.currentUser.providerData[0].providerId);
+        // email로 로그인했으면 'password'
+        // google로 로그인했으면 'google.com'
+        // provider에 따라서 sign in 할 때 분기처리 하기
 
         navigate("/");
       } catch (error) {

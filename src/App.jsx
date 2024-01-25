@@ -9,6 +9,7 @@ import ProtectedLayout from "./components/ProtectedLayout";
 import { Suspense, lazy } from "react";
 import Loading from "./components/Loading";
 import ChangePassword from "./components/account/ChangePassword";
+import UpdateProfile from "./components/account/UpdateProfile";
 
 const RootPage = lazy(() => import("./pages/RootPage"));
 const MydayPage = lazy(() => import("./pages/MydayPage"));
@@ -70,6 +71,10 @@ const router = createBrowserRouter([
           {
             path: "changepassword",
             element: <ChangePassword />,
+          },
+          {
+            path: "updateprofile",
+            element: <UpdateProfile/>
           },
         ],
       },
@@ -167,6 +172,8 @@ export default App;
  *
  * <할것>
  *
+ * 'user' local에서 rtk query로 migrate
+ * 
  * 로딩 페이지 dark mode
  * 
  * Signin component에서 google provider(ljhcow@knou.ac.kr)입력하면 계정 연결하도록 설정
