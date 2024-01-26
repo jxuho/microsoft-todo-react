@@ -190,6 +190,11 @@ const SignIn = () => {
       const userCredential =
         GoogleAuthProvider.credentialFromResult(signInResult);
       const token = userCredential.accessToken;
+
+      console.log(signInResult);  // _UserCredentialImpl 
+      console.log(userCredential);  // _OAuthCredential 
+
+
       dispatch(
         login({
           email: signInResult.user.email,

@@ -4,7 +4,7 @@ import { PiUserCircleThin, PiTrashThin, PiKeyThin } from "react-icons/pi";
 import { signOut } from "firebase/auth";
 import { auth } from "../../firebase";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
-import { initializeUi } from "../../store/uiSlice";
+import { initializeUi, setDeleteDialogActive } from "../../store/uiSlice";
 import { initializeActive } from "../../store/activeSlice";
 import { initializeSearch } from "../../store/searchSlice";
 import { logout } from "../../store/authSlice";
@@ -67,6 +67,12 @@ const MyAccount = () => {
     // console.log(auth.currentUser);
     window.location.pathname = "/myaccount/updateprofile";
   };
+
+  const deleteAccountHandler =() => {
+    window.location.pathname = "/myaccount/deleteaccount"
+    // dispatch(setDeleteDialogActive({active:true, target:"account"}))
+  }
+
 
   return (
     <div className="w-full h-full p-12 mx-auto max-w-[1680px] overflow-auto">
@@ -205,7 +211,8 @@ const MyAccount = () => {
                 You can't recover the data.
               </p>
             </div>
-            <div className="font-medium text-ms-alert-error flex hover:underline hover:cursor-pointer pb-2 pt-4  border-t ">
+            <div className="font-medium text-ms-alert-error flex hover:underline hover:cursor-pointer pb-2 pt-4  border-t "
+            onClick={deleteAccountHandler}>
               <span className="uppercase max-[400px]:text-xs">
                 Delete Account
               </span>

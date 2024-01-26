@@ -12,7 +12,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { doc, updateDoc } from "firebase/firestore";
 import { updateUser } from "../../store/authSlice";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const UpdateProfile = () => {
   const dispatch = useDispatch();
@@ -77,6 +77,7 @@ const UpdateProfile = () => {
     listAll(listRef)
       .then((res) => {
         res.items.forEach((itemRef) => {
+          console.log(itemRef);
           if (itemRef.name !== fileData.name) {
             deleteObject(itemRef).then(() => {
               console.log(`${itemRef.name} is deleted`);
@@ -174,7 +175,9 @@ const UpdateProfile = () => {
 
     inputRef.current.value = null;
   };
-
+  if (auth.currentUser.providerData[0].providerId !== "password") {
+    return <Navigate to={"/myaccount"}/>
+  }
   if (showMessage.changeSuccess) {
     return (
       <div className="w-full h-full flex justify-center items-center">
@@ -215,20 +218,19 @@ const UpdateProfile = () => {
           <h1 className="text-2xl font-normal mb-6">Update Profile</h1>
           <div className="mb-6">
             <p className="text-xs text-ms-light-text">
-              Update your personal information. You can change a profile photo and a name.
+              Update your personal information. You can change a profile photo
+              and a name.
             </p>
           </div>
 
           <div className="mb-6 flex flex-col items-center">
             <div className="w-20 h-20 m-5 overflow-hidden rounded-full">
-              {user.photoUrl ? (
-                newPhotoUrl ? (
-                  <img src={newPhotoUrl} alt="profile image" />
-                ) : (
-                  <img src={user.photoUrl} alt="profile image" />
-                )
+              {newPhotoUrl ? (
+                <img src={newPhotoUrl} alt="profile image" />
+              ) : user.photoUrl ? (
+                <img src={user.photoUrl} alt="profile image" />
               ) : (
-                <img src="/public\profile_image.svg" alt="profile image" />
+                <img src="/public/profile_image.svg" alt="profile image" />
               )}
             </div>
 

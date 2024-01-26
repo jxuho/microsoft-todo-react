@@ -10,6 +10,7 @@ import { Suspense, lazy } from "react";
 import Loading from "./components/Loading";
 import ChangePassword from "./components/account/ChangePassword";
 import UpdateProfile from "./components/account/UpdateProfile";
+import DeleteAccount from "./components/account/DeleteAccount";
 
 const RootPage = lazy(() => import("./pages/RootPage"));
 const MydayPage = lazy(() => import("./pages/MydayPage"));
@@ -76,6 +77,10 @@ const router = createBrowserRouter([
             path: "updateprofile",
             element: <UpdateProfile/>
           },
+          {
+            path: "deleteaccount",
+            element: <DeleteAccount/>
+          }
         ],
       },
     ],
@@ -172,7 +177,7 @@ export default App;
  *
  * <할것>
  *
- * 'user' local에서 rtk query로 migrate
+ * 'user' local에서 rtk query로 migrate -> 모든 user useSelector를 auth.currentUser로 대체가능하지 않을까?
  * 
  * 로딩 페이지 dark mode
  * 

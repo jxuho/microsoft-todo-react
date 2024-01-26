@@ -16,7 +16,10 @@ import {
   useRemoveTodoApiMutation,
 } from "../../api/todoApiSlice";
 import { deleteObject, ref } from "firebase/storage";
-import { storage } from "../../firebase";
+import { auth, db, storage } from "../../firebase";
+import { useState } from "react";
+import { EmailAuthProvider, deleteUser, reauthenticateWithCredential, signInWithEmailAndPassword } from "firebase/auth";
+import { collection, deleteDoc, doc, getDocs, query } from "firebase/firestore";
 
 function DeleteDialog() {
   const dispatch = useDispatch();
@@ -27,6 +30,7 @@ function DeleteDialog() {
   const deleteDialogTarget = useSelector(
     (state) => state.ui.deleteDialogTarget
   );
+  const userEmail = useSelector((state) => state.auth.user.email);
   const userId = useSelector((state) => state.auth.user.uid);
   const activeFileRef = useSelector((state) => state.active.activeFileRef);
 
@@ -42,8 +46,9 @@ function DeleteDialog() {
 
   const { refs, context } = useFloating({
     open: isDeleteDialogOpen,
-    onOpenChange: (isOpen) =>
-      dispatch(setDeleteDialogActive({ target: "", active: isOpen })),
+    onOpenChange: (isOpen) => {
+      dispatch(setDeleteDialogActive({ target: "", active: isOpen }));
+    },
     // onOpenChange: (input) => dispatch(setDeleteDialogActive(input)),
   });
   const click = useClick(context);
@@ -127,7 +132,6 @@ function DeleteDialog() {
     );
     deleteButtonContent = "Delete file";
   }
-
   return (
     isDeleteDialogOpen && (
       <div>
@@ -158,12 +162,12 @@ function DeleteDialog() {
                   <button
                     className="bg-ms-input-hover font-semibold py-2 px-3 w-auto h-auto rounded hover:bg-gray-200 transition-colors"
                     style={{ color: "#34373d" }}
-                    onClick={() => dispatch(setDeleteDialogActive(false))}
+                    onClick={() => {dispatch(setDeleteDialogActive(false))}}
                   >
                     Cancel
                   </button>
                   <button
-                    className="ml-2 font-semibold py-2 px-3 w-auto h-auto rounded text-white bg-ms-warning hover:bg-red-800 transition-colors"
+                    className="ml-2 font-semibold py-2 px-3 w-auto h-auto rounded text-white bg-ms-warning hover:bg-red-800 transition-colors disabled:bg-ms-scrollbar disabled:hover:cursor-not-allowed"
                     onClick={deleteTargetHandler}
                   >
                     {deleteButtonContent}
