@@ -5,6 +5,7 @@ import {
   FacebookAuthProvider,
   GoogleAuthProvider,
   getRedirectResult,
+  sendSignInLinkToEmail,
   signInWithEmailAndPassword,
   signInWithPopup,
   signInWithRedirect,
@@ -139,6 +140,13 @@ const SignIn = () => {
             setShowPasswordTab(true);
           }
         }
+        
+        // // 위 또는 아래
+        // setShowPasswordTab(true);
+
+
+
+
       } catch (error) {
         console.log(error);
       }
@@ -190,10 +198,6 @@ const SignIn = () => {
       const userCredential =
         GoogleAuthProvider.credentialFromResult(signInResult);
       const token = userCredential.accessToken;
-
-      console.log(signInResult);  // _UserCredentialImpl 
-      console.log(userCredential);  // _OAuthCredential 
-
 
       dispatch(
         login({
@@ -278,7 +282,7 @@ const SignIn = () => {
                   autoFocus
                   value={password}
                   onChange={passwordInputHandler}
-                  placeholder="Create password"
+                  placeholder="Password"
                 />
                 <div className="flex text-sm text-ms-light-text mb-4">
                   <input

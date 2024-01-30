@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { MdKeyboardArrowRight } from "react-icons/md";
-import { PiUserCircleThin, PiTrashThin, PiKeyThin } from "react-icons/pi";
+import { PiUserCircleThin, PiTrashThin, PiKeyThin, PiPasswordThin } from "react-icons/pi";
 import { signOut } from "firebase/auth";
 import { auth } from "../../firebase";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
@@ -39,11 +39,12 @@ const MyAccount = () => {
         dispatch(logout());
 
         setLocalStorageUser(null);
-        dispatch(initializeUi());
-        dispatch(initializeActive());
-        dispatch(initializeSearch());
 
+        // dispatch(initializeUi());
+        // dispatch(initializeActive());
+        // dispatch(initializeSearch());
         // navigate('/user/signin')
+
         window.location.pathname = "/user/signin";
       })
       .catch((error) => {
@@ -68,11 +69,14 @@ const MyAccount = () => {
     window.location.pathname = "/myaccount/updateprofile";
   };
 
-  const deleteAccountHandler =() => {
-    window.location.pathname = "/myaccount/deleteaccount"
+  const deleteAccountHandler = () => {
+    window.location.pathname = "/myaccount/deleteaccount";
     // dispatch(setDeleteDialogActive({active:true, target:"account"}))
-  }
+  };
 
+  const registerPasswordHandler = () => {
+    window.location.pathname = "/myaccount/registerpassword";
+  }
 
   return (
     <div className="w-full h-full p-12 mx-auto max-w-[1680px] overflow-auto">
@@ -91,6 +95,7 @@ const MyAccount = () => {
                   className="rounded-full"
                   src={user.photoUrl}
                   alt="profile image"
+                  referrerPolicy="no-referrer"
                 />
               ) : (
                 <img
@@ -116,7 +121,7 @@ const MyAccount = () => {
           </div>
         </div>
 
-        {auth.currentUser.providerData[0].providerId === "password" && <div
+        <div
           className="flex flex-col max-w-xs p-4 bg-white rounded h-full row-span-1"
           style={{
             boxShadow:
@@ -151,10 +156,63 @@ const MyAccount = () => {
               </span>
             </div>
           </div>
-        </div>}
+        </div>
 
-        {auth.currentUser.providerData[0].providerId === "password" &&<div
-          className="flex flex-col max-w-xs p-4 bg-white rounded h-full row-span-1"
+        {auth.currentUser.providerData[0].providerId === "password" && (
+          <div
+            className="flex flex-col max-w-xs p-4 bg-white rounded h-full row-span-1"
+            style={{
+              boxShadow:
+                "0px 5px 10px rgba(0,0,0,0.1), 0px 1.6px 3.6px rgba(0,0,0,0.1)",
+            }}
+          >
+            <div className="flex flex-col items-center justify-between h-full mt-4">
+              <div className="flex flex-col items-center">
+                <div className="text-2xl font-normal pb-4 max-[400px]:text-lg">
+                  Password
+                </div>
+                <PiKeyThin
+                  className="text-ms-light-text scale-x-[-1]"
+                  size={"60px"}
+                />
+                <p className="py-3 text-center">
+                  Make your password stronger, or change it if someone else
+                  knows it.
+                </p>
+              </div>
+              <div
+                className="font-medium text-ms-blue flex hover:underline hover:cursor-pointer pb-2 pt-4  border-t"
+                onClick={changePasswordHandler}
+              >
+                <span className="uppercase max-[400px]:text-xs">
+                  Change Password
+                </span>
+                <span>
+                  <MdKeyboardArrowRight size={"22px"} />
+                </span>
+              </div>
+            </div>
+          </div>
+        )}
+
+
+
+
+
+        {/* 
+        register password -> google oauth인 경우
+        
+        google email로 로그인된 경우 -> connect with google 탭 없어도 google oauth sign in하면 자동으로 연동됨
+          -> 비밀번호 변경 case 해결해야 함. google email로 signup하고 Oauth 연결했을 때 비밀번호 로그인 가능한지 확인
+        
+         */}
+
+         {/* 비밀번호 등록됐는지 조건 추가
+        Google OAuth로 sign-in됐는데 password 등록 안됨
+          */}
+         {auth.currentUser.providerData[0].providerId !== "password" && (
+        <div
+          className="flex flex-col max-w-xs p-4 bg-white rounded h-full row-span-1 "
           style={{
             boxShadow:
               "0px 5px 10px rgba(0,0,0,0.1), 0px 1.6px 3.6px rgba(0,0,0,0.1)",
@@ -163,30 +221,40 @@ const MyAccount = () => {
           <div className="flex flex-col items-center justify-between h-full mt-4">
             <div className="flex flex-col items-center">
               <div className="text-2xl font-normal pb-4 max-[400px]:text-lg">
-                Password
+                Register Password
               </div>
-              <PiKeyThin
+
+              <PiPasswordThin
                 className="text-ms-light-text scale-x-[-1]"
                 size={"60px"}
               />
+
               <p className="py-3 text-center">
-                Make your password stronger, or change it if someone else knows
-                it.
+                To enhance your account security, you can register a password
+                for future logins.
               </p>
             </div>
             <div
-              className="font-medium text-ms-blue flex hover:underline hover:cursor-pointer pb-2 pt-4  border-t"
-              onClick={changePasswordHandler}
+              className="font-medium text-ms-blue flex hover:underline hover:cursor-pointer pb-2 pt-4 border-t"
+              onClick={registerPasswordHandler}
             >
               <span className="uppercase max-[400px]:text-xs">
-                Change Password
+                Register Password
               </span>
               <span>
                 <MdKeyboardArrowRight size={"22px"} />
               </span>
             </div>
           </div>
-        </div>}
+        </div>)}
+
+
+
+
+
+
+
+
 
         <div
           className="flex flex-col max-w-xs p-4 bg-white rounded h-full row-span-1 "
@@ -211,8 +279,10 @@ const MyAccount = () => {
                 You can't recover the data.
               </p>
             </div>
-            <div className="font-medium text-ms-alert-error flex hover:underline hover:cursor-pointer pb-2 pt-4  border-t "
-            onClick={deleteAccountHandler}>
+            <div
+              className="font-medium text-ms-alert-error flex hover:underline hover:cursor-pointer pb-2 pt-4  border-t "
+              onClick={deleteAccountHandler}
+            >
               <span className="uppercase max-[400px]:text-xs">
                 Delete Account
               </span>
@@ -228,14 +298,3 @@ const MyAccount = () => {
 };
 
 export default MyAccount;
-
-/**
- * TODO
- *
- * myaccount route의 children으로 changepassword, profile route render하는 것 생각해보기
- * 만약 changepassword page가 myaccount의 children이 된다면, myaccount에서 render되는 내용을 outlet인 changepassword가 덮어써야 한다
- *
- * google로 로그인 했을 때, 개인정보 변경버튼 비활성화 해야 함
- *
- *
- */

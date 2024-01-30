@@ -19,7 +19,7 @@ const useTitle = () => {
   useEffect(() => {
     if (activeTasks.length === 1) {
       const todo = todos.find((todo) => todo.id === activeTasks[0]);
-      document.title = `${todo.task} - To Do`;
+      document.title = `${todo?.task} - To Do`;
     } else if (location.pathname.includes("search")) {
       document.title = `Searching for "${searchQuery}" - To Do`;
     } else {

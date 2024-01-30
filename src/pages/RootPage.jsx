@@ -24,6 +24,7 @@ import InformationModal from "../components/modals/InformationModal";
 import { useGetSortApiQuery } from "../api/sortApiSlice";
 import { useGetGroupApiQuery } from "../api/groupApiSlice";
 import { useGetUiApiQuery } from "../api/uiApiSlice";
+import { auth } from "../firebase";
 
 const RootPage = () => {
   const location = useLocation();
@@ -53,6 +54,8 @@ const RootPage = () => {
   useRemindNotification();
   useTheme();
   useTitle();
+
+  // console.log(auth.currentUser);
 
   useEffect(() => {
     // console.log(location.key);

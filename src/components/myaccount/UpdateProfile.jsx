@@ -1,7 +1,7 @@
 import { updateProfile } from "firebase/auth";
 import { auth, db, storage } from "../../firebase";
 import { useRef, useState } from "react";
-import { FiPaperclip } from "react-icons/Fi";
+import { FiPaperclip, FiTrash2 } from "react-icons/Fi";
 import {
   deleteObject,
   getDownloadURL,
@@ -18,7 +18,6 @@ const UpdateProfile = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector((state) => state.auth.user);
-  // const userId = useSelector((state) => state.auth.user.uid);
   const inputRef = useRef();
 
   const [userName, setUserName] = useState(auth.currentUser.displayName ?? "");
@@ -32,7 +31,10 @@ const UpdateProfile = () => {
 
   const [isFileUploading, setIsFileUploading] = useState(false);
 
-  const [newPhotoUrl, setNewPhotoUrl] = useState("");
+  const [newPhotoUrl, setNewPhotoUrl] = useState(
+    auth.currentUser.photoURL ?? ""
+  );
+  const [photoDeleted, setPhotoDeleted] = useState(false);
   const [fileData, setFileData] = useState("");
 
   const nameInputHandler = (e) => {
@@ -51,6 +53,13 @@ const UpdateProfile = () => {
     }
   };
 
+  const deletePhotoHandler = () => {
+    console.log("photodeleted");
+    // setNewPhotoUrl("/public/profile_image.svg")
+    setNewPhotoUrl("");
+    setPhotoDeleted(true);
+  };
+
   const submitUpdateProfileHandler = (e) => {
     e.preventDefault();
 
@@ -66,16 +75,11 @@ const UpdateProfile = () => {
       return;
     }
 
-    // firebase, redux store에 newPhotoUrl 저장
-    updateDoc(doc(db, "users", user.uid), {
-      photoUrl: newPhotoUrl,
-    });
-    dispatch(updateUser({ property: "photoUrl", content: newPhotoUrl }));
-
     // 업로드하는 파일 이외의 파일은 삭제
     const listRef = ref(storage, `${user.uid}/profile`);
     listAll(listRef)
       .then((res) => {
+        // if (res.items.length > 1) {
         res.items.forEach((itemRef) => {
           console.log(itemRef);
           if (itemRef.name !== fileData.name) {
@@ -84,11 +88,13 @@ const UpdateProfile = () => {
             });
           }
         });
+        // }
       })
       .catch((error) => {
         console.log(error);
       });
 
+    // firebase auth update
     updateProfile(auth.currentUser, {
       displayName: userName,
       photoURL: newPhotoUrl,
@@ -125,6 +131,8 @@ const UpdateProfile = () => {
       setShowMessage((prevState) => ({ ...prevState, showPhotoMessage: true }));
       return;
     }
+
+    setPhotoDeleted(false);
 
     const fileRef = `${user.uid}/profile/${file.name.replaceAll(" ", "")}`;
 
@@ -175,9 +183,11 @@ const UpdateProfile = () => {
 
     inputRef.current.value = null;
   };
-  if (auth.currentUser.providerData[0].providerId !== "password") {
-    return <Navigate to={"/myaccount"}/>
-  }
+
+  // if (auth.currentUser.providerData[0].providerId !== "password") {
+  //   return <Navigate to={"/myaccount"}/>
+  // }
+
   if (showMessage.changeSuccess) {
     return (
       <div className="w-full h-full flex justify-center items-center">
@@ -225,11 +235,15 @@ const UpdateProfile = () => {
 
           <div className="mb-6 flex flex-col items-center">
             <div className="w-20 h-20 m-5 overflow-hidden rounded-full">
-              {newPhotoUrl ? (
-                <img src={newPhotoUrl} alt="profile image" />
-              ) : user.photoUrl ? (
-                <img src={user.photoUrl} alt="profile image" />
-              ) : (
+              {!photoDeleted &&
+                (newPhotoUrl ? (
+                  <img src={newPhotoUrl} alt="profile image" />
+                ) : auth.currentUser.photoURL ? (
+                  <img src={auth.currentUser.photoURL} alt="profile image" />
+                ) : (
+                  <img src="/public/profile_image.svg" alt="profile image" />
+                ))}
+              {photoDeleted && (
                 <img src="/public/profile_image.svg" alt="profile image" />
               )}
             </div>
@@ -263,6 +277,19 @@ const UpdateProfile = () => {
                 </label>
               </div>
             </div>
+
+            <div
+              className="flex bg-white w-full rounded p-4 items-center justify-between text-ms-light-text hover:cursor-pointer hover:bg-ms-white-hover hover:text-black mb-2"
+              onClick={deletePhotoHandler}
+            >
+              <div className="flex w-full items-center">
+                <FiTrash2 size="16px" />
+                <label className="mx-4 hover:cursor-pointer">
+                  Delete photo
+                </label>
+              </div>
+            </div>
+
             {showMessage.showPhotoMessage && (
               <p className="text-ms-alert-error">{photoMessage}</p>
             )}

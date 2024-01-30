@@ -50,7 +50,8 @@ const useUpdateMyday = () => {
     setUpdatedApi({userId: userId, updated: new Date().toDateString()})
 
 
-  }, [userId, todos, userData]);
+  }, []);
+  // }, [userId, todos, userData]);
 };
 
 export default useUpdateMyday;

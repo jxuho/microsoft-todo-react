@@ -8,9 +8,11 @@ import SignUpPage from "./pages/SignUpPage";
 import ProtectedLayout from "./components/ProtectedLayout";
 import { Suspense, lazy } from "react";
 import Loading from "./components/Loading";
-import ChangePassword from "./components/account/ChangePassword";
-import UpdateProfile from "./components/account/UpdateProfile";
-import DeleteAccount from "./components/account/DeleteAccount";
+import ChangePassword from "./components/myaccount/ChangePassword";
+import UpdateProfile from "./components/myaccount/UpdateProfile";
+import DeleteAccount from "./components/myaccount/DeleteAccount";
+import NotFoundPage from "./pages/NotFoundPage";
+import RegisterPassword from "./components/myaccount/RegisterPassword";
 
 const RootPage = lazy(() => import("./pages/RootPage"));
 const MydayPage = lazy(() => import("./pages/MydayPage"));
@@ -80,9 +82,21 @@ const router = createBrowserRouter([
           {
             path: "deleteaccount",
             element: <DeleteAccount/>
+          },
+          {
+            path: "registerpassword",
+            element: <RegisterPassword/>
+          },
+          {
+            path: "*",
+            element: <NotFoundPage/>
           }
         ],
       },
+      {
+        path: "*",
+        element: <NotFoundPage/>
+      }
     ],
   },
   {
@@ -98,8 +112,16 @@ const router = createBrowserRouter([
         path: "signup",
         element: <SignUpPage />,
       },
+      {
+        path: "*",
+        element: <NotFoundPage/>
+      }
     ],
   },
+  {
+    path: "*",
+    element: <NotFoundPage/>
+  }
 ]);
 
 function App() {
@@ -170,7 +192,10 @@ export default App;
  * (complete) login state에 대한 check가 redux를 통하지 않고, firebase에서 직접 받아온 정보여야 한다
  * (complete) signout했을 때, refresh 되도록 설정?
  * (complete) 브라우저 종료 후 켰을 때 계정 정보 초기화
- *
+ * (complete) complete된 task remind 비활성화 하기 -> complete되면 remind변경이 아니라 notify를 막아서 해결
+ * (complete) 계정 삭제, 비밀번호 변경 가능한 mypage 만들기
+ * (complete) 계정 삭제되면 firestore, storage에 연결된 데이터도 삭제하기
+ * (complete) 잘못된 route 처리 (/abc) -> react router 404 처리
  *
  *
  *
@@ -179,23 +204,24 @@ export default App;
  *
  * 'user' local에서 rtk query로 migrate -> 모든 user useSelector를 auth.currentUser로 대체가능하지 않을까?
  * 
- * 로딩 페이지 dark mode
+ 
  * 
  * Signin component에서 google provider(ljhcow@knou.ac.kr)입력하면 계정 연결하도록 설정
  * 
  * 이메일 사용 signup할 때, 메일 인증
  * provider와 기존 계정 연결하기 (firebase auth - settings 설정 참고)
- *
- * 계정 삭제, 비밀번호 변경 가능한 mypage 만들기
- * 계정 삭제되면 firestore, storage에 연결된 데이터도 삭제하기
+ * 비밀번호 초기화 설정
  *
  *
- * 잘못된 route 처리 (/abc)
+ *
  *
  *
  * 계정 새로 생성됐을 때 작동 확인하기
  *
  * 배포 전 Firestore 보안규칙 업데이트하기(단순 true에서 새로운 규칙으로)
+ * 
+ * 배포 중 SignUp - VerifyEmail component - actionCodeSettings 배포 링크로 수정하기
+ * 
  *
  * completeList, PlannedList, GroupList에서 상위리스트가 모두 render된 이후에 하위리스트 render되도록 설정
  *
@@ -207,12 +233,12 @@ export default App;
  * print 설정하기
  * Notion 개발일지 가지고와서 list로 render하기(보류)
  *
+ * 
+ * * 로딩 페이지 dark mode -> window.location.pathName으로 refresh하면서 theme즉시 받아오지 못하면서 발생하는 문제
  *
- * complete된 task remind 비활성화 하기
  *
  * AddTask component retraction
  *
- * taskDetail file 첨부했을때, 백엔드 저장 구현하기
  *
  *
  * floating ui -> useListNavigation 사용, 방향키로 선택 가능하도록 설정하기
@@ -222,15 +248,10 @@ export default App;
  *
  *
  *
- *
- *
  * Popover, tooltip 독립된 component로 구현해서 코드 가독성 높이기
  *
- * UI -> Sidebar mount될때, task 개수 0으로 표시됐다가 사라짐 -> flickering발생
  *
  * Refactor -> GroupLists -> TaskHeader & TaskItemHeader 동일한 컴포넌트로 만들기
- *
- *
  *
  *
  * UI -> TaskItem myday sun icon 정렬 수정하기

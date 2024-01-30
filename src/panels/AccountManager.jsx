@@ -17,7 +17,6 @@ const AccountManager = () => {
   const isAccountManagerActive = useSelector(
     (state) => state.ui.accountManagerActive
   );
-  const user = useSelector((state) => state.auth.user);
 
   const [localStorageUser, setLocalStorageUser] = useLocalStorage("user", null);
 
@@ -49,9 +48,9 @@ const AccountManager = () => {
         dispatch(logout());
 
         setLocalStorageUser(null);
-        dispatch(initializeUi());
-        dispatch(initializeActive());
-        dispatch(initializeSearch());
+        // dispatch(initializeUi());
+        // dispatch(initializeActive());
+        // dispatch(initializeSearch());
 
         // navigate('/user/signin')
         // window.location.pathname = "/user/signin";
@@ -63,6 +62,7 @@ const AccountManager = () => {
 
   const myAccountClickHandler = () => {
     window.location.pathname = "/myaccount";
+    // navigate("/myaccount")
   };
 
   return (
@@ -79,24 +79,24 @@ const AccountManager = () => {
             transition: "visibility 0s linear 120ms,opacity 120ms ease",
           }}
         >
-          {user ? (
+          {auth.currentUser ? (
             <div className="grid grid-cols-[auto_1fr_auto] grid-rows-[1fr_3fr] leading-normal items-stretch h-full text-black">
               <div className="col-start-1 col-end-2 self-center text-sm px-4">
                 Welcome!
               </div>
               <div className="col-start-1 col-end-4 min-h-[132px self-center] flex">
                 <div className="w-20 h-20 m-5  overflow-hidden rounded-full">
-                  {user.photoUrl ? (
-                    <img src={user.photoUrl} alt="profile image" />
+                  {auth.currentUser.photoURL ? (
+                    <img src={auth.currentUser.photoURL} alt="profile image" referrerPolicy="no-referrer"/>
                   ) : (
                     <img src="/public\profile_image.svg" alt="profile image" />
                   )}
                 </div>
                 <div className="flex-grow pr-3 mt-4">
                   <div className="font-semibold text-lg">
-                    {user.displayName ?? user.email}
+                    {auth.currentUser.displayName ?? auth.currentUser.email}
                   </div>
-                  <div className="mt-1 font-semibold">{user.email}</div>
+                  <div className="mt-1 font-semibold">{auth.currentUser.email}</div>
                   <div
                     className="mt-1 font-semibold underline text-ms-blue-hover hover:cursor-pointer"
                     onClick={myAccountClickHandler}

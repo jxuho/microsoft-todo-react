@@ -16,10 +16,7 @@ import {
   useRemoveTodoApiMutation,
 } from "../../api/todoApiSlice";
 import { deleteObject, ref } from "firebase/storage";
-import { auth, db, storage } from "../../firebase";
-import { useState } from "react";
-import { EmailAuthProvider, deleteUser, reauthenticateWithCredential, signInWithEmailAndPassword } from "firebase/auth";
-import { collection, deleteDoc, doc, getDocs, query } from "firebase/firestore";
+import { storage } from "../../firebase";
 
 function DeleteDialog() {
   const dispatch = useDispatch();
@@ -162,7 +159,9 @@ function DeleteDialog() {
                   <button
                     className="bg-ms-input-hover font-semibold py-2 px-3 w-auto h-auto rounded hover:bg-gray-200 transition-colors"
                     style={{ color: "#34373d" }}
-                    onClick={() => {dispatch(setDeleteDialogActive(false))}}
+                    onClick={() => {
+                      dispatch(setDeleteDialogActive(false));
+                    }}
                   >
                     Cancel
                   </button>

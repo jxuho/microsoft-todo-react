@@ -1,4 +1,4 @@
-import MyAccount from "../components/account/MyAccount";
+import MyAccount from "../components/myaccount/MyAccount";
 
 const MyAccountPage = () => {
   return <MyAccount/>
