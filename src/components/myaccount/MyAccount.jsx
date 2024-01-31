@@ -1,4 +1,3 @@
-import { useDispatch, useSelector } from "react-redux";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import {
   PiUserCircleThin,
@@ -9,17 +8,14 @@ import {
 import { signOut } from "firebase/auth";
 import { auth } from "../../firebase";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
-import { useNavigate } from "react-router-dom";
 
 const MyAccount = () => {
-  const dispatch = useDispatch();
-  const user = useSelector((state) => state.auth.user);
   const [localStorageUser, setLocalStorageUser] = useLocalStorage("user", null);
 
   const signOutHandler = () => {
     signOut(auth)
       .then(() => {
-        dispatch(logout());
+        // dispatch(logout());
         setLocalStorageUser(null);
         window.location.pathname = "/user/signin";
       })
@@ -57,10 +53,10 @@ const MyAccount = () => {
         >
           <div className="flex flex-col items-center">
             <div className="w-20 h-20 overflow-hidden rounded-full">
-              {user.photoUrl ? (
+              {auth.currentUser.photoURL ? (
                 <img
                   className="rounded-full"
-                  src={user.photoUrl}
+                  src={auth.currentUser.photoURL}
                   alt="profile image"
                   referrerPolicy="no-referrer"
                 />
@@ -75,9 +71,9 @@ const MyAccount = () => {
             {/* 중간에 통계 작성하면 좋을 듯 */}
             <div className="flex flex-col items-center my-2 ">
               <div className="text-2xl font-medium mb-2">
-                {user.displayName ?? user.email}
+                {auth.currentUser.displayName ?? auth.currentUser.email}
               </div>
-              <div className="font-normal mb-2">{user.email}</div>
+              <div className="font-normal mb-2">{auth.currentUser.email}</div>
             </div>
           </div>
 

@@ -113,6 +113,10 @@ const SignIn = () => {
   const passwordInputHandler = (e) => {
     setPassword(e.target.value);
   };
+ 
+  const sendEmailHandler = () => {
+    window.open("mailto:jxuholee@gmail.com?subject=Todo - Can't access my account&body=Tell me about the problem you have");
+  }
 
   const nextButtonClickHandler = async () => {
     if (!showPasswordTab) {
@@ -202,9 +206,6 @@ const SignIn = () => {
 
       // popup 사용 google login
       const signInResult = await signInWithPopup(auth, googleProvider);
-      const userCredential =
-        GoogleAuthProvider.credentialFromResult(signInResult);
-      const token = userCredential.accessToken;
 
       dispatch(
         login({
@@ -214,13 +215,14 @@ const SignIn = () => {
           photoUrl: signInResult.user.photoURL,
         })
       );
+
+
       await setDoc(doc(db, "users", signInResult.user.uid), {
         email: signInResult.user.email,
-        // provider: signInResult.user.providerData[0].providerId
       });
-      navigate("/");
 
-      
+
+      navigate("/");
     } catch (error) {
       console.log(error);
     }
@@ -265,7 +267,8 @@ const SignIn = () => {
                     Create one!
                   </span>
                 </div>
-                <span className="text-sm text-ms-blue-hover hover:underline hover:text-ms-light-text hover:cursor-pointer">
+                <span className="text-sm text-ms-blue-hover hover:underline hover:text-ms-light-text hover:cursor-pointer"
+                onClick={sendEmailHandler}>
                   Can't access your account?
                 </span>
               </div>

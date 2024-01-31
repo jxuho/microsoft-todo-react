@@ -1,5 +1,5 @@
 import { updateProfile } from "firebase/auth";
-import { auth, db, storage } from "../../firebase";
+import { auth, storage } from "../../firebase";
 import { useRef, useState } from "react";
 import { FiPaperclip, FiTrash2 } from "react-icons/Fi";
 import {
@@ -9,13 +9,12 @@ import {
   ref,
   uploadBytesResumable,
 } from "firebase/storage";
-import { useDispatch, useSelector } from "react-redux";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const UpdateProfile = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const user = useSelector((state) => state.auth.user);
   const inputRef = useRef();
 
   const [userName, setUserName] = useState(auth.currentUser.displayName ?? "");
@@ -71,7 +70,7 @@ const UpdateProfile = () => {
     }
 
     // 업로드하는 파일 이외의 파일은 삭제
-    const listRef = ref(storage, `${user.uid}/profile`);
+    const listRef = ref(storage, `${auth.currentUser.uid}/profile`);
     listAll(listRef)
       .then((res) => {
         // if (res.items.length > 1) {
@@ -129,7 +128,10 @@ const UpdateProfile = () => {
 
     setPhotoDeleted(false);
 
-    const fileRef = `${user.uid}/profile/${file.name.replaceAll(" ", "")}`;
+    const fileRef = `${auth.currentUser.uid}/profile/${file.name.replaceAll(
+      " ",
+      ""
+    )}`;
 
     setFileData(file);
 
@@ -178,7 +180,6 @@ const UpdateProfile = () => {
 
     inputRef.current.value = null;
   };
-
 
   if (showMessage.changeSuccess) {
     return (

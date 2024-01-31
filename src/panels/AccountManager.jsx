@@ -1,14 +1,12 @@
 import { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { initializeUi, setHeaderButton } from "../store/uiSlice";
+import { setHeaderButton } from "../store/uiSlice";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../firebase";
 import { signOut } from "firebase/auth";
 import { logout } from "../store/authSlice";
 import { useLocalStorage } from "../hooks/useLocalStorage";
-import { initializeActive } from "../store/activeSlice";
-import { initializeSearch } from "../store/searchSlice";
 
 const AccountManager = () => {
   const navigate = useNavigate();

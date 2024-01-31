@@ -204,13 +204,14 @@ export default App;
  *
  * 'user' local에서 rtk query로 migrate -> 모든 user useSelector를 auth.currentUser로 대체가능하지 않을까?
  * 
- 
  * 
  * Signin component에서 google provider(ljhcow@knou.ac.kr)입력하면 계정 연결하도록 설정
  * 
- * 이메일 사용 signup할 때, 메일 인증
- * provider와 기존 계정 연결하기 (firebase auth - settings 설정 참고)
- * 비밀번호 초기화 설정
+ * 이메일 사용 signup할 때, 메일 인증 
+ * dark theme, 
+ * 
+ * 
+ * 비밀번호 초기화 설정 -> 메일 전송
  *
  *
  *
