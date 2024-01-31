@@ -55,7 +55,7 @@ const RootPage = () => {
   useTheme();
   useTitle();
 
-  // console.log(auth.currentUser);
+  console.log(auth.currentUser);
 
   useEffect(() => {
     // console.log(location.key);

@@ -378,7 +378,7 @@ const SignUpPassword = ({ setCurrentView }) => {
 
       await setDoc(doc(db, "users", user.uid), {
         email: user.email,
-        provider: user.providerData[0].providerId,
+        // provider: user.providerData[0].providerId,
       });
 
       navigate("/");

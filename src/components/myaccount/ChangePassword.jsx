@@ -148,9 +148,9 @@ const ChangePassword = () => {
     window.location.pathname = "/myaccount";
   };
 
-  if (auth.currentUser.providerData[0].providerId !== "password") {
-    return <Navigate to={"/myaccount"}/>
-  }
+  // if (auth.currentUser.providerData[0].providerId !== "password") {
+  //   return <Navigate to={"/myaccount"}/>
+  // }
 
 
   if (showMessage.changeSuccess) {

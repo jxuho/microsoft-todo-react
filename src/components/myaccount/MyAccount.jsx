@@ -1,6 +1,11 @@
 import { useDispatch, useSelector } from "react-redux";
 import { MdKeyboardArrowRight } from "react-icons/md";
-import { PiUserCircleThin, PiTrashThin, PiKeyThin, PiPasswordThin } from "react-icons/pi";
+import {
+  PiUserCircleThin,
+  PiTrashThin,
+  PiKeyThin,
+  PiPasswordThin,
+} from "react-icons/pi";
 import { signOut } from "firebase/auth";
 import { auth } from "../../firebase";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
@@ -76,7 +81,7 @@ const MyAccount = () => {
 
   const registerPasswordHandler = () => {
     window.location.pathname = "/myaccount/registerpassword";
-  }
+  };
 
   return (
     <div className="w-full h-full p-12 mx-auto max-w-[1680px] overflow-auto">
@@ -158,7 +163,7 @@ const MyAccount = () => {
           </div>
         </div>
 
-        {auth.currentUser.providerData[0].providerId === "password" && (
+        {auth.currentUser.providerData.find(item => item.providerId === "password") && (
           <div
             className="flex flex-col max-w-xs p-4 bg-white rounded h-full row-span-1"
             style={{
@@ -169,7 +174,7 @@ const MyAccount = () => {
             <div className="flex flex-col items-center justify-between h-full mt-4">
               <div className="flex flex-col items-center">
                 <div className="text-2xl font-normal pb-4 max-[400px]:text-lg">
-                  Password
+                  Change Password
                 </div>
                 <PiKeyThin
                   className="text-ms-light-text scale-x-[-1]"
@@ -195,10 +200,6 @@ const MyAccount = () => {
           </div>
         )}
 
-
-
-
-
         {/* 
         register password -> google oauth인 경우
         
@@ -207,54 +208,48 @@ const MyAccount = () => {
         
          */}
 
-         {/* 비밀번호 등록됐는지 조건 추가
+        {/* 비밀번호 등록됐는지 조건 추가
         Google OAuth로 sign-in됐는데 password 등록 안됨
           */}
-         {auth.currentUser.providerData[0].providerId !== "password" && (
-        <div
-          className="flex flex-col max-w-xs p-4 bg-white rounded h-full row-span-1 "
-          style={{
-            boxShadow:
-              "0px 5px 10px rgba(0,0,0,0.1), 0px 1.6px 3.6px rgba(0,0,0,0.1)",
-          }}
-        >
-          <div className="flex flex-col items-center justify-between h-full mt-4">
-            <div className="flex flex-col items-center">
-              <div className="text-2xl font-normal pb-4 max-[400px]:text-lg">
-                Register Password
-              </div>
-
-              <PiPasswordThin
-                className="text-ms-light-text scale-x-[-1]"
-                size={"60px"}
-              />
-
-              <p className="py-3 text-center">
-                To enhance your account security, you can register a password
-                for future logins.
-              </p>
-            </div>
+        {auth.currentUser.providerData.length === 1 &&
+          auth.currentUser.providerData[0].providerId === "google.com" && (
             <div
-              className="font-medium text-ms-blue flex hover:underline hover:cursor-pointer pb-2 pt-4 border-t"
-              onClick={registerPasswordHandler}
+              className="flex flex-col max-w-xs p-4 bg-white rounded h-full row-span-1 "
+              style={{
+                boxShadow:
+                  "0px 5px 10px rgba(0,0,0,0.1), 0px 1.6px 3.6px rgba(0,0,0,0.1)",
+              }}
             >
-              <span className="uppercase max-[400px]:text-xs">
-                Register Password
-              </span>
-              <span>
-                <MdKeyboardArrowRight size={"22px"} />
-              </span>
+              <div className="flex flex-col items-center justify-between h-full mt-4">
+                <div className="flex flex-col items-center">
+                  <div className="text-2xl font-normal pb-4 max-[400px]:text-lg">
+                    Register Password
+                  </div>
+
+                  <PiPasswordThin
+                    className="text-ms-light-text scale-x-[-1]"
+                    size={"60px"}
+                  />
+
+                  <p className="py-3 text-center">
+                    To enhance your experience and provide flexibility, you can
+                    register a password for future logins.
+                  </p>
+                </div>
+                <div
+                  className="font-medium text-ms-blue flex hover:underline hover:cursor-pointer pb-2 pt-4 border-t"
+                  onClick={registerPasswordHandler}
+                >
+                  <span className="uppercase max-[400px]:text-xs">
+                    Register Password
+                  </span>
+                  <span>
+                    <MdKeyboardArrowRight size={"22px"} />
+                  </span>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>)}
-
-
-
-
-
-
-
-
+          )}
 
         <div
           className="flex flex-col max-w-xs p-4 bg-white rounded h-full row-span-1 "

@@ -121,28 +121,35 @@ const SignIn = () => {
         collection(db, "users"),
         where("email", "==", email)
       );
+
+      
       try {
         const querySnapshot = await getDocs(emailQuery);
+
+        console.log(querySnapshot);
 
         if (querySnapshot.size === 0) {
           setEmailAlertContent(
             "We couldn't find an account with that username. Try another, or get a new Microsoft account."
           );
           setShowEmailAlert(true);
-        } else {
-          if (querySnapshot.docs[0]._document.data.value.mapValue.fields.provider.stringValue === "google.com") {
-            setEmailAlertContent(
-              "It looks like you've already linked your account with this email address through Google. Please login through Google."
-            );
-            setNextButtonDisable(true)
-            setShowEmailAlert(true);
-          } else {
-            setShowPasswordTab(true);
-          }
-        }
+        } 
+        // else {
+        //   if (querySnapshot.docs[0]._document.data.value.mapValue.fields.provider.stringValue === "google.com") {
+        //     setEmailAlertContent(
+        //       "It looks like you've already linked your account with this email address through Google. Please login through Google."
+        //     );
+        //     setNextButtonDisable(true)
+        //     setShowEmailAlert(true);
+        //   } else {
+        //     setShowPasswordTab(true);
+        //   }
+        // }
         
-        // // 위 또는 아래
-        // setShowPasswordTab(true);
+        // 위 또는 아래
+        else {
+          setShowPasswordTab(true);
+        }
 
 
 
@@ -209,7 +216,7 @@ const SignIn = () => {
       );
       await setDoc(doc(db, "users", signInResult.user.uid), {
         email: signInResult.user.email,
-        provider: signInResult.user.providerData[0].providerId
+        // provider: signInResult.user.providerData[0].providerId
       });
       navigate("/");
 

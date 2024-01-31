@@ -1,28 +1,24 @@
 import { useEffect, useState } from "react";
 import { auth } from "../../firebase";
 import {
-  EmailAuthProvider,
   GoogleAuthProvider,
-  linkWithCredential,
+  reauthenticateWithCredential,
   signInWithPopup,
   signOut,
+  updatePassword,
 } from "firebase/auth";
 import { useDispatch } from "react-redux";
 import { logout } from "../../store/authSlice";
+import Loading from "../Loading";
 
-/**
- * 
-
- * 
- * 
- * 
- * 
- * 
- */
 const RegisterPassword = () => {
   const dispatch = useDispatch();
-  const [isLoading, setIsLoading] = useState(false);
   const googleProvider = new GoogleAuthProvider();
+
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const [showPasswordMessage, setShowPasswordMessage] = useState(false);
   const [passwordMessage, setPasswordMessage] = useState("");
@@ -33,23 +29,26 @@ const RegisterPassword = () => {
 
   const [credential, setCredential] = useState();
 
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-
   const userToDelete = auth.currentUser?.email;
 
-  const reAuthenticateHandler = async () => {
-    console.log("submit trigger");
+  const passwordInputHandler = (e) => {
+    setPassword(e.target.value);
+  };
+  const confirmPasswordInputHandler = (e) => {
+    setConfirmPassword(e.target.value);
+  };
 
+  const reAuthenticateHandler = async () => {
+    setIsLoading(true);
     try {
-      if (auth.currentUser?.providerData[0].providerId === "google.com") {
+      if (
+        auth.currentUser.providerData.length === 1 &&
+        auth.currentUser.providerData[0].providerId === "google.com"
+      ) {
         const signInResult = await signInWithPopup(auth, googleProvider);
         const userCredential =
           GoogleAuthProvider.credentialFromResult(signInResult);
         const token = userCredential.accessToken;
-
-        console.log(userCredential);
-        console.log(token);
 
         setCredential(userCredential);
 
@@ -58,12 +57,9 @@ const RegisterPassword = () => {
           console.log("user information is not matched");
           setIsLoading(false);
           setShowAuthErrMessage(true);
-          // 다른 계정으로 로그인되면 firestore에는 내용 생성 안됨
-          // 다만, auth에 다른 계정 생성됨
           await signOut(auth);
           dispatch(logout());
           window.location.pathname = "/user/signin";
-
           return;
         }
         setReAuthenticated(true);
@@ -75,40 +71,27 @@ const RegisterPassword = () => {
         setShowAuthErrMessage(true);
       }
     }
+    setIsLoading(false);
   };
 
   const registerPasswordHandler = async () => {
+    if (password === "" || confirmPassword === "") {
+      setPasswordMessage("Please fill in all the required fields.");
+      setShowPasswordMessage(true);
+      return;
+    }
     try {
-      const passwordRegex =
-        /^(?=(?:.*[A-Z]){2,})(?=(?:.*[a-z]){2,})(?=(?:.*\d){2,})(?=(?:.*[!@#$%^&*()_+={}[\]:;<>,.?~\\/-]){2,}).{8,}$/;
-      if (!passwordRegex.test(confirmPassword)) {
-        throw new Error(
-          "Password does not meet the required criteria. Please check the rules."
-        );
-      }
-
-
-      // const credential = EmailAuthProvider.credential(auth.currentUser.email, password);
-
-      const userCredential = await linkWithCredential(auth.currentUser, credential)
-          const user = userCredential.user;
-          console.log("Account linking success", user);
-
-      /** 
-       * TODO: email & google link 해결하기
-       * 
-       * 
-       */
-
-
-
+      await reauthenticateWithCredential(auth.currentUser, credential);
+      await updatePassword(auth.currentUser, confirmPassword);
+      console.log("success register password");
+      window.location.pathname = "/myaccount";
     } catch (error) {
       console.log(error);
     }
   };
 
   useEffect(() => {
-    const debounceNewPassword = setTimeout(() => {
+    const debounceConfirmPassword = setTimeout(() => {
       const passwordRegex =
         /^(?=(?:.*[A-Z]){2,})(?=(?:.*[a-z]){2,})(?=(?:.*\d){2,})(?=(?:.*[!@#$%^&*()_+={}[\]:;<>,.?~\\/-]){2,}).{8,}$/;
       if (password !== "" && !passwordRegex.test(password)) {
@@ -116,24 +99,15 @@ const RegisterPassword = () => {
           "Password does not meet the required criteria. Please check the rules."
         );
         setShowPasswordMessage(true);
-      } else {
-        setShowPasswordMessage(false);
-      }
-    }, 1000);
-    return () => clearTimeout(debounceNewPassword);
-  }, [password]);
-
-  useEffect(() => {
-    const debounceConfirmPassword = setTimeout(() => {
-      if (confirmPassword !== "" && password !== confirmPassword) {
-        setPasswordMessage("Passwords do not match. Please try again.");
+      } else if (confirmPassword !== "" && password !== confirmPassword) {
+        setPasswordMessage("Passwords do not match.");
         setShowPasswordMessage(true);
       } else {
         setShowPasswordMessage(false);
       }
-    }, 1000);
+    }, 500);
     return () => clearTimeout(debounceConfirmPassword);
-  }, [confirmPassword]);
+  }, [password, confirmPassword]);
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -143,6 +117,10 @@ const RegisterPassword = () => {
       registerPasswordHandler();
     }
   };
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <div className="w-full h-full flex justify-center items-center">
@@ -159,10 +137,11 @@ const RegisterPassword = () => {
             <p className="text-sm text-ms-light-text">
               Your current account is signed in using your Google account.
               <br />
-              To enhance security and provide flexibility, you can register a
-              new password for this account. Once registered, you'll have the
-              option to log in using either your Google account or your email
-              and password.
+              You can register a password here.
+              <br />
+              Once registered, you'll have the option to log in using either
+              your Google account or your email and password.
+              <br />
               <br />
               Strong password required. Passwords must have at least 8
               characters and contain at least two of the following: uppercase
@@ -184,7 +163,7 @@ const RegisterPassword = () => {
           {reAuthenticated && (
             <div>
               <div className="mb-6">
-              {showPasswordMessage && (
+                {showPasswordMessage && (
                   <p className="text-ms-alert-error mb-2">{passwordMessage}</p>
                 )}
                 <label htmlFor="registerdPasssword" className="font-medium">
@@ -195,9 +174,7 @@ const RegisterPassword = () => {
                   type="password"
                   id="registerdPasssword"
                   className="border mt-1 bg-transparent"
-                  onChange={(e) => {
-                    setPassword(e.target.value);
-                  }}
+                  onChange={passwordInputHandler}
                 />
               </div>
 
@@ -213,11 +190,8 @@ const RegisterPassword = () => {
                   type="password"
                   id="confirmRegisteredPassword"
                   className="border mt-1 bg-transparent"
-                  onChange={(e) => {
-                    setConfirmPassword(e.target.value);
-                  }}
+                  onChange={confirmPasswordInputHandler}
                 />
-
               </div>
             </div>
           )}
