@@ -10,8 +10,6 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 import { useDispatch, useSelector } from "react-redux";
-import { doc, updateDoc } from "firebase/firestore";
-import { updateUser } from "../../store/authSlice";
 import { Navigate, useNavigate } from "react-router-dom";
 
 const UpdateProfile = () => {
@@ -44,7 +42,6 @@ const UpdateProfile = () => {
 
   const clickCancelHandler = () => {
     window.location.pathname = "/myaccount";
-    // navigate("/myaccount")
   };
 
   const addFileClickHandler = (event) => {
@@ -54,8 +51,6 @@ const UpdateProfile = () => {
   };
 
   const deletePhotoHandler = () => {
-    console.log("photodeleted");
-    // setNewPhotoUrl("/public/profile_image.svg")
     setNewPhotoUrl("");
     setPhotoDeleted(true);
   };
@@ -184,9 +179,6 @@ const UpdateProfile = () => {
     inputRef.current.value = null;
   };
 
-  // if (auth.currentUser.providerData[0].providerId !== "password") {
-  //   return <Navigate to={"/myaccount"}/>
-  // }
 
   if (showMessage.changeSuccess) {
     return (

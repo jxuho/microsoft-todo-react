@@ -148,10 +148,10 @@ const ChangePassword = () => {
     window.location.pathname = "/myaccount";
   };
 
-  // if (auth.currentUser.providerData[0].providerId !== "password") {
-  //   return <Navigate to={"/myaccount"}/>
-  // }
-
+  if (!auth.currentUser.providerData.find(item => item.providerId === "password")) {
+    console.log("Can't access to this route");
+    return <Navigate to={"/myaccount"}/>
+  }
 
   if (showMessage.changeSuccess) {
     return (

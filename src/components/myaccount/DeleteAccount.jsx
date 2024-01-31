@@ -6,24 +6,18 @@ import { useGetTodosApiQuery } from "../../api/todoApiSlice";
 import {
   GoogleAuthProvider,
   deleteUser,
-  getAuth,
-  getIdToken,
+  reauthenticateWithCredential,
   signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
 } from "firebase/auth";
 import Loading from "../Loading";
-import { useNavigate } from "react-router-dom";
 import { logout } from "../../store/authSlice";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
-import { initializeUi } from "../../store/uiSlice";
-import { initializeActive } from "../../store/activeSlice";
-import { initializeSearch } from "../../store/searchSlice";
 import { useDispatch } from "react-redux";
 
 const DeleteAccount = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const {
     data: todos,
     error: todosError,
@@ -39,6 +33,8 @@ const DeleteAccount = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const [reAuthenticated, setReAuthenticated] = useState(false);
+
+  const [credential, setCredential] = useState();
 
   const [localStorageUser, setLocalStorageUser] = useLocalStorage("user", null);
 
@@ -64,7 +60,11 @@ const DeleteAccount = () => {
     console.log("submit trigger");
 
     try {
-      if (auth.currentUser?.providerData[0].providerId === "google.com") {
+      if (
+        auth.currentUser?.providerData.find(
+          (item) => item.providerId === "google.com"
+        )
+      ) {
         const signInResult = await signInWithPopup(auth, googleProvider);
         const userCredential =
           GoogleAuthProvider.credentialFromResult(signInResult);
@@ -80,16 +80,20 @@ const DeleteAccount = () => {
           await signOut(auth);
           dispatch(logout());
           window.location.pathname = "/user/signin";
-
           return;
         }
+        setCredential(userCredential)
         setReAuthenticated(true);
-      } else if (auth.currentUser?.providerData[0].providerId === "password") {
-        const signInResult = await signInWithEmailAndPassword(
+      } else if (
+        auth.currentUser?.providerData.length === 1 &&
+        auth.currentUser?.providerData[0].providerId === "password"
+      ) {
+        const userCredential = await signInWithEmailAndPassword(
           auth,
           email,
           password
         );
+        setCredential(userCredential)
         setReAuthenticated(true);
       }
     } catch (error) {
@@ -105,6 +109,11 @@ const DeleteAccount = () => {
     e.preventDefault();
     try {
       setIsLoading(true);
+
+      // re-authenticate
+      await reauthenticateWithCredential(auth.currentUser, credential);
+
+      setLocalStorageUser("")
 
       // storage 파일 삭제
       const profileRef = ref(storage, `${user.uid}/profile`);

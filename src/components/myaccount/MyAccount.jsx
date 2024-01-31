@@ -9,32 +9,10 @@ import {
 import { signOut } from "firebase/auth";
 import { auth } from "../../firebase";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
-import { initializeUi, setDeleteDialogActive } from "../../store/uiSlice";
-import { initializeActive } from "../../store/activeSlice";
-import { initializeSearch } from "../../store/searchSlice";
-import { logout } from "../../store/authSlice";
-import { Outlet, useLocation, useNavigate } from "react-router-dom";
-/**
- *
- *
- *
- * 계정 삭제
- * 비밀번호 변경
- * 사진 등록/변경
- * 이름 등록/변경
- *
- *
- * 버튼 하나당 기능 하나로 설정
- * hover하면 animation 출력
- * change password
- * delete account
- *
- *
- */
+import { useNavigate } from "react-router-dom";
+
 const MyAccount = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const location = useLocation();
   const user = useSelector((state) => state.auth.user);
   const [localStorageUser, setLocalStorageUser] = useLocalStorage("user", null);
 
@@ -42,14 +20,7 @@ const MyAccount = () => {
     signOut(auth)
       .then(() => {
         dispatch(logout());
-
         setLocalStorageUser(null);
-
-        // dispatch(initializeUi());
-        // dispatch(initializeActive());
-        // dispatch(initializeSearch());
-        // navigate('/user/signin')
-
         window.location.pathname = "/user/signin";
       })
       .catch((error) => {
@@ -58,25 +29,15 @@ const MyAccount = () => {
   };
 
   const changePasswordHandler = () => {
-    // navigate("changepassword")
-
-    if (auth.currentUser.providerData[0].providerId !== "password") {
-      console.log(auth.currentUser.providerData[0].providerId);
-      console.log("This account is not connected with email address");
-      return;
-    }
-
     window.location.pathname = "/myaccount/changepassword";
   };
 
   const updateProfileHandler = () => {
-    // console.log(auth.currentUser);
     window.location.pathname = "/myaccount/updateprofile";
   };
 
   const deleteAccountHandler = () => {
     window.location.pathname = "/myaccount/deleteaccount";
-    // dispatch(setDeleteDialogActive({active:true, target:"account"}))
   };
 
   const registerPasswordHandler = () => {
@@ -86,6 +47,7 @@ const MyAccount = () => {
   return (
     <div className="w-full h-full p-12 mx-auto max-w-[1680px] overflow-auto">
       <div className="m-6 grid gap-12 grid-cols-1 min-[640px]:grid-cols-2 min-[900px]:grid-cols-3 xl:grid-cols-4">
+      {/* Profile */}
         <div
           className="min-[640px]:h-[600px] row-span-2 flex flex-col justify-between max-w-xs p-4 bg-white rounded"
           style={{
@@ -126,6 +88,7 @@ const MyAccount = () => {
           </div>
         </div>
 
+        {/* Update Profile */}
         <div
           className="flex flex-col max-w-xs p-4 bg-white rounded h-full row-span-1"
           style={{
@@ -163,7 +126,10 @@ const MyAccount = () => {
           </div>
         </div>
 
-        {auth.currentUser.providerData.find(item => item.providerId === "password") && (
+        {/* Change Password */}
+        {auth.currentUser.providerData.find(
+          (item) => item.providerId === "password"
+        ) && (
           <div
             className="flex flex-col max-w-xs p-4 bg-white rounded h-full row-span-1"
             style={{
@@ -200,17 +166,7 @@ const MyAccount = () => {
           </div>
         )}
 
-        {/* 
-        register password -> google oauth인 경우
-        
-        google email로 로그인된 경우 -> connect with google 탭 없어도 google oauth sign in하면 자동으로 연동됨
-          -> 비밀번호 변경 case 해결해야 함. google email로 signup하고 Oauth 연결했을 때 비밀번호 로그인 가능한지 확인
-        
-         */}
-
-        {/* 비밀번호 등록됐는지 조건 추가
-        Google OAuth로 sign-in됐는데 password 등록 안됨
-          */}
+        {/* Register Password */}
         {auth.currentUser.providerData.length === 1 &&
           auth.currentUser.providerData[0].providerId === "google.com" && (
             <div
@@ -251,6 +207,7 @@ const MyAccount = () => {
             </div>
           )}
 
+        {/* Delete Account */}
         <div
           className="flex flex-col max-w-xs p-4 bg-white rounded h-full row-span-1 "
           style={{

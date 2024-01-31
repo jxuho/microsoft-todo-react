@@ -10,6 +10,7 @@ import {
 import { useDispatch } from "react-redux";
 import { logout } from "../../store/authSlice";
 import Loading from "../Loading";
+import { Navigate } from "react-router-dom";
 
 const RegisterPassword = () => {
   const dispatch = useDispatch();
@@ -50,8 +51,7 @@ const RegisterPassword = () => {
           GoogleAuthProvider.credentialFromResult(signInResult);
         const token = userCredential.accessToken;
 
-        setCredential(userCredential);
-
+        
         // 동일한 계정이 아니면 return
         if (signInResult.user.email !== userToDelete) {
           console.log("user information is not matched");
@@ -62,6 +62,8 @@ const RegisterPassword = () => {
           window.location.pathname = "/user/signin";
           return;
         }
+        
+        setCredential(userCredential);
         setReAuthenticated(true);
       }
     } catch (error) {
@@ -117,6 +119,16 @@ const RegisterPassword = () => {
       registerPasswordHandler();
     }
   };
+
+  if (
+    !(
+      auth.currentUser.providerData.length === 1 &&
+      auth.currentUser.providerData[0].providerId === "google.com"
+    )
+  ) {
+    console.log("Can't access to this route");
+    return <Navigate to={"/myaccount"} />;
+  }
 
   if (isLoading) {
     return <Loading />;
