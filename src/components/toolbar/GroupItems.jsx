@@ -1,11 +1,11 @@
 import { PiTag } from "react-icons/pi";
-import { useSelector } from "react-redux";
 import { useSetGroupByApiMutation } from "../../api/groupApiSlice";
+import { auth } from "../../firebase";
 
 const GroupItems = ({ onItemClick, currentLocation }) => {
   if (currentLocation === "today") currentLocation = "myday";
 
-  const userId = useSelector((state) => state.auth.user.uid);
+  const userId = auth.currentUser.uid;
 
   const [setGroupByApi] = useSetGroupByApiMutation();
 

@@ -1,4 +1,4 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import {
   addActiveTasks,
   initializeActiveRange,
@@ -10,10 +10,11 @@ import {
   useGetTodosApiQuery,
   useSetRemindedTodoApiMutation,
 } from "../api/todoApiSlice";
+import { auth } from "../firebase";
 
 const useRemindNotification = () => {
   const dispatch = useDispatch();
-  const userId = useSelector((state) => state.auth.user.uid);
+  const userId = auth.currentUser?.uid;
   const [setRemindedTodoApi] = useSetRemindedTodoApiMutation();
 
   const {

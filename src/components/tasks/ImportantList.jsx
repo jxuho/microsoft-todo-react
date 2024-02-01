@@ -6,6 +6,7 @@ import { addActiveTasks } from "../../store/activeSlice";
 import useInfiniteScroll from "../../hooks/useInfiniteScroll";
 import { useGetTodosApiQuery } from "../../api/todoApiSlice";
 import { useGetSortApiQuery } from "../../api/sortApiSlice";
+import { auth } from "../../firebase";
 
 const ImportantList = ({ currentLocation }) => {
   const dispatch = useDispatch();
@@ -13,7 +14,7 @@ const ImportantList = ({ currentLocation }) => {
   const activeRange = useSelector((state) => state.active.activeRange);
   const activeTasksId = useSelector((state) => state.active.activeTasks);
 
-  const userId = useSelector((state) => state.auth.user.uid);
+  const userId = auth.currentUser.uid;
   const {
     data: todos,
     error,

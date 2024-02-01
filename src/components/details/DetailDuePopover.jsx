@@ -18,6 +18,7 @@ import DueCalendar from "../addtask/DueCalendar";
 import DueItems from "../addtask/DueItems";
 import { useLocation } from "react-router-dom";
 import { useChangeOptionTodoApiMutation } from "../../api/todoApiSlice";
+import { auth } from "../../firebase";
 
 const DetailDuePopover = ({ taskId, todo }) => {
   const location = useLocation();
@@ -26,7 +27,7 @@ const DetailDuePopover = ({ taskId, todo }) => {
   const [dueText, setDueText] = useState("");
   const [isHover, setIsHover] = useState(false);
   const [tooltipOpen, setTooltipOpen] = useState(false);
-  const userId = useSelector((state) => state.auth.user.uid);
+  const userId = auth.currentUser.uid;
 
   const [changeOptionTodoApi] = useChangeOptionTodoApiMutation();
 

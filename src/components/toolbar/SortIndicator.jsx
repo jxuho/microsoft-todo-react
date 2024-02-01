@@ -1,4 +1,3 @@
-import { useSelector } from "react-redux";
 import { BsXLg, BsChevronUp, BsChevronDown } from "react-icons/bs";
 import {
   flip,
@@ -15,13 +14,14 @@ import {
   useGetSortApiQuery,
   useInitializeSortApiMutation,
 } from "../../api/sortApiSlice";
+import { auth } from "../../firebase";
 
 const SortIndicator = ({ currentLocation }) => {
   const [reverseTooltipOpen, setReverseTooltipOpen] = useState(false);
   const [closeTooltipOpen, setCloseTooltipOpen] = useState(false);
   const [sortIndicatorText, setSortIndicatorText] = useState("");
 
-  const userId = useSelector((state) => state.auth.user.uid);
+  const userId = auth.currentUser.uid;
   const [initializeSortApi] = useInitializeSortApiMutation();
   const [changeSortOrderApi] = useChangeSortOrderApiMutation();
 

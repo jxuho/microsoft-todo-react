@@ -24,6 +24,7 @@ import {
   useSetDetailWidthApiMutation,
 } from "../../api/uiApiSlice";
 import { useGetTodosApiQuery } from "../../api/todoApiSlice";
+import { auth } from "../../firebase";
 
 const TaskDetail = () => {
   const dispatch = useDispatch();
@@ -36,7 +37,7 @@ const TaskDetail = () => {
   const [isHover, setIsHover] = useState(false);
   const [createdTime, setCreatedTime] = useState("");
   const [firstRender, setFirstRender] = useState(true);
-  const userId = useSelector((state) => state.auth.user.uid);
+  const userId = auth.currentUser.uid;
   const isSidebarOpen = useSelector(state => state.ui.sidebar)
 
   const [resizerPosition, setResizerPosition] = useState(360);

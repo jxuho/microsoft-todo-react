@@ -3,11 +3,12 @@ import Panel from "../components/ui/Panel";
 import { BsXLg } from "react-icons/bs";
 import { setHeaderButton } from "../store/uiSlice";
 import { useGetUiApiQuery, useSetThemeApiMutation } from "../api/uiApiSlice";
+import { auth } from "../firebase";
 
 const Settings = () => {
   const dispatch = useDispatch();
   const isSettingsActive = useSelector((state) => state.ui.settingsActive);
-  const userId = useSelector((state) => state.auth.user.uid);
+  const userId = auth.currentUser.uid;
 
   const [setThemeApi] = useSetThemeApiMutation();
 

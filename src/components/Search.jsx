@@ -21,6 +21,7 @@ import SearchedNotes from "./tasks/searchedLists/SearchedNotes";
 import SearchedCategories from "./tasks/searchedLists/SearchedCategories";
 import SearchedSteps from "./tasks/searchedLists/SearchedSteps";
 import { useGetTodosApiQuery } from "../api/todoApiSlice";
+import { auth } from "../firebase";
 
 const Search = () => {
   const dispatch = useDispatch();
@@ -34,7 +35,7 @@ const Search = () => {
   
 
 
-  const userId = useSelector((state) => state.auth.user.uid);
+  const userId = auth.currentUser.uid;
 
   const {
     data: todos,

@@ -7,7 +7,7 @@ import { useSetSortByApiMutation } from "../api/sortApiSlice";
 const SortItems = ({onItemClick, currentLocation}) => {
   // 현재 페이지 가지고와서, 페이지에 따라 render 다르게해야 한다
   const dispatch = useDispatch()
-  const userId = useSelector((state) => state.auth.user.uid);
+  const userId = auth.currentUser.uid;
   const [setSortByApi] = useSetSortByApiMutation();
 
   

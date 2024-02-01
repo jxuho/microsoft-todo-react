@@ -1,9 +1,9 @@
 import { useEffect } from "react";
-import { useSelector } from "react-redux";
 import { useGetUiApiQuery } from "../api/uiApiSlice";
+import { auth } from "../firebase";
 
 const useTheme = () => {
-  const userId = useSelector((state) => state.auth.user.uid);
+  const userId = auth.currentUser?.uid;
 
   const {
     data: uiData,

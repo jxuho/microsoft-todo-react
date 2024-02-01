@@ -13,13 +13,14 @@ import useViewport from "../hooks/useViewPort";
 import { useGetSortApiQuery } from "../api/sortApiSlice";
 import { useGetGroupApiQuery } from "../api/groupApiSlice";
 import { useGetUiApiQuery } from "../api/uiApiSlice";
+import { auth } from "../firebase";
 
 const Myday = () => {
   const isSidebarOpen = useSelector((state) => state.ui.sidebar);
   const { width: viewportWidth } = useViewport();
   const dispatch = useDispatch();
   
-  const userId = useSelector((state) => state.auth.user.uid);
+  const userId = auth.currentUser.uid;
 
   const {
     data: sortData,

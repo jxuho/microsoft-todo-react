@@ -16,10 +16,11 @@ import {
   useAddCategoryTodoApiMutation,
   useRemoveCategoryTodoApiMutation,
 } from "../../api/todoApiSlice";
+import { auth } from "../../firebase";
 
 const DetailCategories = ({ taskId, todo }) => {
   const [popoverOpen, setPopoverOpen] = useState(false);
-  const userId = useSelector((state) => state.auth.user.uid);
+  const userId = auth.currentUser.uid;
 
   const [addCategoryTodoApi] = useAddCategoryTodoApiMutation();
   const [removeCategoryTodoApi] = useRemoveCategoryTodoApiMutation();

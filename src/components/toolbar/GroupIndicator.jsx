@@ -1,4 +1,3 @@
-import { useDispatch, useSelector } from "react-redux";
 import { BsXLg } from "react-icons/bs";
 import {
   flip,
@@ -12,9 +11,10 @@ import {
 import { useEffect, useState } from "react";
 import { useGetGroupApiQuery } from "../../api/groupApiSlice";
 import { useInitializeGroupApiMutation } from "../../api/groupApiSlice";
+import { auth } from "../../firebase";
 
 const GroupIndicator = ({ currentLocation }) => {
-  const userId = useSelector((state) => state.auth.user.uid);
+  const userId = auth.currentUser.uid;
   const [closeTooltipOpen, setCloseTooltipOpen] = useState(false);
   const [groupIndicatorText, setGroupIndicatorText] = useState("");
 

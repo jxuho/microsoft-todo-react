@@ -14,12 +14,13 @@ import {
   useGetSortApiQuery,
   useSetSortByApiMutation,
 } from "../api/sortApiSlice";
+import { auth } from "../firebase";
 
 const Completed = () => {
   const dispatch = useDispatch();
   const [todoArr, setTodoArr] = useState([]);
   const isSidebarOpen = useSelector((state) => state.ui.sidebar);
-  const userId = useSelector((state) => state.auth.user.uid);
+  const userId = auth.currentUser.uid;
   const {
     data: todos,
     error: todosError,

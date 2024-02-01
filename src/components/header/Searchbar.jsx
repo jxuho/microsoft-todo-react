@@ -8,6 +8,7 @@ import { addQuery, initializeQuery } from "../../store/searchSlice";
 import useViewport from "../../hooks/useViewPort";
 import { setSearchbarActive } from "../../store/uiSlice";
 import { useGetUiApiQuery } from "../../api/uiApiSlice";
+import { auth } from "../../firebase";
 
 const Searchbar = () => {
   const navigate = useNavigate();
@@ -20,7 +21,7 @@ const Searchbar = () => {
   const { width: viewportWidth } = useViewport();
   const isSidebarOpen = useSelector((state) => state.ui.sidebar);
   const isDetailOpen = useSelector((state) => state.ui.detail);
-  const userId = useSelector((state) => state.auth.user.uid);
+  const userId = auth.currentUser.uid;
   const {
     data: uiData,
     isLoading: isUiLoading,

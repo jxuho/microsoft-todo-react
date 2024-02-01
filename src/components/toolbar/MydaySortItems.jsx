@@ -1,12 +1,12 @@
-import { useSelector } from "react-redux";
 import SortImportanceItem from "./sortListItems/SortImportanceItem";
 import SortDueDateItem from "./sortListItems/SortDueDateItem";
 import SortAlphabeticallyItem from "./sortListItems/SortAlphabeticallyItem";
 import SortCreationDateItem from "./sortListItems/SortCreationDateItem";
 import { useSetSortByApiMutation } from "../../api/sortApiSlice";
+import { auth } from "../../firebase";
 const MydaySortItems = ({ onItemClick, currentLocation }) => {
   // 현재 페이지 가지고와서, 페이지에 따라 render 다르게해야 한다
-  const userId = useSelector((state) => state.auth.user.uid);
+  const userId = auth.currentUser.uid;
   if (currentLocation === "today") currentLocation = "myday";
 
   const [setSortByApi] = useSetSortByApiMutation();

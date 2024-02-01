@@ -9,11 +9,9 @@ import {
   ref,
   uploadBytesResumable,
 } from "firebase/storage";
-import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 const UpdateProfile = () => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const inputRef = useRef();
 

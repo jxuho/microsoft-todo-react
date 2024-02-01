@@ -16,7 +16,7 @@ import {
   useRemoveTodoApiMutation,
 } from "../../api/todoApiSlice";
 import { deleteObject, ref } from "firebase/storage";
-import { storage } from "../../firebase";
+import { auth, storage } from "../../firebase";
 
 function DeleteDialog() {
   const dispatch = useDispatch();
@@ -27,7 +27,7 @@ function DeleteDialog() {
   const deleteDialogTarget = useSelector(
     (state) => state.ui.deleteDialogTarget
   );
-  const userId = useSelector((state) => state.auth.user.uid);
+  const userId = auth.currentUser.uid;
   const activeFileRef = useSelector((state) => state.active.activeFileRef);
 
   const {

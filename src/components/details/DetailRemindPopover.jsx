@@ -24,6 +24,7 @@ import {
   useChangeOptionTodoApiMutation,
   useSetRemindedTodoApiMutation,
 } from "../../api/todoApiSlice";
+import { auth } from "../../firebase";
 
 const DetailRemindPopover = ({ taskId, todo }) => {
   const location = useLocation();
@@ -33,7 +34,7 @@ const DetailRemindPopover = ({ taskId, todo }) => {
   const [isHover, setIsHover] = useState(false);
   const [tooltipOpen, setTooltipOpen] = useState(false);
 
-  const userId = useSelector((state) => state.auth.user.uid);
+  const userId = auth.currentUser.uid;
   const [changeOptionTodoApi] = useChangeOptionTodoApiMutation();
   const [setRemindedTodoApi] = useSetRemindedTodoApiMutation();
 

@@ -24,6 +24,7 @@ import {
   useSetImportanceTodoApiMutation,
 } from "../../api/todoApiSlice";
 import uuid from "react-uuid";
+import { auth } from "../../firebase";
 
 const DetailHeader = ({ taskId, todo }) => {
   const textAreaRef = useRef();
@@ -35,7 +36,7 @@ const DetailHeader = ({ taskId, todo }) => {
   const [isActive, setIsActive] = useState(false);
 
   const [changeTaskTodoApi] = useChangeTaskTodoApiMutation();
-  const userId = useSelector((state) => state.auth.user.uid);
+  const userId = auth.currentUser.uid;
 
   const [setCompleteTodoApi] = useSetCompleteTodoApiMutation();
   const [setImportanceTodoApi] = useSetImportanceTodoApiMutation();

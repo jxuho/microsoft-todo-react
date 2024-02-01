@@ -17,6 +17,7 @@ import { addActiveTasks } from "../store/activeSlice";
 import { useGetTodosApiQuery } from "../api/todoApiSlice";
 import { useGetSortApiQuery } from "../api/sortApiSlice";
 import { useGetGroupApiQuery } from "../api/groupApiSlice";
+import { auth } from "../firebase";
 
 const Inbox = () => {
   const isSidebarOpen = useSelector((state) => state.ui.sidebar);
@@ -24,7 +25,7 @@ const Inbox = () => {
   const dispatch = useDispatch();
   const [todoArr, setTodoArr] = useState([]);
 
-  const userId = useSelector((state) => state.auth.user.uid);
+  const userId = auth.currentUser.uid;
 
   const {
     data: sortData,

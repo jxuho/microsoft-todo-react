@@ -202,7 +202,8 @@ export default App;
  *
  * <할것>
  *
- * 'user' local에서 rtk query로 migrate -> 모든 user useSelector를 auth.currentUser로 대체가능하지 않을까?
+ * 
+ * (ongoing) 'user' local에서 rtk query로 migrate -> 모든 user useSelector를 auth.currentUser로 대체가능하지 않을까?
  * 
  * 
  * Signin component에서 google provider(ljhcow@knou.ac.kr)입력하면 계정 연결하도록 설정

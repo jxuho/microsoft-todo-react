@@ -11,6 +11,7 @@ import {
 } from "../../../store/activeSlice";
 import { useCompleteStepApiMutation } from "../../../api/todoApiSlice";
 import useInfiniteScroll from "../../../hooks/useInfiniteScroll";
+import { auth } from "../../../firebase";
 
 const SearchedSteps = ({ todoArr }) => {
   const [isOpen, setIsOpen] = useState(true);
@@ -70,7 +71,7 @@ const StepItem = forwardRef(({ todo, step }, ref) => {
   const isActive = useSelector((state) => state.active.activeStep); //#eff6fc
   const showCompleted = useSelector((state) => state.search.showCompleted);
 
-  const userId = useSelector((state) => state.auth.user.uid);
+  const userId = auth.currentUser.uid;
   const [completeStepApi] = useCompleteStepApiMutation()
 
   const completedHandler = () => {

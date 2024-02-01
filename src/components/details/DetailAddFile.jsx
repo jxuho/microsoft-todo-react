@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import { FiPaperclip } from "react-icons/Fi";
-import { storage } from "../../firebase";
+import { auth, storage } from "../../firebase";
 import {
   deleteObject,
   getDownloadURL,
@@ -16,7 +16,7 @@ import uuid from "react-uuid";
 const DetailAddFile = ({ taskId, todo }) => {
   const dispatch = useDispatch();
   const inputRef = useRef();
-  const userId = useSelector((state) => state.auth.user.uid);
+  const userId = auth.currentUser.uid;
 
   const [isFileUploading, setIsFileUploading] = useState(false);
 

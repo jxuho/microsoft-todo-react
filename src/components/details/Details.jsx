@@ -14,6 +14,7 @@ import { Suspense, lazy, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { useChangeOptionTodoApiMutation } from "../../api/todoApiSlice";
 import { Oval } from "react-loader-spinner";
+import { auth } from "../../firebase";
 
 const DetailHeader = lazy(() => import("./DetailHeader"));
 const DetailSteps = lazy(() => import("./DetailSteps"));
@@ -25,7 +26,7 @@ const DetailNote = lazy(() => import("./DetailNote"));
 const Details = ({ taskId, todos }) => {
   const location = useLocation();
   const todo = todos.find((todo) => todo.id === taskId);
-  const userId = useSelector((state) => state.auth.user.uid);
+  const userId = auth.currentUser.uid;
   const [changeOptionTodoApi] = useChangeOptionTodoApiMutation();
 
   useEffect(() => {

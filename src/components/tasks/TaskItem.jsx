@@ -32,11 +32,12 @@ import {
   useSetImportanceTodoApiMutation,
 } from "../../api/todoApiSlice";
 import uuid from "react-uuid";
+import { auth } from "../../firebase";
 
 const TaskItem = forwardRef(({ todo, currentLocation, isTaskActive }, ref) => {
   const dispatch = useDispatch();
   const [tooltipOpen, setTooltipOpen] = useState(false);
-  const userId = useSelector((state) => state.auth.user.uid);
+  const userId = auth.currentUser.uid;
   const [setCompleteTodoApi] = useSetCompleteTodoApiMutation();
   const [setImportanceTodoApi] = useSetImportanceTodoApiMutation();
 

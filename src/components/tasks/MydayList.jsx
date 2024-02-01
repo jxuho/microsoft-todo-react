@@ -8,14 +8,14 @@ import { addActiveTasks } from "../../store/activeSlice";
 import { useGetTodosApiQuery } from "../../api/todoApiSlice";
 import { useGetSortApiQuery } from "../../api/sortApiSlice";
 import { useGetGroupApiQuery } from "../../api/groupApiSlice";
+import { auth } from "../../firebase";
 
 const MydayList = ({ currentLocation }) => {
   const dispatch = useDispatch();
   const [todoArr, setTodoArr] = useState([]);
   const activeRange = useSelector((state) => state.active.activeRange);
   
-  // const userId = useSelector((state) => state.auth.user.uid);
-  const userId = useSelector((state) => state.auth.user.uid);
+  const userId = auth.currentUser.uid;
 
 
 

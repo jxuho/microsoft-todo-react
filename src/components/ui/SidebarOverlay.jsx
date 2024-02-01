@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import useViewport from "../../hooks/useViewPort";
 import { closeDetail, closeSidebar } from "../../store/uiSlice";
 import { useGetUiApiQuery } from "../../api/uiApiSlice";
+import { auth } from "../../firebase";
 
 const SidebarOverlay = () => {
   const dispatch = useDispatch();
@@ -9,7 +10,7 @@ const SidebarOverlay = () => {
   const isDetailOpen = useSelector((state) => state.ui.detail);
   const { width: viewportWidth } = useViewport();
 
-  const userId = useSelector((state) => state.auth.user.uid);
+  const userId = auth.currentUser.uid;
 
   const {
     data: uiData,

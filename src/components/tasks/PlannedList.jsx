@@ -7,6 +7,7 @@ import { getCustomFormatDateString } from "../../utils/getDates";
 import useInfiniteScroll from "../../hooks/useInfiniteScroll";
 import sortTasks from "../../utils/sortTasks";
 import { useGetTodosApiQuery } from "../../api/todoApiSlice";
+import { auth } from "../../firebase";
 
 const PlannedList = () => {
   const dispatch = useDispatch();
@@ -14,7 +15,7 @@ const PlannedList = () => {
   const activeTasksId = useSelector((state) => state.active.activeTasks);
   
   
-  const userId = useSelector((state) => state.auth.user.uid);
+  const userId = auth.currentUser.uid;
   const {
     data: todos,
     error,

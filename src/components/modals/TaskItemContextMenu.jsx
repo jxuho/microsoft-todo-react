@@ -25,12 +25,13 @@ import {
   useSetMydayTodoApiMutation,
 } from "../../api/todoApiSlice";
 import uuid from "react-uuid";
+import { auth } from "../../firebase";
 
 const TaskItemContextMenu = () => {
   const location = useLocation();
   const activeTasksId = useSelector((state) => state.active.activeTasks);
   const dispatch = useDispatch();
-  const userId = useSelector((state) => state.auth.user.uid);
+  const userId = auth.currentUser.uid;
   const [setMydayTodoApi] = useSetMydayTodoApiMutation();
   const [changeOptionTodoApi] = useChangeOptionTodoApiMutation();
   const [setImportanceTodoApi] = useSetImportanceTodoApiMutation();

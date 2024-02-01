@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { useRef } from "react";
 import TextareaAutosize from "react-textarea-autosize";
 import { useAddNoteTodoApiMutation } from "../../api/todoApiSlice";
+import { auth } from "../../firebase";
 
 const DetailNote = ({ taskId, todo }) => {
 
@@ -10,7 +11,7 @@ const DetailNote = ({ taskId, todo }) => {
   const [note, setNote] = useState("");
   const [updatedText, setUpdatedText] = useState("");
 
-  const userId = useSelector((state) => state.auth.user.uid);
+  const userId = auth.currentUser.uid;
   const [addNoteTodoApi] = useAddNoteTodoApiMutation();
 
   const todoNote = todo.note;

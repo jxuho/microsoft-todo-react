@@ -12,11 +12,11 @@ import {
   useGetSortApiQuery,
   useSetSortByApiMutation,
 } from "../api/sortApiSlice";
-import Loading from "./Loading";
+import { auth } from "../firebase";
 
 const Important = () => {
   const dispatch = useDispatch();
-  const userId = useSelector((state) => state.auth.user.uid);
+  const userId = auth.currentUser.uid
   const isSidebarOpen = useSelector((state) => state.ui.sidebar);
 
   const {

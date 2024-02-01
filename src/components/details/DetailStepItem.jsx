@@ -21,13 +21,14 @@ import {
   useCompleteStepApiMutation,
   useRemoveStepApiMutation,
 } from "../../api/todoApiSlice";
+import { auth } from "../../firebase";
 
 const DetailStepItem = ({ step, taskId }) => {
   const [isCheckHover, setIsCheckHover] = useState(false);
   const dispatch = useDispatch();
   const isActive = useSelector((state) => state.active.activeStep);
 
-  const userId = useSelector((state) => state.auth.user.uid);
+  const userId = auth.currentUser.uid;
   const [completeStepApi] = useCompleteStepApiMutation();
   const [removeStepApi] = useRemoveStepApiMutation();
   const [changeStepApi] = useChangeStepApiMutation();

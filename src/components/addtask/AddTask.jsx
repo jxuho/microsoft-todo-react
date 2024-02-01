@@ -9,6 +9,7 @@ import getLastTimeOfDay, {
 } from "../../utils/getDates";
 import { GoCircle } from "react-icons/go";
 import { useAddTodoApiMutation } from "../../api/todoApiSlice";
+import { auth } from "../../firebase";
 
 const initialTask = {
   id: "", // uuid
@@ -35,8 +36,8 @@ const AddTask = ({ currentLocation }) => {
   const remindRef = useRef();
   const repeatRef = useRef();
   const inputRef = useRef();
-  const userId = useSelector((state) => state.auth.user.uid);
 
+  const userId = auth.currentUser.uid
   const [addTodoApi] = useAddTodoApiMutation();
 
   let isMyday = false;
@@ -82,7 +83,7 @@ const AddTask = ({ currentLocation }) => {
       importance: isImportant,
     };
     try {
-      addTodoApi({ todo: newTask, userId });
+      addTodoApi({ todo: newTask, userId});
     } catch (error) {
       console.log(error.message);
     }

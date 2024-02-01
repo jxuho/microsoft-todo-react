@@ -5,11 +5,12 @@ import DetailRemindPopover from "./DetailRemindPopover";
 import DetailDuePopover from "./DetailDuePopover";
 import DetailRepeatPopover from "./DetailRepeatPopover";
 import { useSetMydayTodoApiMutation } from "../../api/todoApiSlice";
+import { auth } from "../../firebase";
 
 const DetailOptions = ({ taskId, todo }) => {
   const [isMyday, setIsMyday] = useState(false);
   const [isMydayHover, setIsMydayHover] = useState(false);
-  const userId = useSelector((state) => state.auth.user.uid);
+  const userId = auth.currentUser.uid;
   const [setMydayTodoApi] = useSetMydayTodoApiMutation();
 
   const todoMyday = todo?.myday;
