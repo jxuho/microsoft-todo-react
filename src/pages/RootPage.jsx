@@ -50,10 +50,10 @@ const RootPage = () => {
     skip: !userId,
   });
 
-  useUpdateMyday();
-  useRemindNotification();
-  useTheme();
-  useTitle();
+  useUpdateMyday({userId});
+  useRemindNotification({userId});
+  useTheme({userId});
+  useTitle({userId});
 
   console.log(auth.currentUser);
 

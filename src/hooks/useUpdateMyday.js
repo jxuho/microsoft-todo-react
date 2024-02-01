@@ -2,10 +2,8 @@ import { useEffect } from "react";
 import { isDateToday } from "../utils/getDates";
 import { useGetTodosApiQuery, useSetMydayTodoApiMutation } from "../api/todoApiSlice";
 import { useGetUserApiQuery, useSetUpdatedApiMutation } from "../api/userApiSlice";
-import { auth } from "../firebase";
 
-const useUpdateMyday = () => {
-  const userId = auth.currentUser?.uid;
+const useUpdateMyday = ({userId}) => {
   const [setMydayTodoApi] = useSetMydayTodoApiMutation();
   
   const {data: userData} = useGetUserApiQuery(userId, { skip: !userId })

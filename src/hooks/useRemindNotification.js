@@ -10,11 +10,9 @@ import {
   useGetTodosApiQuery,
   useSetRemindedTodoApiMutation,
 } from "../api/todoApiSlice";
-import { auth } from "../firebase";
 
-const useRemindNotification = () => {
+const useRemindNotification = ({userId}) => {
   const dispatch = useDispatch();
-  const userId = auth.currentUser?.uid;
   const [setRemindedTodoApi] = useSetRemindedTodoApiMutation();
 
   const {

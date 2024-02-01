@@ -2,14 +2,12 @@ import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { useGetTodosApiQuery } from "../api/todoApiSlice";
-import { auth } from "../firebase";
 
-const useTitle = () => {
+const useTitle = ({userId}) => {
   const location = useLocation();
   const activeTasks = useSelector((state) => state.active.activeTasks);
   const searchQuery = useSelector((state) => state.search.query);
 
-  const userId = auth.currentUser?.uid;
   const {
     data: todos,
     error,

@@ -1,10 +1,7 @@
 import { useEffect } from "react";
 import { useGetUiApiQuery } from "../api/uiApiSlice";
-import { auth } from "../firebase";
 
-const useTheme = () => {
-  const userId = auth.currentUser?.uid;
-
+const useTheme = ({userId}) => {
   const {
     data: uiData,
     isLoading: isUiLoading,
