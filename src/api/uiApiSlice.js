@@ -40,6 +40,7 @@ export const uiApiSlice = firestoreApi.injectEndpoints({
     setDetailWidthApi: builder.mutation({
       async queryFn({ userId, value }) {
         try {
+          console.log('setDetailWidthApi');
           const docRef = doc(db, `users/${userId}/preference`, "uiDoc");
           await setDoc(
             docRef,
@@ -74,6 +75,7 @@ export const uiApiSlice = firestoreApi.injectEndpoints({
     setThemeApi: builder.mutation({
       async queryFn({ userId, value }) {
         try {
+          console.log("setThemeApi");
           const docRef = doc(db, `users/${userId}/preference`, "uiDoc");
           await setDoc(
             docRef,

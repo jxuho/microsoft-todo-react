@@ -1,8 +1,9 @@
 import { fakeBaseQuery } from "@reduxjs/toolkit/query/react";
-import { db } from "../firebase";
+import { auth, db } from "../firebase";
 import {
   doc,
   getDoc,
+  setDoc,
   updateDoc,
 } from "firebase/firestore";
 import { firestoreApi } from "./firestoreApi";
@@ -20,8 +21,14 @@ export const userApiSlice = firestoreApi.injectEndpoints({
           const docRef = doc(db, "users", userId);
           const docSnap = await getDoc(docRef);
 
-          const docData = docSnap.exists() ? docSnap.data() : {};
-
+          const initialUserStates = {
+            email: auth.currentUser.email,
+            updated: ""
+          }
+          if (!docSnap.exists()) {
+            await setDoc(docRef, initialUserStates, { merge: true });
+          }
+          const docData = docSnap.exists() ? docSnap.data() : initialUserStates;
 
           return { data: docData };
         } catch (error) {

@@ -11,6 +11,7 @@ const useTheme = ({userId}) => {
   } = useGetUiApiQuery(userId, { skip: !userId });
 
   useEffect(() => {
+    if (!userId) return;
     const htmlElement = document.querySelector("html");
     if (!htmlElement) return;
 

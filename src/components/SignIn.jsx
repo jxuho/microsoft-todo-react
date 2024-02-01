@@ -2,13 +2,9 @@ import { BsKey } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import {
-  FacebookAuthProvider,
   GoogleAuthProvider,
-  getRedirectResult,
-  sendSignInLinkToEmail,
   signInWithEmailAndPassword,
   signInWithPopup,
-  signInWithRedirect,
 } from "firebase/auth";
 import { auth, db } from "../firebase";
 import {
@@ -19,13 +15,11 @@ import {
   setDoc,
   where,
 } from "firebase/firestore";
-import { useDispatch } from "react-redux";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import Loading from "./Loading";
 
 const SignIn = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
 
   const [email, setEmail] = useState("");
   const [showEmailAlert, setShowEmailAlert] = useState(false);

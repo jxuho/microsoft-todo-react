@@ -23,7 +23,7 @@ const useRemindNotification = ({userId}) => {
   } = useGetTodosApiQuery(userId, { skip: !userId });
 
   useEffect(() => {
-    if (!todos) return;
+    if (!userId || !todos) return;
     if (!todos.some((todo) => todo.remind && !todo.reminded && !todo.complete))
       return;
     if (!("Notification" in window)) {
