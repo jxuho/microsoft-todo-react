@@ -1,20 +1,19 @@
-import { useDispatch, useSelector } from "react-redux";
 import { BsCircle } from "react-icons/bs";
 import { TfiPlus } from "react-icons/tfi";
 import { useEffect, useRef, useState } from "react";
 import uuid from "react-uuid";
 import DetailStepItem from "./DetailStepItem";
 import { useAddStepApiMutation } from "../../api/todoApiSlice";
+import { auth } from "../../firebase";
 
 
 const DetailSteps = ({ taskId, todo }) => {
-  const dispatch = useDispatch();
   const inputRef = useRef();
   const addRef = useRef();
   const [newStep, setNewStep] = useState("");
   const [isFocused, setIsFocused] = useState(false);
   const [addStepApi] = useAddStepApiMutation()
-  const userId = useSelector(state => state.auth.user.uid)
+  const userId = auth.currentUser.uid;
 
 
   const todoSteps = todo?.steps ?? [];

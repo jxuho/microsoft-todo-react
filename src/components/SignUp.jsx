@@ -18,7 +18,6 @@ import {
   where,
 } from "firebase/firestore";
 import { useDispatch } from "react-redux";
-import { login } from "../store/authSlice";
 
 const SignUp = () => {
   const [email, setEmail] = useState(
@@ -364,15 +363,6 @@ const SignUpPassword = ({ setCurrentView }) => {
       );
       window.localStorage.removeItem("emailForSignIn");
       const user = userCredential.user;
-
-      dispatch(
-        login({
-          email: userCredential.user.email,
-          uid: userCredential.user.uid,
-          displayName: userCredential.user.displayName,
-          photoUrl: userCredential.user.photoURL,
-        })
-      );
 
       await setDoc(doc(db, "users", user.uid), {
         email: user.email,

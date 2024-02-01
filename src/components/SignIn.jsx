@@ -20,7 +20,6 @@ import {
   where,
 } from "firebase/firestore";
 import { useDispatch } from "react-redux";
-import { login } from "../store/authSlice";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import Loading from "./Loading";
 
@@ -63,14 +62,6 @@ const SignIn = () => {
   //       console.log(signInResult);
 
   //       if (signInResult) {
-  //         dispatch(
-  //           login({
-  //             email: signInResult.user.email,
-  //             uid: signInResult.user.uid,
-  //             displayName: signInResult.user.displayName,
-  //             photoUrl: signInResult.user.photoURL,
-  //           })
-  //         );
 
   //         await setDoc(doc(db, "users", signInResult.user.uid), {
   //           email: signInResult.user.email,
@@ -172,14 +163,6 @@ const SignIn = () => {
 
         // console.log(userCredential.user);
         setLocalStorageUser(userCredential.user.email);
-        dispatch(
-          login({
-            email: userCredential.user.email,
-            uid: userCredential.user.uid,
-            displayName: userCredential.user.displayName,
-            photoUrl: userCredential.user.photoURL,
-          })
-        );
         navigate("/");
       } catch (error) {
         if (error.code === "auth/invalid-login-credentials") {
@@ -206,15 +189,6 @@ const SignIn = () => {
 
       // popup 사용 google login
       const signInResult = await signInWithPopup(auth, googleProvider);
-
-      dispatch(
-        login({
-          email: signInResult.user.email,
-          uid: signInResult.user.uid,
-          displayName: signInResult.user.displayName,
-          photoUrl: signInResult.user.photoURL,
-        })
-      );
 
 
       await setDoc(doc(db, "users", signInResult.user.uid), {

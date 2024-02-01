@@ -15,14 +15,14 @@ import MydaySortItems from "./MydaySortItems";
 import ImportantSortItems from "./ImportantSortItems";
 import CompletedSortItems from "./CompletedSortItems";
 import useViewport from "../../hooks/useViewPort";
-import { useSelector } from "react-redux";
 import { useGetUiApiQuery } from "../../api/uiApiSlice";
+import { auth } from "../../firebase";
 
 const SortPopover = ({ currentLocation }) => {
   const [popoverOpen, setPopoverOpen] = useState(false);
   const [tooltipOpen, setTooltipOpen] = useState(false);
   const { width: viewportWidth } = useViewport();
-  const userId = useSelector(state => state.auth.user.uid)
+  const userId = auth.currentUser.uid;
   const {
     data: uiData,
     isLoading: isUiLoading,

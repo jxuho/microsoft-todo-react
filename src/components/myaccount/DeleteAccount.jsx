@@ -12,7 +12,6 @@ import {
   signOut,
 } from "firebase/auth";
 import Loading from "../Loading";
-import { logout } from "../../store/authSlice";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
 import { useDispatch } from "react-redux";
 
@@ -78,7 +77,6 @@ const DeleteAccount = () => {
           // 다른 계정으로 로그인되면 firestore에는 내용 생성 안됨
           // 다만, auth에 다른 계정 생성됨
           await signOut(auth);
-          dispatch(logout());
           window.location.pathname = "/user/signin";
           return;
         }

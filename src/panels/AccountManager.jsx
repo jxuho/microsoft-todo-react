@@ -5,7 +5,6 @@ import { setHeaderButton } from "../store/uiSlice";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../firebase";
 import { signOut } from "firebase/auth";
-import { logout } from "../store/authSlice";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 
 const AccountManager = () => {
@@ -43,7 +42,6 @@ const AccountManager = () => {
   const signOutHandler = () => {
     signOut(auth)
       .then(() => {
-        dispatch(logout());
 
         setLocalStorageUser(null);
         // dispatch(initializeUi());

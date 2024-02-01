@@ -15,7 +15,6 @@ const MyAccount = () => {
   const signOutHandler = () => {
     signOut(auth)
       .then(() => {
-        // dispatch(logout());
         setLocalStorageUser(null);
         window.location.pathname = "/user/signin";
       })

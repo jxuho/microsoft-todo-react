@@ -13,15 +13,15 @@ import { useState } from "react";
 import { PiFolderSimpleThin } from "react-icons/pi";
 import GroupItems from "./GroupItems";
 import useViewport from "../../hooks/useViewPort";
-import { useSelector } from "react-redux";
 import { useGetUiApiQuery } from "../../api/uiApiSlice";
+import { auth } from "../../firebase";
 
 const GroupPopover = ({currentLocation}) => {
   const [popoverOpen, setPopoverOpen] = useState(false);
   const [tooltipOpen, setTooltipOpen] = useState(false);
   const { width: viewportWidth } = useViewport();
 
-  const userId = useSelector(state => state.auth.user.uid)
+  const userId = auth.currentUser.uid;
   const {
     data: uiData,
     isLoading: isUiLoading,

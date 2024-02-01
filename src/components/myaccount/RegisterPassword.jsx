@@ -8,7 +8,6 @@ import {
   updatePassword,
 } from "firebase/auth";
 import { useDispatch } from "react-redux";
-import { logout } from "../../store/authSlice";
 import Loading from "../Loading";
 import { Navigate } from "react-router-dom";
 
@@ -58,7 +57,6 @@ const RegisterPassword = () => {
           setIsLoading(false);
           setShowAuthErrMessage(true);
           await signOut(auth);
-          dispatch(logout());
           window.location.pathname = "/user/signin";
           return;
         }

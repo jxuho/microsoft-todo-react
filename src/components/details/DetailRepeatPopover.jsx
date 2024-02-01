@@ -11,14 +11,13 @@ import {
 } from "@floating-ui/react";
 import { useEffect, useState } from "react";
 import { getDayOfWeek } from "../../utils/getDates";
-import { useSelector } from "react-redux";
 import { BsRepeat, BsXLg } from "react-icons/bs";
 import RepeatCustom from "../addtask/RepeatCustom";
 import RepeatItems from "../addtask/RepeatItems";
-
 import { getRepeatButtonText } from "../addtask/RepeatPopover";
 import { useLocation } from "react-router-dom";
 import { useChangeOptionTodoApiMutation } from "../../api/todoApiSlice";
+import { auth } from "../../firebase";
 
 const DetailRepeatPopover = ({ taskId, todo }) => {
   const location = useLocation();
@@ -27,7 +26,7 @@ const DetailRepeatPopover = ({ taskId, todo }) => {
   const [repeatText, setRepeatText] = useState({ title: "", description: "" });
   const [isHover, setIsHover] = useState(false);
   const [tooltipOpen, setTooltipOpen] = useState(false);
-  const userId = useSelector(state => state.auth.user.uid)
+  const userId = auth.currentUser.uid;
   const [changeOptionTodoApi] = useChangeOptionTodoApiMutation();
 
   const todoRepeatRule = todo?.repeatRule
