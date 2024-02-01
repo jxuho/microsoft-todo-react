@@ -25,6 +25,7 @@ import { useGetSortApiQuery } from "../api/sortApiSlice";
 import { useGetGroupApiQuery } from "../api/groupApiSlice";
 import { useGetUiApiQuery } from "../api/uiApiSlice";
 import { auth } from "../firebase";
+import { useGetUserApiQuery } from "../api/userApiSlice";
 
 const RootPage = () => {
   const location = useLocation();
@@ -32,7 +33,7 @@ const RootPage = () => {
   const { isLoggedIn, isLoading: isAuthLoading, userId } = useAuth();
   const navigate = useNavigate();
 
-  // console.log("RootPage");
+  console.log("RootPage");
 
   const { isLoading: isTodosLoading } = useGetTodosApiQuery(userId, {
     skip: !userId,
@@ -50,12 +51,12 @@ const RootPage = () => {
     skip: !userId,
   });
 
-  useUpdateMyday({userId});
-  useRemindNotification({userId});
-  useTheme({userId});
-  useTitle({userId});
+  useUpdateMyday({ userId });
+  useRemindNotification({ userId });
+  useTheme({ userId });
+  useTitle({ userId });
 
-  console.log(auth.currentUser);
+  // console.log(auth.currentUser);
 
   useEffect(() => {
     // console.log(location.key);
