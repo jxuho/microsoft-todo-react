@@ -52,7 +52,7 @@ const UpdateProfile = () => {
     setPhotoDeleted(true);
   };
 
-  const submitUpdateProfileHandler = (e) => {
+  const submitUpdateProfileHandler = async (e) => {
     e.preventDefault();
 
     if (userName.length === 0) {
@@ -67,38 +67,32 @@ const UpdateProfile = () => {
       return;
     }
 
-    // 업로드하는 파일 이외의 파일은 삭제
-    const listRef = ref(storage, `${auth.currentUser.uid}/profile`);
-    listAll(listRef)
-      .then((res) => {
-        // if (res.items.length > 1) {
-        res.items.forEach((itemRef) => {
-          console.log(itemRef);
+    try {
+      if (fileData) {
+        // 새로 업로드된 파일이 있는 경우, 이외의 파일은 삭제
+        const listRef = ref(storage, `${auth.currentUser.uid}/profile`);
+        const res = await listAll(listRef);
+        res.items.forEach(async (itemRef) => {
           if (itemRef.name !== fileData.name) {
-            deleteObject(itemRef).then(() => {
-              console.log(`${itemRef.name} is deleted`);
-            });
+            await deleteObject(itemRef);
+            console.log(`${itemRef.name} is deleted`);
           }
         });
-        // }
-      })
-      .catch((error) => {
-        console.log(error);
+      }
+      // firebase auth update
+      await updateProfile(auth.currentUser, {
+        displayName: userName,
+        photoURL: newPhotoUrl ?? auth.currentUser.photoURL,
       });
-
-    // firebase auth update
-    updateProfile(auth.currentUser, {
-      displayName: userName,
-      photoURL: newPhotoUrl,
-    })
-      .then(() => {
-        // success modal render
-        console.log("Profile updated");
-        setShowMessage((prevState) => ({ ...prevState, changeSuccess: true }));
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
+      // success modal render
+      console.log("Profile updated");
+      setShowMessage((prevState) => ({
+        ...prevState,
+        changeSuccess: true,
+      }));
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const inputFileSaveHandler = (event) => {

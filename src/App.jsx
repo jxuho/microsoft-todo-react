@@ -197,6 +197,8 @@ export default App;
  * (complete) 계정 삭제되면 firestore, storage에 연결된 데이터도 삭제하기
  * (complete) 잘못된 route 처리 (/abc) -> react router 404 처리
  * (complete) 'user' local에서 rtk query로 migrate -> 모든 user useSelector를 auth.currentUser로 대체가능하지 않을까?
+ * (complete) useUpdateMyday, useRemindNotification, useTheme, useTitle에서 auth.currentUser.uid 초기 호출에서 null...
+ * useAuth를 대체할 수 있을지? 대체 불가능하다면 uid를 위의 custom hook으로 전달하는 것도 고려 가능
  *
  *
  *
@@ -205,9 +207,7 @@ export default App;
  *
  * 
  * 
- * useUpdateMyday, useRemindNotification, useTheme, useTitle에서 auth.currentUser.uid 초기 호출에서 null...
- * useAuth를 대체할 수 있을지? 대체 불가능하다면 uid를 위의 custom hook으로 전달하는 것도 고려 가능
- * 
+ * UpdateProfile 사진 업데이트하지 않고 저장했을때, 사진 삭제됨
  * 
  * Signin component에서 google provider(ljhcow@knou.ac.kr)입력하면 계정 연결하도록 설정
  * 
