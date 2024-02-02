@@ -1,7 +1,7 @@
 import { updateProfile } from "firebase/auth";
 import { auth, storage } from "../../firebase";
 import { useRef, useState } from "react";
-import { FiPaperclip, FiTrash2 } from "react-icons/Fi";
+import { FiPaperclip, FiTrash2 } from "react-icons/fi";
 import {
   deleteObject,
   getDownloadURL,
