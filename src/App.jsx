@@ -13,6 +13,7 @@ import UpdateProfile from "./components/myaccount/UpdateProfile";
 import DeleteAccount from "./components/myaccount/DeleteAccount";
 import NotFoundPage from "./pages/NotFoundPage";
 import RegisterPassword from "./components/myaccount/RegisterPassword";
+import ResetPassword from "./components/ResetPassword";
 
 const RootPage = lazy(() => import("./pages/RootPage"));
 const MydayPage = lazy(() => import("./pages/MydayPage"));
@@ -77,26 +78,26 @@ const router = createBrowserRouter([
           },
           {
             path: "updateprofile",
-            element: <UpdateProfile/>
+            element: <UpdateProfile />,
           },
           {
             path: "deleteaccount",
-            element: <DeleteAccount/>
+            element: <DeleteAccount />,
           },
           {
             path: "registerpassword",
-            element: <RegisterPassword/>
+            element: <RegisterPassword />,
           },
           {
             path: "*",
-            element: <NotFoundPage/>
-          }
+            element: <NotFoundPage />,
+          },
         ],
       },
       {
         path: "*",
-        element: <NotFoundPage/>
-      }
+        element: <NotFoundPage />,
+      },
     ],
   },
   {
@@ -104,7 +105,6 @@ const router = createBrowserRouter([
     element: <ProtectedLayout />,
     children: [
       {
-        index: true,
         path: "signin",
         element: <SignInPage />,
       },
@@ -114,14 +114,14 @@ const router = createBrowserRouter([
       },
       {
         path: "*",
-        element: <NotFoundPage/>
-      }
+        element: <NotFoundPage />,
+      },
     ],
   },
   {
     path: "*",
-    element: <NotFoundPage/>
-  }
+    element: <NotFoundPage />,
+  },
 ]);
 
 function App() {

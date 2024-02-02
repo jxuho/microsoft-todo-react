@@ -1,5 +1,5 @@
 import { BsKey } from "react-icons/bs";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import {
   GoogleAuthProvider,
@@ -17,6 +17,7 @@ import {
 } from "firebase/firestore";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import Loading from "./Loading";
+import ResetPassword from "./ResetPassword";
 
 const SignIn = () => {
   const navigate = useNavigate();
@@ -34,6 +35,8 @@ const SignIn = () => {
   const [isShowPasswordChecked, setIsShowPasswordChecked] = useState(false);
   const [showSignInOptions, setShowSignInOptions] = useState(false);
   const [nextButtonDisable, setNextButtonDisable] = useState(false);
+ 
+  const [showResetPassword, setShowResetPassword] = useState(false)
 
   const checkboxRef = useRef();
 
@@ -185,6 +188,10 @@ const SignIn = () => {
     return <Loading />;
   }
 
+  if (showResetPassword) {
+    return <ResetPassword email={email}/>
+  }
+
   return (
     <div className="absolute h-full w-full flex flex-col items-center justify-center bg-ms-background">
       <div
@@ -251,20 +258,29 @@ const SignIn = () => {
                   onChange={passwordInputHandler}
                   placeholder="Password"
                 />
-                <div className="flex text-sm text-ms-light-text mb-4">
-                  <input
-                    ref={checkboxRef}
-                    className="w-5 h-5 mr-2 hover:cursor-pointer"
-                    type="checkbox"
-                    onChange={() =>
-                      setIsShowPasswordChecked(!isShowPasswordChecked)
-                    }
-                  />
+                <div className="flex text-sm text-ms-light-text mb-4 justify-between">
+                  <div className="flex">
+                    <input
+                      ref={checkboxRef}
+                      className="w-5 h-5 mr-2 hover:cursor-pointer"
+                      type="checkbox"
+                      onChange={() =>
+                        setIsShowPasswordChecked(!isShowPasswordChecked)
+                      }
+                    />
+                    <span
+                      className="hover:cursor-pointer"
+                      onClick={() => checkboxRef.current.click()}
+                    >
+                      Show password
+                    </span>
+                  </div>
                   <span
-                    className="hover:cursor-pointer"
-                    onClick={() => checkboxRef.current.click()}
+                    className="text-sm text-ms-blue-hover hover:underline hover:text-ms-light-text hover:cursor-pointer"
+                    // onClick={() => navigate("/user/resetpassword")}
+                    onClick={() => setShowResetPassword(true)}
                   >
-                    Show password
+                    Reset password
                   </span>
                 </div>
               </div>
@@ -298,7 +314,9 @@ const SignIn = () => {
           <div className="flex justify-end py-3 ">
             <button
               className="py-1 px-3 bg-ms-bg-border min-w-[108px] min-h-[32px] mr-2 hover:bg-ms-gray-button-hover"
-              onClick={() => navigate(-1)}
+              // onClick={() => navigate(-1)}
+              // onClick={() => setShowPasswordTab(false)}
+              onClick={() => window.location.pathname="/user/signin"}
             >
               Back
             </button>
