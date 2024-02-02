@@ -13,7 +13,6 @@ import UpdateProfile from "./components/myaccount/UpdateProfile";
 import DeleteAccount from "./components/myaccount/DeleteAccount";
 import NotFoundPage from "./pages/NotFoundPage";
 import RegisterPassword from "./components/myaccount/RegisterPassword";
-import ResetPassword from "./components/ResetPassword";
 
 const RootPage = lazy(() => import("./pages/RootPage"));
 const MydayPage = lazy(() => import("./pages/MydayPage"));
@@ -200,41 +199,16 @@ export default App;
  * (complete) useUpdateMyday, useRemindNotification, useTheme, useTitle에서 auth.currentUser.uid 초기 호출에서 null...
  * useAuth를 대체할 수 있을지? 대체 불가능하다면 uid를 위의 custom hook으로 전달하는 것도 고려 가능
  * (complete) UpdateProfile 사진 업데이트하지 않고 저장했을때, 사진 삭제됨
+ * (complete) preference 생성 위치 확인
+ * (complete) 비밀번호 초기화 설정 -> 메일 전송
+ * (complete)이메일 사용 signup할 때, 메일 인증 
  *
  *
  *
  *
  * <할것>
  *
- * preference 생성 위치 확인
  * 
- * google email로 생성된 계정 -> verification (vhdpqjwngh)
- * naver email로 생성된 계정 -> verification
- * 
- * google email로 생성된 계정 -> verification -> OAuth로 덮어쓰기 (ljhcows)
- * 
- * 발생하는 문제
-   todo와 관련된 데이터는 전부 유지됨
-   auth.currentUser와 관련된 정보는 유지되지 않음
-   (userName, profile photo)
-   이전에 설정한 비밀번호도 유지되지 않음
-   애초에 firebase auth에 provider가 병렬로 존재하지 않고 google로 대체됨
- * 
- * 
- * 
- * 
- * 
- * 비밀번호 초기화 설정 -> 메일 전송
- * 
- * Signin component에서 google provider(ljhcow@knou.ac.kr)입력하면 계정 연결하도록 설정
- * 
- * 
- * 
- * 이메일 사용 signup할 때, 메일 인증 
- *
- *
- *
- *
  *
  * 계정 새로 생성됐을 때 작동 확인하기
  *
@@ -254,8 +228,6 @@ export default App;
  * Notion 개발일지 가지고와서 list로 render하기(보류)
  *
  * 
- * * 로딩 페이지 dark mode -> window.location.pathName으로 refresh하면서 theme즉시 받아오지 못하면서 발생하는 문제
- *
  *
  * AddTask component retraction
  *

@@ -69,22 +69,29 @@ const AppLauncher = () => {
                 </a>
               </div>
               <div className="pb-6 text-lg">
-                <h3 className="pr-4 pb-2 font-semibold">Technologies</h3>
-                <ul className="pl-1 text-base">
-                  <li>#HTML</li>
-                  <li>#CSS</li>
-                  <li>#TailwindCSS</li>
-                  <li>#JavaScript</li>
-                  <li>#React</li>
-                  <li>#React Router</li>
-                  <li>#Redux Toolkit</li>
-                  <li>#Vite</li>
-                  <li>#NPM</li>
-                  <li>#react-icons</li>
-                  <li>#react-datepicker</li>
-                  <li>#floating-ui</li>
-                  <li>#react-uuid</li>
-                  <li>#react-textarea-autosize</li>
+                <h3 className="pr-4 pb-2 font-semibold">
+                  Technologies
+                </h3>
+                <ul className="pl-1 text-base list-disc ml-4">
+                  <li>React</li>
+                  <li>React Router</li>
+                  <li>Redux Toolkit</li>
+                  <li>RTK Query</li>
+                  <br />
+                  <li>TailwindCSS</li>
+                  <li>Vite</li>
+                  <li>npm</li>
+                  <br />
+                  <li>Firebase Authentication</li>
+                  <li>Firebase Firestore</li>
+                  <li>Firebase Storage</li>
+                  <br />
+                  <li>Floating UI</li>
+                  <li>React Icons</li>
+                  <li>react-datepicker</li>
+                  <li>react-uuid</li>
+                  <li>react-textarea-autosize</li>
+                  <li>react-loader-spinner</li>
                 </ul>
               </div>
             </div>

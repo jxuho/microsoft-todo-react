@@ -9,7 +9,7 @@ const ResetPassword = ({email}) => {
   const [isEmailSent, setIsEmailSent] = useState(false);
 
   const clickCancelHandler = () => {
-    window.location.pathname = "/user";
+    window.location.pathname = "/user/signin";
   };
 
   const submitResetPasswordHandler = (e) => {
