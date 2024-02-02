@@ -42,14 +42,7 @@ const AccountManager = () => {
   const signOutHandler = () => {
     signOut(auth)
       .then(() => {
-
         setLocalStorageUser(null);
-        // dispatch(initializeUi());
-        // dispatch(initializeActive());
-        // dispatch(initializeSearch());
-
-        // navigate('/user/signin')
-        // window.location.pathname = "/user/signin";
       })
       .catch((error) => {
         console.log(error);

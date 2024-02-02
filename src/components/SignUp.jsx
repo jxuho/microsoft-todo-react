@@ -17,7 +17,6 @@ import {
   setDoc,
   where,
 } from "firebase/firestore";
-import { useDispatch } from "react-redux";
 
 const SignUp = () => {
   const [email, setEmail] = useState(
@@ -61,21 +60,6 @@ const SignUp = () => {
 
 export default SignUp;
 
-/**
- * TODO
- * (complete) SignUpEmail, SignUpVerifyEmail, SignUpPassword를 구분해서 SignUp component에서 render한다.
- *
- * (complete) VerifyEmail 기능을 구현한다.(Firebase Auth 이메일 링크 인증)
- *
- * 3. Email, Google 중복 이메일에 대한 처리
- * - Google 계정 삭제 위해서 Sign in 다시 진행, 다른 계정으로 Signin하면 해당 계정이 생성됨
- * - Email로 Signup한 계정과 동일한 Google 계정으로 SignIn하면 데이터 덮어써짐
- *
- * 
- * 
- *
- *
- */
 
 const SignUpEmail = ({ setCurrentView, setEmail, email }) => {
   const navigate = useNavigate();
@@ -300,7 +284,6 @@ const VerifyEmail = ({ setCurrentView, email }) => {
 
 const SignUpPassword = ({ setCurrentView }) => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   let email = window.localStorage.getItem("emailForSignIn");
   const [password, setPassword] = useState("");
   const [showPasswordAlert, setShowPasswordAlert] = useState(false);

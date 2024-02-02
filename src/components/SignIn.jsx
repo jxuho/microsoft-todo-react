@@ -29,20 +29,17 @@ const SignIn = () => {
   const [password, setPassword] = useState("");
   const [showPasswordAlert, setShowPasswordAlert] = useState(false);
   const [passwordAlertContent, setPasswordAlertContent] = useState("");
+  const [showPasswordInfo, setShowPasswordInfo] = useState(false);
+  const [passwordInfoContent, setPasswordInfoContent] = useState("");
   const [isShowPasswordChecked, setIsShowPasswordChecked] = useState(false);
   const [showSignInOptions, setShowSignInOptions] = useState(false);
-  const [nextButtonDisable, setNextButtonDisable] = useState(false)
+  const [nextButtonDisable, setNextButtonDisable] = useState(false);
 
   const checkboxRef = useRef();
 
   const [localStorageUser, setLocalStorageUser] = useLocalStorage("user", null);
 
   const [isLoading, setIsLoading] = useState(false);
-
-  // const [localStorageRedirect, setLocalStorageRedirect] = useLocalStorage(
-  //   "isRedirected",
-  //   false
-  // );
 
   const googleProvider = new GoogleAuthProvider(); // provider 구글 설정
 
@@ -78,8 +75,6 @@ const SignIn = () => {
   //   }
   // }, []);
 
-
-
   useEffect(() => {
     const handleEnterKeyPress = (event) => {
       if (event.key === "Enter") {
@@ -92,16 +87,18 @@ const SignIn = () => {
 
   const emailInputHandler = (e) => {
     setEmail(e.target.value);
-    setNextButtonDisable(false)
+    setNextButtonDisable(false);
   };
 
   const passwordInputHandler = (e) => {
     setPassword(e.target.value);
   };
- 
+
   const sendEmailHandler = () => {
-    window.open("mailto:jxuholee@gmail.com?subject=Todo - Can't access my account&body=Tell me about the problem you have");
-  }
+    window.open(
+      "mailto:jxuholee@gmail.com?subject=Todo - Can't access my account&body=Tell me about the problem you have"
+    );
+  };
 
   const nextButtonClickHandler = async () => {
     if (!showPasswordTab) {
@@ -111,38 +108,25 @@ const SignIn = () => {
         where("email", "==", email)
       );
 
-      
       try {
         const querySnapshot = await getDocs(emailQuery);
-
-        console.log(querySnapshot);
-
         if (querySnapshot.size === 0) {
           setEmailAlertContent(
             "We couldn't find an account with that username. Try another, or get a new Microsoft account."
           );
           setShowEmailAlert(true);
-        } 
-        // else {
-        //   if (querySnapshot.docs[0]._document.data.value.mapValue.fields.provider.stringValue === "google.com") {
-        //     setEmailAlertContent(
-        //       "It looks like you've already linked your account with this email address through Google. Please login through Google."
-        //     );
-        //     setNextButtonDisable(true)
-        //     setShowEmailAlert(true);
-        //   } else {
-        //     setShowPasswordTab(true);
-        //   }
-        // }
-        
-        // 위 또는 아래
-        else {
+        } else {
+          if (
+            querySnapshot.docs[0]._document.data.value.mapValue.fields.provider
+              ?.stringValue === "google"
+          ) {
+            setPasswordInfoContent(
+              "This email is linked with Google. You can go back and sign-in with Google."
+            );
+            setShowPasswordInfo(true);
+          }
           setShowPasswordTab(true);
         }
-
-
-
-
       } catch (error) {
         console.log(error);
       }
@@ -155,19 +139,20 @@ const SignIn = () => {
           password
         );
 
-        // console.log(userCredential.user);
+        await setDoc(doc(db, "users", userCredential.user.uid), {
+          email: userCredential.user.email,
+        });
         setLocalStorageUser(userCredential.user.email);
         navigate("/");
       } catch (error) {
         if (error.code === "auth/invalid-login-credentials") {
-          setShowPasswordAlert(true);
           setPasswordAlertContent("Your account or password is incorrect.");
+          setShowPasswordAlert(true);
           // If you don't remember your password, reset it now.
         } else if (error.code === "auth/missing-password") {
+          // password empty
+          setPasswordAlertContent("Please enter the password.");
           setShowPasswordAlert(true);
-          setPasswordAlertContent(
-            "Please enter the password for your Microsoft account."
-          );
         }
         console.error(error);
       }
@@ -184,11 +169,10 @@ const SignIn = () => {
       // popup 사용 google login
       const signInResult = await signInWithPopup(auth, googleProvider);
 
-
       await setDoc(doc(db, "users", signInResult.user.uid), {
         email: signInResult.user.email,
+        provider: "google",
       });
-
 
       navigate("/");
     } catch (error) {
@@ -204,7 +188,7 @@ const SignIn = () => {
   return (
     <div className="absolute h-full w-full flex flex-col items-center justify-center bg-ms-background">
       <div
-        className={`w-full h-full min-[600px]:w-[440px] min-[600px]:h-[350px] bg-white text-ms-text-dark`}
+        className={`w-full h-full min-[600px]:w-[440px] min-[600px]:h-[380px] bg-white text-ms-text-dark`}
         style={{ boxShadow: "0 2px 6px rgba(0,0,0,0.2)" }}
       >
         <div className="p-11 w-full h-full flex flex-col">
@@ -235,8 +219,10 @@ const SignIn = () => {
                     Create one!
                   </span>
                 </div>
-                <span className="text-sm text-ms-blue-hover hover:underline hover:text-ms-light-text hover:cursor-pointer"
-                onClick={sendEmailHandler}>
+                <span
+                  className="text-sm text-ms-blue-hover hover:underline hover:text-ms-light-text hover:cursor-pointer"
+                  onClick={sendEmailHandler}
+                >
                   Can't access your account?
                 </span>
               </div>
@@ -246,6 +232,9 @@ const SignIn = () => {
                   <div>{email}</div>
                 </div>
                 <h1 className="text-2xl font-semibold mb-2">Enter password</h1>
+                {showPasswordInfo && (
+                  <p className="text-ms-blue">{passwordInfoContent}</p>
+                )}
                 {showPasswordAlert && (
                   <p className="text-ms-alert-error">{passwordAlertContent}</p>
                 )}
@@ -306,7 +295,7 @@ const SignIn = () => {
             </div>
           )}
 
-          <div className="flex justify-end py-3">
+          <div className="flex justify-end py-3 ">
             <button
               className="py-1 px-3 bg-ms-bg-border min-w-[108px] min-h-[32px] mr-2 hover:bg-ms-gray-button-hover"
               onClick={() => navigate(-1)}
@@ -314,7 +303,10 @@ const SignIn = () => {
               Back
             </button>
             <button
-              className={`py-1 px-3 bg-ms-blue min-w-[108px] min-h-[32px] text-white hover:bg-ms-blue-hover ${nextButtonDisable && "bg-ms-scrollbar hover:bg-ms-scrollbar hover:cursor-not-allowed"}`}
+              className={`py-1 px-3 bg-ms-blue min-w-[108px] min-h-[32px] text-white hover:bg-ms-blue-hover ${
+                nextButtonDisable &&
+                "bg-ms-scrollbar hover:bg-ms-scrollbar hover:cursor-not-allowed"
+              }`}
               onClick={nextButtonClickHandler}
               disabled={nextButtonDisable}
             >
