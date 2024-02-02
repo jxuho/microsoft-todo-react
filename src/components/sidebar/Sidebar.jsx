@@ -9,10 +9,10 @@ import { BsSun, BsStar } from "react-icons/bs";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { GoHome } from "react-icons/go";
 import { useEffect, useState } from "react";
-import useViewport from "../../hooks/useViewPort";
 import { useGetTodosApiQuery } from "../../api/todoApiSlice";
 import { useGetUiApiQuery } from "../../api/uiApiSlice";
 import { auth } from "../../firebase";
+import useViewport from "../../hooks/useViewPort";
 
 const Sidebar = () => {
   const dispatch = useDispatch();
