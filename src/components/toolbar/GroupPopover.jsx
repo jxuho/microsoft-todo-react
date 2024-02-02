@@ -12,7 +12,7 @@ import {
 import { useState } from "react";
 import { PiFolderSimpleThin } from "react-icons/pi";
 import GroupItems from "./GroupItems";
-import useViewport from "../../hooks/useViewPort";
+import useViewport from "../hooks/useViewport";
 import { useGetUiApiQuery } from "../../api/uiApiSlice";
 import { auth } from "../../firebase";
 

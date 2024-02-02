@@ -14,7 +14,7 @@ import { PiArrowsDownUpThin } from "react-icons/pi";
 import MydaySortItems from "./MydaySortItems";
 import ImportantSortItems from "./ImportantSortItems";
 import CompletedSortItems from "./CompletedSortItems";
-import useViewport from "../../hooks/useViewPort";
+import useViewport from "../hooks/useViewport";
 import { useGetUiApiQuery } from "../../api/uiApiSlice";
 import { auth } from "../../firebase";
 

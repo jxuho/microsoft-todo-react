@@ -9,7 +9,7 @@ import SortPopover from "./toolbar/SortPopover";
 import GroupPopover from "./toolbar/GroupPopover";
 import SortIndicator from "./toolbar/SortIndicator";
 import GroupIndicator from "./toolbar/GroupIndicator";
-import useViewport from "../hooks/useViewPort";
+import useViewport from "../hooks/useViewport";
 import { useGetSortApiQuery } from "../api/sortApiSlice";
 import { useGetGroupApiQuery } from "../api/groupApiSlice";
 import { useGetUiApiQuery } from "../api/uiApiSlice";

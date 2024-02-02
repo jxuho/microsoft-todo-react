@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import useViewport from "../../hooks/useViewPort";
+import useViewport from "../hooks/useViewport";
 import { closeDetail, closeSidebar } from "../../store/uiSlice";
 import { useGetUiApiQuery } from "../../api/uiApiSlice";
 import { auth } from "../../firebase";
