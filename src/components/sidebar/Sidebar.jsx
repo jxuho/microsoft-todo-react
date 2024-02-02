@@ -12,7 +12,7 @@ import { useEffect, useState } from "react";
 import { useGetTodosApiQuery } from "../../api/todoApiSlice";
 import { useGetUiApiQuery } from "../../api/uiApiSlice";
 import { auth } from "../../firebase";
-import useViewport from "../hooks/useViewport";
+import useViewport from "../../hooks/useViewport";
 
 const Sidebar = () => {
   const dispatch = useDispatch();

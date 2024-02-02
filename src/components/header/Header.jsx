@@ -5,7 +5,7 @@ import { RxQuestionMark } from "react-icons/rx";
 import { TbSpeakerphone } from "react-icons/tb";
 import { CgProfile } from "react-icons/cg";
 import { useDispatch, useSelector } from "react-redux";
-import useViewport from "../hooks/useViewport";
+import useViewport from "../../hooks/useViewport";
 import { setAppLauncherActive, setHeaderButton } from "../../store/uiSlice";
 
 const Header = () => {

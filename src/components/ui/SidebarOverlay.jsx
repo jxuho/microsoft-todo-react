@@ -1,8 +1,8 @@
 import { useDispatch, useSelector } from "react-redux";
-import useViewport from "../hooks/useViewport";
 import { closeDetail, closeSidebar } from "../../store/uiSlice";
 import { useGetUiApiQuery } from "../../api/uiApiSlice";
 import { auth } from "../../firebase";
+import useViewport from "../../hooks/useViewport";
 
 const SidebarOverlay = () => {
   const dispatch = useDispatch();

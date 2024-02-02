@@ -5,10 +5,10 @@ import { VscSearch } from "react-icons/vsc";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { addQuery, initializeQuery } from "../../store/searchSlice";
-import useViewport from "../hooks/useViewport";
 import { setSearchbarActive } from "../../store/uiSlice";
 import { useGetUiApiQuery } from "../../api/uiApiSlice";
 import { auth } from "../../firebase";
+import useViewport from "../../hooks/useViewport";
 
 const Searchbar = () => {
   const navigate = useNavigate();

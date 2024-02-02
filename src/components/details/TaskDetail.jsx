@@ -18,13 +18,13 @@ import {
   useHover,
   useInteractions,
 } from "@floating-ui/react";
-import useViewport from "../hooks/useViewport";
 import {
   useGetUiApiQuery,
   useSetDetailWidthApiMutation,
 } from "../../api/uiApiSlice";
 import { useGetTodosApiQuery } from "../../api/todoApiSlice";
 import { auth } from "../../firebase";
+import useViewport from "../../hooks/useViewport";
 
 const TaskDetail = () => {
   const dispatch = useDispatch();

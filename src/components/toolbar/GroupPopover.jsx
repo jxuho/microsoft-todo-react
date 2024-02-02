@@ -12,9 +12,9 @@ import {
 import { useState } from "react";
 import { PiFolderSimpleThin } from "react-icons/pi";
 import GroupItems from "./GroupItems";
-import useViewport from "../hooks/useViewport";
 import { useGetUiApiQuery } from "../../api/uiApiSlice";
 import { auth } from "../../firebase";
+import useViewport from "../../hooks/useViewport";
 
 const GroupPopover = ({currentLocation}) => {
   const [popoverOpen, setPopoverOpen] = useState(false);
