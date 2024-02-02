@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { FiPaperclip } from "react-icons/Fi";
+import { FiPaperclip } from "react-icons/fi";
 import { auth, storage } from "../../firebase";
 import {
   deleteObject,
@@ -7,7 +7,7 @@ import {
   ref,
   uploadBytesResumable,
 } from "firebase/storage";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useAddFileTodoApiMutation } from "../../api/todoApiSlice";
 import DetailFileItem from "./DetailFileItem";
 import { setInformationModal } from "../../store/uiSlice";

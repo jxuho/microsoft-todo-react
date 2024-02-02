@@ -2,7 +2,7 @@ import { BsSun } from "react-icons/bs";
 import { PiArrowsClockwiseBold, PiNoteBlankLight } from "react-icons/pi";
 import { IoCalendarOutline } from "react-icons/io5";
 import { VscBell } from "react-icons/vsc";
-import { FiPaperclip } from "react-icons/Fi";
+import { FiPaperclip } from "react-icons/fi";
 import { useEffect } from "react";
 import { useState } from "react";
 import { getCustomFormatDateString } from "../../utils/getDates";
