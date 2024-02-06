@@ -14,7 +14,7 @@ import {
   useHover,
   useInteractions,
 } from "@floating-ui/react";
-import useViewport from "../hooks/useViewport";
+import useViewport from "../hooks/useViewPort";
 import {
   useGetUiApiQuery,
   useSetDetailWidthApiMutation,
