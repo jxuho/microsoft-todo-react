@@ -5,8 +5,15 @@ import eslint from 'vite-plugin-eslint';
 export default defineConfig(() => {
   return {
     build: {
-      outDir: 'build',
+      outDir: 'dist',
     },
     plugins: [react(), eslint()],
+  //   build: {
+  //   rollupOptions: {
+  //     input: {
+  //       main: resolve('/', 'index.html'),
+  //     }
+  //   }
+  // }
   };
 });

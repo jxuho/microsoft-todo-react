@@ -11,7 +11,6 @@ import {
 } from "@floating-ui/react";
 import { useEffect, useState } from "react";
 import { getCustomFormatDateString } from "../../utils/getDates";
-import { useSelector } from "react-redux";
 import { BsXLg } from "react-icons/bs";
 import { IoCalendarOutline } from "react-icons/io5";
 import DueCalendar from "../addtask/DueCalendar";
