@@ -35,8 +35,8 @@ const SignIn = () => {
   const [isShowPasswordChecked, setIsShowPasswordChecked] = useState(false);
   const [showSignInOptions, setShowSignInOptions] = useState(false);
   const [nextButtonDisable, setNextButtonDisable] = useState(false);
- 
-  const [showResetPassword, setShowResetPassword] = useState(false)
+
+  const [showResetPassword, setShowResetPassword] = useState(false);
 
   const checkboxRef = useRef();
 
@@ -189,16 +189,16 @@ const SignIn = () => {
   }
 
   if (showResetPassword) {
-    return <ResetPassword email={email}/>
+    return <ResetPassword email={email} />;
   }
 
   return (
-    <div className="absolute h-full w-full flex flex-col items-center justify-center bg-ms-background">
+    <div className="absolute h-full w-full flex flex-col items-center justify-center bg-ms-background ">
       <div
-        className={`w-full h-full min-[600px]:w-[440px] min-[600px]:h-[380px] bg-white text-ms-text-dark`}
+        className={`w-full h-full min-[600px]:w-[440px] min-[600px]:h-[380px] bg-white text-ms-text-dark `}
         style={{ boxShadow: "0 2px 6px rgba(0,0,0,0.2)" }}
       >
-        <div className="p-11 w-full h-full flex flex-col">
+        <div className="p-11 w-full h-full flex flex-col overflow-auto">
           <h2 className="text-xl font-medium pb-4 text-ms-light-text">
             Welcome!
           </h2>
@@ -277,7 +277,6 @@ const SignIn = () => {
                   </div>
                   <span
                     className="text-sm text-ms-blue-hover hover:underline hover:text-ms-light-text hover:cursor-pointer"
-                    // onClick={() => navigate("/user/resetpassword")}
                     onClick={() => setShowResetPassword(true)}
                   >
                     Reset password
@@ -316,7 +315,7 @@ const SignIn = () => {
               className="py-1 px-3 bg-ms-bg-border min-w-[108px] min-h-[32px] mr-2 hover:bg-ms-gray-button-hover"
               // onClick={() => navigate(-1)}
               // onClick={() => setShowPasswordTab(false)}
-              onClick={() => window.location.pathname="/user/signin"}
+              onClick={() => (window.location.pathname = "/user/signin")}
             >
               Back
             </button>
@@ -332,23 +331,26 @@ const SignIn = () => {
             </button>
           </div>
         </div>
-      </div>
-
-      {!showPasswordTab && !showSignInOptions && (
-        <div
-          className="max-[599px]:hidden min-[600px]:w-[440px] min-[600px]:h-[48px] min-[600px]:relative bg-white text-ms-text-dark mt-5 flex items-center hover:bg-ms-white-button-hover hover:bg-opacity-20 hover:cursor-pointer text-base"
-          style={{ boxShadow: "0 2px 6px rgba(0,0,0,0.2)" }}
-          onClick={() => setShowSignInOptions(true)}
-        >
-          <div className="flex items-center ml-12">
-            <BsKey
-              size="30px"
-              style={{ transform: "rotate(45deg)", paddingTop: "5px" }}
-            />
-            <span className="ml-2">Sign-in options</span>
+        {!showPasswordTab && !showSignInOptions && (
+          <div
+            className="min-[600px]:w-[440px] h-[48px] min-[600px]:relative 
+            max-[599px]:relative
+            max-[599px]:-mt-12
+            max-[599px]:w-full 
+            bg-white text-ms-text-dark mt-5 flex items-center hover:bg-ms-white-button-hover hover:bg-opacity-20 hover:cursor-pointer text-base"
+            style={{ boxShadow: "0 2px 6px rgba(0,0,0,0.2)" }}
+            onClick={() => setShowSignInOptions(true)}
+          >
+            <div className="flex items-center ml-12">
+              <BsKey
+                size="30px"
+                style={{ transform: "rotate(45deg)", paddingTop: "5px" }}
+              />
+              <span className="ml-2">Sign-in options</span>
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 };
