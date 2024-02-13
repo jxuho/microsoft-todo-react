@@ -78,7 +78,7 @@ const AccountManager = () => {
                   {auth.currentUser.photoURL ? (
                     <img src={auth.currentUser.photoURL} alt="profile image" referrerPolicy="no-referrer"/>
                   ) : (
-                    <img src="/public\profile_image.svg" alt="profile image" />
+                    <img src="/public/profile_image.svg" alt="profile image" />
                   )}
                 </div>
                 <div className="flex-grow pr-3 mt-4">

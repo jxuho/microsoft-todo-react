@@ -172,7 +172,7 @@ const Search = () => {
           <div className="flex flex-col items-center justify-center text-xl h-full">
             <img
               className={`${isDark ? "invert" : "invert-0"}`}
-              src="/public\error-404.png"
+              src="/public/error-404.png"
               alt="not found icon"
               style={{ width: "50px", paddingBottom: "4px" }}
             />
