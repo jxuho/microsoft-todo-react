@@ -28,7 +28,7 @@ const DetailStepItem = ({ step, taskId }) => {
   const dispatch = useDispatch();
   const isActive = useSelector((state) => state.active.activeStep);
 
-  const userId = auth.currentUser.uid;
+  const userId = auth.currentUser?.uid;
   const [completeStepApi] = useCompleteStepApiMutation();
   const [removeStepApi] = useRemoveStepApiMutation();
   const [changeStepApi] = useChangeStepApiMutation();

@@ -5,7 +5,7 @@ import { auth } from "../../firebase";
 const GroupItems = ({ onItemClick, currentLocation }) => {
   if (currentLocation === "today") currentLocation = "myday";
 
-  const userId = auth.currentUser.uid;
+  const userId = auth.currentUser?.uid;
 
   const [setGroupByApi] = useSetGroupByApiMutation();
 

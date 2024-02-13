@@ -20,7 +20,7 @@ const Myday = () => {
   const { width: viewportWidth } = useViewport();
   const dispatch = useDispatch();
   
-  const userId = auth.currentUser.uid;
+  const userId = auth.currentUser?.uid;
 
   const {
     data: sortData,

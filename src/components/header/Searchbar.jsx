@@ -21,7 +21,7 @@ const Searchbar = () => {
   const { width: viewportWidth } = useViewport();
   const isSidebarOpen = useSelector((state) => state.ui.sidebar);
   const isDetailOpen = useSelector((state) => state.ui.detail);
-  const userId = auth.currentUser.uid;
+  const userId = auth.currentUser?.uid;
   const {
     data: uiData,
     isLoading: isUiLoading,

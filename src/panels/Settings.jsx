@@ -8,7 +8,7 @@ import { auth } from "../firebase";
 const Settings = () => {
   const dispatch = useDispatch();
   const isSettingsActive = useSelector((state) => state.ui.settingsActive);
-  const userId = auth.currentUser.uid;
+  const userId = auth.currentUser?.uid;
 
   const [setThemeApi] = useSetThemeApiMutation();
 

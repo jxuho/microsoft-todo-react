@@ -14,7 +14,7 @@ import { useInitializeGroupApiMutation } from "../../api/groupApiSlice";
 import { auth } from "../../firebase";
 
 const GroupIndicator = ({ currentLocation }) => {
-  const userId = auth.currentUser.uid;
+  const userId = auth.currentUser?.uid;
   const [closeTooltipOpen, setCloseTooltipOpen] = useState(false);
   const [groupIndicatorText, setGroupIndicatorText] = useState("");
 

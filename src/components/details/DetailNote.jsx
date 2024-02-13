@@ -11,7 +11,7 @@ const DetailNote = ({ taskId, todo }) => {
   const [note, setNote] = useState("");
   const [updatedText, setUpdatedText] = useState("");
 
-  const userId = auth.currentUser.uid;
+  const userId = auth.currentUser?.uid;
   const [addNoteTodoApi] = useAddNoteTodoApiMutation();
 
   const todoNote = todo.note;

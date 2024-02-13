@@ -16,7 +16,7 @@ import { auth } from "../firebase";
 
 const Important = () => {
   const dispatch = useDispatch();
-  const userId = auth.currentUser.uid
+  const userId = auth.currentUser?.uid
   const isSidebarOpen = useSelector((state) => state.ui.sidebar);
 
   const {

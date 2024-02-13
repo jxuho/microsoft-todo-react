@@ -1,4 +1,4 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { closeDetail, openContextMenu, openDetail } from "../../store/uiSlice";
 import {
   BsCircle,
@@ -37,7 +37,7 @@ import { auth } from "../../firebase";
 const TaskItem = forwardRef(({ todo, currentLocation, isTaskActive }, ref) => {
   const dispatch = useDispatch();
   const [tooltipOpen, setTooltipOpen] = useState(false);
-  const userId = auth.currentUser.uid;
+  const userId = auth.currentUser?.uid;
   const [setCompleteTodoApi] = useSetCompleteTodoApiMutation();
   const [setImportanceTodoApi] = useSetImportanceTodoApiMutation();
 

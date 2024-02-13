@@ -71,12 +71,12 @@ const DeleteAccount = () => {
 
         // 동일한 계정이 아니면 return
         if (signInResult.user.email !== userToDelete) {
+          await signOut(auth);
           console.log("user information is not matched");
           setIsLoading(false);
           setShowAuthErrMessage(true);
           // 다른 계정으로 로그인되면 firestore에는 내용 생성 안됨
           // 다만, auth에 다른 계정 생성됨
-          await signOut(auth);
           window.location.pathname = "/user/signin";
           return;
         }
@@ -91,6 +91,15 @@ const DeleteAccount = () => {
           email,
           password
         );
+
+        if (userCredential.user.email !== userToDelete) {
+          await signOut(auth);
+          console.log("user information is not matched");
+          setIsLoading(false);
+          setShowAuthErrMessage(true);
+          window.location.pathname = "/user/signin";
+          return;
+        } 
         setCredential(userCredential)
         setReAuthenticated(true);
       }

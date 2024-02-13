@@ -25,7 +25,7 @@ const Inbox = () => {
   const dispatch = useDispatch();
   const [todoArr, setTodoArr] = useState([]);
 
-  const userId = auth.currentUser.uid;
+  const userId = auth.currentUser?.uid;
 
   const {
     data: sortData,

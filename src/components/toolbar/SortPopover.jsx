@@ -22,7 +22,7 @@ const SortPopover = ({ currentLocation }) => {
   const [popoverOpen, setPopoverOpen] = useState(false);
   const [tooltipOpen, setTooltipOpen] = useState(false);
   const { width: viewportWidth } = useViewport();
-  const userId = auth.currentUser.uid;
+  const userId = auth.currentUser?.uid;
   const {
     data: uiData,
     isLoading: isUiLoading,

@@ -10,7 +10,7 @@ const SidebarOverlay = () => {
   const isDetailOpen = useSelector((state) => state.ui.detail);
   const { width: viewportWidth } = useViewport();
 
-  const userId = auth.currentUser.uid;
+  const userId = auth.currentUser?.uid;
 
   const {
     data: uiData,

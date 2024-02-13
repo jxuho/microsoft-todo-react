@@ -13,7 +13,7 @@ const DetailSteps = ({ taskId, todo }) => {
   const [newStep, setNewStep] = useState("");
   const [isFocused, setIsFocused] = useState(false);
   const [addStepApi] = useAddStepApiMutation()
-  const userId = auth.currentUser.uid;
+  const userId = auth.currentUser?.uid;
 
 
   const todoSteps = todo?.steps ?? [];

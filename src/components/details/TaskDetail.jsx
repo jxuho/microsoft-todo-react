@@ -37,8 +37,8 @@ const TaskDetail = () => {
   const [isHover, setIsHover] = useState(false);
   const [createdTime, setCreatedTime] = useState("");
   const [firstRender, setFirstRender] = useState(true);
-  const userId = auth.currentUser.uid;
-  const isSidebarOpen = useSelector(state => state.ui.sidebar)
+  const userId = auth.currentUser?.uid;
+  const isSidebarOpen = useSelector((state) => state.ui.sidebar);
 
   const [resizerPosition, setResizerPosition] = useState(360);
 
@@ -73,7 +73,7 @@ const TaskDetail = () => {
   }, [isUiLoading, firstRender]);
 
   useEffect(() => {
-    // resizerPosition state를 Firestore에 저장
+    // resizerPosition state를 Firestore의 detailWidth와 동기화
     if (!isResizing && !firstRender) {
       try {
         setDetailWidthApi({ userId: userId, value: resizerPosition });
@@ -91,11 +91,11 @@ const TaskDetail = () => {
     dispatch(setDeleteDialogActive({ target: "task", active: true }));
   };
 
-  const resizerMouseDownHandler = () => {
+  const resizerMouseDownHandler = useCallback(() => {
     setIsResizing(true);
-  };
+  }, []);
 
-  const finishResizeHandler = useCallback(() => {
+  const resizerMouseUpHandler = useCallback(() => {
     setIsResizing(false);
   }, []);
 
@@ -130,8 +130,6 @@ const TaskDetail = () => {
     }
   }, [viewportWidth, detailWidth, dispatch]);
 
-
-
   useEffect(() => {
     // set created time text
     const todoDetail = todos.find((todo) => todo.id === detailId);
@@ -143,12 +141,12 @@ const TaskDetail = () => {
 
   useEffect(() => {
     document.addEventListener("mousemove", resizeHandler); // resizer 이동조건
-    document.addEventListener("mouseup", finishResizeHandler); // resizer 완료조건
+    document.addEventListener("mouseup", resizerMouseUpHandler); // resizer 완료조건
     return () => {
       document.removeEventListener("mousemove", resizeHandler);
-      document.removeEventListener("mouseup", finishResizeHandler);
+      document.removeEventListener("mouseup", resizerMouseUpHandler);
     };
-  }, [resizeHandler, finishResizeHandler]);
+  }, [resizeHandler, resizerMouseUpHandler]);
 
   const {
     refs: closeTooltipRefs,

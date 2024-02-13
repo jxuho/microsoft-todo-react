@@ -15,7 +15,7 @@ const MydayList = ({ currentLocation }) => {
   const [todoArr, setTodoArr] = useState([]);
   const activeRange = useSelector((state) => state.active.activeRange);
   
-  const userId = auth.currentUser.uid;
+  const userId = auth.currentUser?.uid;
 
 
 

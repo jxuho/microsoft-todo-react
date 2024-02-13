@@ -1,12 +1,3 @@
-import { useSelector } from "react-redux";
-
-// import DetailHeader from "./DetailHeader";
-// import DetailSteps from "./DetailSteps";
-// import DetailOptions from "./DetailOptions";
-// import DetailCategories from "./DetailCategories";
-// import DetailAddFile from "./DetailAddFile";
-// import DetailNote from "./DetailNote";
-
 import getLastTimeOfDay, {
   getNextClosestDayOfWeekFromDate,
 } from "../../utils/getDates";
@@ -26,7 +17,7 @@ const DetailNote = lazy(() => import("./DetailNote"));
 const Details = ({ taskId, todos }) => {
   const location = useLocation();
   const todo = todos.find((todo) => todo.id === taskId);
-  const userId = auth.currentUser.uid;
+  const userId = auth.currentUser?.uid;
   const [changeOptionTodoApi] = useChangeOptionTodoApiMutation();
 
   useEffect(() => {
@@ -107,85 +98,3 @@ const Details = ({ taskId, todos }) => {
 
 export default Details;
 
-/**
- * TODO
- * - scrollable div 구현하기
- *
- */
-
-// useEffect(() => {
-//   // due 제거되면 repeat도 제거
-//   if (!todo.dueDate && todo.repeatRule) {
-//     if (userId) {
-//       changeOptionTodoApi({
-//         todoId: taskId,
-//         userId,
-//         option: "repeatRule",
-//         content: "",
-//         currentLocation: location.pathname,
-//       });
-//     } else {
-//       dispatch(
-//         changeOptionTodo({
-//           id: taskId,
-//           option: "repeatRule",
-//           content: "",
-//           currentLocation: location.pathname,
-//         })
-//       );
-//     }
-//   }
-// }, [todo.dueDate]);
-
-// useEffect(() => {
-//   // repeat설정했을때, due버튼 설정
-//   if (todo.repeatRule && !todo.dueDate) {
-//     if (todo.repeatRule.split("-").length === 2) {
-//       // due를 getLastTimeOfDay()로 설정
-//       if (userId) {
-//         changeOptionTodoApi({
-//           todoId: taskId,
-//           userId,
-//           option: "dueDate",
-//           content: getLastTimeOfDay().toISOString(),
-//           currentLocation: location.pathname,
-//         });
-//       } else {
-//         dispatch(
-//           changeOptionTodo({
-//             id: taskId,
-//             option: "dueDate",
-//             content: getLastTimeOfDay().toISOString(),
-//             currentLocation: location.pathname,
-//           })
-//         );
-//       }
-//     } else {
-//       const today = new Date();
-//       if (userId) {
-//         changeOptionTodoApi({
-//           todoId: taskId,
-//           userId,
-//           option: "dueDate",
-//           content: getNextClosestDayOfWeekFromDate(
-//             today,
-//             todo.repeatRule.split("-").slice(2)
-//           ).toISOString(),
-//           currentLocation: location.pathname,
-//         });
-//       } else {
-//         dispatch(
-//           changeOptionTodo({
-//             id: taskId,
-//             option: "dueDate",
-//             content: getNextClosestDayOfWeekFromDate(
-//               today,
-//               todo.repeatRule.split("-").slice(2)
-//             ).toISOString(),
-//             currentLocation: location.pathname,
-//           })
-//         );
-//       }
-//     }
-//   }
-// }, [todo.repeatRule]);

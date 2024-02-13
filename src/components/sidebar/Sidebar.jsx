@@ -27,7 +27,7 @@ const Sidebar = () => {
 
   const { width: viewportWidth } = useViewport();
   const isSidebarOpen = useSelector((state) => state.ui.sidebar);
-  const userId = auth.currentUser.uid;
+  const userId = auth.currentUser?.uid;
   const {
     data: todos,
     error,

@@ -31,7 +31,7 @@ const TaskItemContextMenu = () => {
   const location = useLocation();
   const activeTasksId = useSelector((state) => state.active.activeTasks);
   const dispatch = useDispatch();
-  const userId = auth.currentUser.uid;
+  const userId = auth.currentUser?.uid;
   const [setMydayTodoApi] = useSetMydayTodoApiMutation();
   const [changeOptionTodoApi] = useChangeOptionTodoApiMutation();
   const [setImportanceTodoApi] = useSetImportanceTodoApiMutation();

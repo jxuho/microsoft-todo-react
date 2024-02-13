@@ -21,7 +21,7 @@ const SortIndicator = ({ currentLocation }) => {
   const [closeTooltipOpen, setCloseTooltipOpen] = useState(false);
   const [sortIndicatorText, setSortIndicatorText] = useState("");
 
-  const userId = auth.currentUser.uid;
+  const userId = auth.currentUser?.uid;
   const [initializeSortApi] = useInitializeSortApiMutation();
   const [changeSortOrderApi] = useChangeSortOrderApiMutation();
 

@@ -70,7 +70,7 @@ const UpdateProfile = () => {
     try {
       if (fileData) {
         // 새로 업로드된 파일이 있는 경우, 이외의 파일은 삭제
-        const listRef = ref(storage, `${auth.currentUser.uid}/profile`);
+        const listRef = ref(storage, `${auth.currentUser?.uid}/profile`);
         const res = await listAll(listRef);
         res.items.forEach(async (itemRef) => {
           if (itemRef.name !== fileData.name) {
@@ -120,7 +120,7 @@ const UpdateProfile = () => {
 
     setPhotoDeleted(false);
 
-    const fileRef = `${auth.currentUser.uid}/profile/${file.name.replaceAll(
+    const fileRef = `${auth.currentUser?.uid}/profile/${file.name.replaceAll(
       " ",
       ""
     )}`;

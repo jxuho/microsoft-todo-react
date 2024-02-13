@@ -35,7 +35,7 @@ const Search = () => {
   
 
 
-  const userId = auth.currentUser.uid;
+  const userId = auth.currentUser?.uid;
 
   const {
     data: todos,

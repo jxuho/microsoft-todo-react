@@ -1,4 +1,3 @@
-import { useDispatch, useSelector } from "react-redux";
 import {
   BsCircle,
   BsCheckCircle,
@@ -36,7 +35,7 @@ const DetailHeader = ({ taskId, todo }) => {
   const [isActive, setIsActive] = useState(false);
 
   const [changeTaskTodoApi] = useChangeTaskTodoApiMutation();
-  const userId = auth.currentUser.uid;
+  const userId = auth.currentUser?.uid;
 
   const [setCompleteTodoApi] = useSetCompleteTodoApiMutation();
   const [setImportanceTodoApi] = useSetImportanceTodoApiMutation();
@@ -80,7 +79,6 @@ const DetailHeader = ({ taskId, todo }) => {
         setNewTask(todo.task);
         return;
       }
-
       changeTaskTodoApi({ todoId: todo.id, userId, value: newTask });
     }
     setIsFocused(false);

@@ -15,7 +15,7 @@ const useInfiniteScroll = (initialTasksToShow = 20, todoArr) => {
 
       observerRef.current = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting && tasksToShow <= todoArr.length) {
-          console.log("load more");
+          // console.log("load more");
           loadMoreTasks();
         }
       });

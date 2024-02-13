@@ -33,7 +33,7 @@ const TaskDetail = () => {
   const [isHover, setIsHover] = useState(false);
   const [createdTime, setCreatedTime] = useState("");
   const [firstRender, setFirstRender] = useState(true);
-  const userId = auth.currentUser.uid;
+  const userId = auth.currentUser?.uid;
   
   
   const detailWidth = useSelector((state) => state.ui.detailWidth);

@@ -5,7 +5,7 @@ import { useEffect } from "react";
 
 const useGetTodos = () => {
   const dispatch = useDispatch();
-  const userId = auth.currentUser.uid;
+  const userId = auth.currentUser?.uid;
 
   const {
     data: todoArrData,

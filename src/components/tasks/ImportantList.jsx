@@ -14,7 +14,7 @@ const ImportantList = ({ currentLocation }) => {
   const activeRange = useSelector((state) => state.active.activeRange);
   const activeTasksId = useSelector((state) => state.active.activeTasks);
 
-  const userId = auth.currentUser.uid;
+  const userId = auth.currentUser?.uid;
   const {
     data: todos,
     error,

@@ -16,7 +16,7 @@ import uuid from "react-uuid";
 const DetailAddFile = ({ taskId, todo }) => {
   const dispatch = useDispatch();
   const inputRef = useRef();
-  const userId = auth.currentUser.uid;
+  const userId = auth.currentUser?.uid;
 
   const [isFileUploading, setIsFileUploading] = useState(false);
 

@@ -26,7 +26,7 @@ const DetailRepeatPopover = ({ taskId, todo }) => {
   const [repeatText, setRepeatText] = useState({ title: "", description: "" });
   const [isHover, setIsHover] = useState(false);
   const [tooltipOpen, setTooltipOpen] = useState(false);
-  const userId = auth.currentUser.uid;
+  const userId = auth.currentUser?.uid;
   const [changeOptionTodoApi] = useChangeOptionTodoApiMutation();
 
   const todoRepeatRule = todo?.repeatRule

@@ -20,7 +20,7 @@ const Completed = () => {
   const dispatch = useDispatch();
   const [todoArr, setTodoArr] = useState([]);
   const isSidebarOpen = useSelector((state) => state.ui.sidebar);
-  const userId = auth.currentUser.uid;
+  const userId = auth.currentUser?.uid;
   const {
     data: todos,
     error: todosError,

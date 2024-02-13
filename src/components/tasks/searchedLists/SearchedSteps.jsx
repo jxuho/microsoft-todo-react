@@ -71,7 +71,7 @@ const StepItem = forwardRef(({ todo, step }, ref) => {
   const isActive = useSelector((state) => state.active.activeStep); //#eff6fc
   const showCompleted = useSelector((state) => state.search.showCompleted);
 
-  const userId = auth.currentUser.uid;
+  const userId = auth.currentUser?.uid;
   const [completeStepApi] = useCompleteStepApiMutation()
 
   const completedHandler = () => {

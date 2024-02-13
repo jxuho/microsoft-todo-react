@@ -10,7 +10,7 @@ import { auth } from "../../firebase";
 const DetailOptions = ({ taskId, todo }) => {
   const [isMyday, setIsMyday] = useState(false);
   const [isMydayHover, setIsMydayHover] = useState(false);
-  const userId = auth.currentUser.uid;
+  const userId = auth.currentUser?.uid;
   const [setMydayTodoApi] = useSetMydayTodoApiMutation();
 
   const todoMyday = todo?.myday;

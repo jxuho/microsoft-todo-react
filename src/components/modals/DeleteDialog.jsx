@@ -27,7 +27,7 @@ function DeleteDialog() {
   const deleteDialogTarget = useSelector(
     (state) => state.ui.deleteDialogTarget
   );
-  const userId = auth.currentUser.uid;
+  const userId = auth.currentUser?.uid;
   const activeFileRef = useSelector((state) => state.active.activeFileRef);
 
   const {
