@@ -20,6 +20,10 @@ const Header = () => {
     (state) => state.ui.accountManagerActive
   );
 
+  const todoClickHandler = () => {
+    window.location.pathname = "/";
+  };
+
   const headerButtonsClickHandler = (option) => {
     switch (option) {
       case "settings":
@@ -85,8 +89,11 @@ const Header = () => {
       </div>
 
       <div className="flex flex-1 justify-start items-center">
-        <div className="pl-2 pr-3 hover:underline text-base font-semibold whitespace-nowrap">
-          <a href="/">To Do</a>
+        <div
+          onClick={todoClickHandler}
+          className="pl-2 pr-3 hover:underline text-base font-semibold whitespace-nowrap cursor-pointer"
+        >
+          <p>To Do</p>
         </div>
         <Searchbar />
 
