@@ -7,12 +7,10 @@ import {
   signOut,
   updatePassword,
 } from "firebase/auth";
-import { useDispatch } from "react-redux";
 import Loading from "../Loading";
 import { Navigate } from "react-router-dom";
 
 const RegisterPassword = () => {
-  const dispatch = useDispatch();
   const googleProvider = new GoogleAuthProvider();
 
   const [password, setPassword] = useState("");
