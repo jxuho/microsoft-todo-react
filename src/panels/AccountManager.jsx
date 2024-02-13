@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { auth } from "../firebase";
 import { signOut } from "firebase/auth";
 import { useLocalStorage } from "../hooks/useLocalStorage";
+import profileImg from '../../public/profile_image.svg'
 
 const AccountManager = () => {
   const navigate = useNavigate();
@@ -78,7 +79,7 @@ const AccountManager = () => {
                   {auth.currentUser.photoURL ? (
                     <img src={auth.currentUser.photoURL} alt="profile image" referrerPolicy="no-referrer"/>
                   ) : (
-                    <img src="../../public/profile_image.svg" alt="profile image" />
+                    <img src={profileImg} alt="profile image" />
                   )}
                 </div>
                 <div className="flex-grow pr-3 mt-4">

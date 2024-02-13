@@ -8,6 +8,7 @@ import {
 import { signOut } from "firebase/auth";
 import { auth } from "../../firebase";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
+import profileImg from '../../../public/profile_image.svg'
 
 const MyAccount = () => {
   const [localStorageUser, setLocalStorageUser] = useLocalStorage("user", null);
@@ -62,7 +63,7 @@ const MyAccount = () => {
               ) : (
                 <img
                   className="rounded-full"
-                  src="../../../public/profile_image.svg"
+                  src={profileImg}
                   alt="profile image"
                 />
               )}

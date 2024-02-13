@@ -10,6 +10,7 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 import { useNavigate } from "react-router-dom";
+import profileImg from '../../../public/profile_image.svg'
 
 const UpdateProfile = () => {
   const navigate = useNavigate();
@@ -226,10 +227,10 @@ const UpdateProfile = () => {
                 ) : auth.currentUser.photoURL ? (
                   <img src={auth.currentUser.photoURL} alt="profile image" />
                 ) : (
-                  <img src="../../../public/profile_image.svg" alt="profile image" />
+                  <img src={profileImg} alt="profile image" />
                 ))}
               {photoDeleted && (
-                <img src="../../../public/profile_image.svg" alt="profile image" />
+                <img src={profileImg} alt="profile image" />
               )}
             </div>
 

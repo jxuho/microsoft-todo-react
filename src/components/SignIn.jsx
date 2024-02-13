@@ -18,6 +18,7 @@ import {
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import Loading from "./Loading";
 import ResetPassword from "./ResetPassword";
+import googleImg from '../../public/googleLogo.png'
 
 const SignIn = () => {
   const navigate = useNavigate();
@@ -293,7 +294,7 @@ const SignIn = () => {
               >
                 <div className="flex flex-row">
                   <img
-                    src="../../public/googleLogo.png"
+                    src={googleImg}
                     alt="goole logo"
                     className="w-10 h-10"
                   />

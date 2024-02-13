@@ -22,6 +22,7 @@ import SearchedCategories from "./tasks/searchedLists/SearchedCategories";
 import SearchedSteps from "./tasks/searchedLists/SearchedSteps";
 import { useGetTodosApiQuery } from "../api/todoApiSlice";
 import { auth } from "../firebase";
+import errorImg from "../../public/error-404.png"
 
 const Search = () => {
   const dispatch = useDispatch();
@@ -172,7 +173,7 @@ const Search = () => {
           <div className="flex flex-col items-center justify-center text-xl h-full">
             <img
               className={`${isDark ? "invert" : "invert-0"}`}
-              src="../../public/error-404.png"
+              src={errorImg}
               alt="not found icon"
               style={{ width: "50px", paddingBottom: "4px" }}
             />
