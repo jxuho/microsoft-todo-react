@@ -82,7 +82,8 @@ const RootPage = () => {
   }
 
   return (
-    <div className="flex flex-col bg-ms-background h-screen overflow-hidden text-black">
+    // <div className="flex flex-col bg-ms-background h-screen overflow-hidden text-black">
+    <div className="flex flex-col bg-ms-background absolute h-full w-full overflow-hidden text-black">
       <Header />
       <HeaderPanels />
       <div className="flex flex-1 overflow-hidden relative">
