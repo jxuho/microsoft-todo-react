@@ -226,10 +226,10 @@ const UpdateProfile = () => {
                 ) : auth.currentUser.photoURL ? (
                   <img src={auth.currentUser.photoURL} alt="profile image" />
                 ) : (
-                  <img src="/public/profile_image.svg" alt="profile image" />
+                  <img src="../../../public/profile_image.svg" alt="profile image" />
                 ))}
               {photoDeleted && (
-                <img src="/public/profile_image.svg" alt="profile image" />
+                <img src="../../../public/profile_image.svg" alt="profile image" />
               )}
             </div>
 

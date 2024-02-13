@@ -62,7 +62,7 @@ const MyAccount = () => {
               ) : (
                 <img
                   className="rounded-full"
-                  src="/public/profile_image.svg"
+                  src="../../../public/profile_image.svg"
                   alt="profile image"
                 />
               )}

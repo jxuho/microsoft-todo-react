@@ -293,7 +293,7 @@ const SignIn = () => {
               >
                 <div className="flex flex-row">
                   <img
-                    src="/public/googleLogo.png"
+                    src="../../public/googleLogo.png"
                     alt="goole logo"
                     className="w-10 h-10"
                   />
