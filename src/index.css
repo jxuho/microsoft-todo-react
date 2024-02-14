@@ -134,6 +134,10 @@ textarea {
   border-radius: 10px;
 }
 
+.AddTaskButtons::-webkit-scrollbar {
+  display: none;
+}
+
 .ReactDatePickerWrapper .react-datepicker {
   display: flex;
   flex-direction: column;

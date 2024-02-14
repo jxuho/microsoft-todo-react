@@ -143,7 +143,7 @@ const AddTask = ({ currentLocation }) => {
       }}
     >
       <div
-        className="flex items-center min-h-[52px] bg-white px-4 w-full"
+        className="flex items-center min-h-[52px] bg-white px-4 w-full z-10"
         style={{ borderBottom: "1px solid #e1dfdd" }}
       >
         <div className="ml-2 cursor-pointer text-ms-blue">
@@ -169,7 +169,7 @@ const AddTask = ({ currentLocation }) => {
         className="flex justify-between h-11 items-center bg-ms-background shrink-0 px-4"
         style={{ color: "#323130" }}
       >
-        <div className="flex items-center justify-center">
+        <div className="flex items-center justify-center overflow-auto AddTaskButtons">
           <div className="flex px-1">
             <DuePopover
               setDueDateValue={taskCreateValueHandler}
