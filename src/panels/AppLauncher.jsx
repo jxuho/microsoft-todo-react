@@ -47,7 +47,7 @@ const AppLauncher = () => {
           <div className="mx-5 my-3 flex flex-col animate-slideFadeDown5">
             <h2 className="text-4xl font-semibold">About</h2>
             <div className="pl-0.5">
-              <div className="pt-6 pb-8 text-2xl">Juho Lee</div>
+              <div className="pt-6 pb-8 text-2xl"></div>
               <div className="pb-6 text-lg font-semibold">
                 <h3 className="pr-4">Dev Log</h3>
                 <a
@@ -59,9 +59,9 @@ const AppLauncher = () => {
                 </a>
               </div>
               <div className="pb-6 text-lg font-semibold">
-                <h3 className="pr-4">Git Repo</h3>
+                <h3 className="pr-4">Git Repo (Currently private)</h3>
                 <a
-                  href="https://github.com/JXUHO/microsoft-todo-clone-react"
+                  href="https://github.com/JXUHO"
                   target="_blank"
                   className="font-normal text-ms-blue"
                 >
@@ -73,6 +73,7 @@ const AppLauncher = () => {
                   Technologies
                 </h3>
                 <ul className="pl-1 text-base list-disc ml-4">
+                  <li>HTML, CSS, JS</li>
                   <li>React</li>
                   <li>React Router</li>
                   <li>Redux Toolkit</li>
@@ -85,9 +86,10 @@ const AppLauncher = () => {
                   <li>Firebase Authentication</li>
                   <li>Firebase Firestore</li>
                   <li>Firebase Storage</li>
+                  <li>Firebase Hosting</li>
                   <br />
-                  <li>Floating UI</li>
-                  <li>React Icons</li>
+                  <li>@floating-ui/react</li>
+                  <li>react-icons</li>
                   <li>react-datepicker</li>
                   <li>react-uuid</li>
                   <li>react-textarea-autosize</li>
