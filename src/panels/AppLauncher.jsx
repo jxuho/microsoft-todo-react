@@ -47,7 +47,7 @@ const AppLauncher = () => {
           <div className="mx-5 my-3 flex flex-col animate-slideFadeDown5">
             <h2 className="text-4xl font-semibold">About</h2>
             <div className="pl-0.5">
-              <div className="pt-6 pb-8 text-2xl"></div>
+              <div className="pt-6 pb-8 text-xl italic font-medium">Developed by Juho Lee</div>
               <div className="pb-6 text-lg font-semibold">
                 <h3 className="pr-4">Dev Log</h3>
                 <a
