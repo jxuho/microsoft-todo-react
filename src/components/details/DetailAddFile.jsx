@@ -161,7 +161,3 @@ const DetailAddFile = ({ taskId, todo }) => {
 };
 
 export default DetailAddFile;
-
-// 계정이나 task 삭제됐을 때, storage 내부 파일도 삭제되도록 해야 함
-// task 삭제됐을 때 trigger되는 removeTodoApi에서 task와 연결된 file도 삭제하는 코드 추가
-// file을 삭제했을 때, firestore와 storage를 동기화 하는 코드도 필요함

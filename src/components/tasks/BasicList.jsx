@@ -11,11 +11,6 @@ const BasicList = ({ todoArr, currentLocation }) => {
   const { lastTaskRef, limitTodoArr } =
   useInfiniteScroll(20, incompleteTodoArr);
 
-
-  // console.log("basic list");
-
-
-
   const content = limitTodoArr.map((todo, index) => {
     if (limitTodoArr.length === index + 1) {
       return (

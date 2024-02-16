@@ -52,7 +52,6 @@ const AccountManager = () => {
 
   const myAccountClickHandler = () => {
     window.location.pathname = "/myaccount";
-    // navigate("/myaccount")
   };
 
   return (

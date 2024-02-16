@@ -14,10 +14,8 @@ const MydayList = ({ currentLocation }) => {
   const dispatch = useDispatch();
   const [todoArr, setTodoArr] = useState([]);
   const activeRange = useSelector((state) => state.active.activeRange);
-  
+
   const userId = auth.currentUser?.uid;
-
-
 
   const {
     data: todos,
@@ -25,23 +23,19 @@ const MydayList = ({ currentLocation }) => {
     isLoading: isTodosLoading,
     refetch,
   } = useGetTodosApiQuery(userId, { skip: !userId });
-  
+
   const {
     data: sortData,
     isError: isSortError,
     error: sortError,
   } = useGetSortApiQuery(userId, { skip: !userId });
-  
+
   const sortOrder = sortData?.myday?.order;
   const sortBy = sortData?.myday?.sortBy;
-  
-  
-  
-  const {data: groupData} = useGetGroupApiQuery(userId, { skip: !userId })
-  
-  const groupBy = groupData?.myday
 
+  const { data: groupData } = useGetGroupApiQuery(userId, { skip: !userId });
 
+  const groupBy = groupData?.myday;
 
   useEffect(() => {
     // importance Boolean에서 Date Object string으로 변경함
@@ -92,7 +86,7 @@ const MydayList = ({ currentLocation }) => {
 
   return (
     <div className="overflow-y-auto">
-    {/* category가 아닌 경우 대비해서 !== "" 로 수정하기 */}
+      {/* category가 아닌 경우 대비해서 !== "" 로 수정하기 */}
       {groupBy === "category" ? (
         <GroupLists todoArr={todoArr} currentLocation={currentLocation} />
       ) : (

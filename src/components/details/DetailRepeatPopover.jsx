@@ -204,7 +204,6 @@ const DetailRepeatPopover = ({ taskId, todo }) => {
     <>
       <div
         className="flex bg-white w-full items-center justify-between text-ms-light-text hover:bg-ms-white-hover hover:text-black border-solid border-b-[0.5px] border-ms-input-hover"
-        // style={{ borderBottom: "solid 0.5px #edebe9" }}
         onMouseOver={() => setIsHover(true)}
         onMouseLeave={() => setIsHover(false)}
       >
@@ -213,7 +212,6 @@ const DetailRepeatPopover = ({ taskId, todo }) => {
             className={`flex w-full text-ms-blue ${
               repeatText.description ? "px-4 py-2" : "p-4"
             }`}
-            // style={{ color: "#2564cf" }}
           >
             <div
               className="flex items-center flex-auto text-ms-blue"
@@ -306,10 +304,3 @@ const DetailRepeatPopover = ({ taskId, todo }) => {
 };
 
 export default DetailRepeatPopover;
-
-/**
- * TODO
- * 활성화됐을 때 버튼 전체 클릭 가능하도록 수정하기
- *
- *
- */

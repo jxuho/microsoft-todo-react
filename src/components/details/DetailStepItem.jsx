@@ -202,8 +202,3 @@ const DetailStepItem = ({ step, taskId }) => {
 };
 
 export default DetailStepItem;
-
-/**
- * TODO
- * 전부 지우면 삭제 확인메세지 modal 이후 삭제하기
- */

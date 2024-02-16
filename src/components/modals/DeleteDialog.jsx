@@ -45,7 +45,6 @@ function DeleteDialog() {
     onOpenChange: (isOpen) => {
       dispatch(setDeleteDialogActive({ target: "", active: isOpen }));
     },
-    // onOpenChange: (input) => dispatch(setDeleteDialogActive(input)),
   });
   const click = useClick(context);
   const role = useRole(context);

@@ -6,7 +6,6 @@ import activeSliceReducer from "./activeSlice"
 import searchSliceReducer from "./searchSlice";
 
 
-// export default configureStore({
 export const store =  configureStore({
   reducer: {
     [firestoreApi.reducerPath]: firestoreApi.reducer,

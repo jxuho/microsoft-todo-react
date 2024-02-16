@@ -55,11 +55,8 @@ const TaskItemContextMenu = () => {
   let addComplete = false;
   let removeComplete = false;
   let removeDuedate = false;
-
   let addStepComplete = false;
   let removeStepComplete = false;
-
-  // console.log('context menu');
 
   todos.forEach((todo) => {
     if (activeTasksId.includes(todo.id)) {
@@ -163,7 +160,6 @@ const TaskItemContextMenu = () => {
         dispatch(setDeleteDialogActive({target:"task", active:true}));
       },
 
-      // step 함수 추가
       addStepComplete: (taskId, stepId) => {
         completeStepApi({ todoId: taskId, userId, stepId });
       },
@@ -179,7 +175,6 @@ const TaskItemContextMenu = () => {
 
     activeTasksId.forEach((taskId) => {
       const action = actionMap[option];
-
       // step일때는 stepId를 인자로 전달해야 함
       if (action && activeStepId) {
         action(taskId, activeStepId);
@@ -188,26 +183,6 @@ const TaskItemContextMenu = () => {
       }
     });
   };
-
-  // console.log(
-  //   "TEST: ",
-  //   isValidElement(
-  //     <>
-  //       <MenuItem onClick={() => clickHandler("removeComplete")}>
-  //         <div className="mx-1">
-  //           <BsCircle size="16px" />
-  //         </div>
-  //         <div className="px-1 mx-1">Mark as not completed</div>
-  //       </MenuItem>
-  //       <MenuItem onClick={() => clickHandler("dueTomorrow")}>
-  //         <div className="mx-1">
-  //           <BsCalendarPlus size="16px" />
-  //         </div>
-  //         <div className="px-1 mx-1">Due tomorrow</div>
-  //       </MenuItem>
-  //     </>
-  //   )
-  // );
 
   return (
     <Menu>

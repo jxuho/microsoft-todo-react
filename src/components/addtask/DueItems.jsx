@@ -153,12 +153,3 @@ const DueItems = ({
 };
 
 export default DueItems;
-
-/**
- * TODO
- * (complete)todayDate를 연월일로 잘라서 가공하기
- * addDueDateHandler를 tomorrow, next week에도 붙이기
- *
- *
- *
- */

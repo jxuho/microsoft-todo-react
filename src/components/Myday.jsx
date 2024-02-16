@@ -36,8 +36,6 @@ const Myday = () => {
     error: uiError,
   } = useGetUiApiQuery(userId, { skip: !userId });
   
-  // console.log("MYDAY");
-  
   const detailWidth = uiData?.detailWidth;
 
   const isSortOptionSelected = sortData?.myday.sortBy;

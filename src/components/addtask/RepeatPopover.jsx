@@ -286,11 +286,3 @@ export const getRepeatButtonText = (repeatRule) => {
   }
   return repeatButtonText;
 };
-
-/**
- * TODO
- *
- * useListNavigation 사용해서 키보드로 옵션 선택 가능하도록 만들기
- *
- *
- */

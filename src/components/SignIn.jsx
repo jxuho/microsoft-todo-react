@@ -1,5 +1,5 @@
 import { BsKey } from "react-icons/bs";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import {
   GoogleAuthProvider,
@@ -314,8 +314,6 @@ const SignIn = () => {
           <div className="flex justify-end py-3 ">
             <button
               className="py-1 px-3 bg-ms-bg-border min-w-[108px] min-h-[32px] mr-2 hover:bg-ms-gray-button-hover"
-              // onClick={() => navigate(-1)}
-              // onClick={() => setShowPasswordTab(false)}
               onClick={() => (window.location.pathname = "/user/signin")}
             >
               Back

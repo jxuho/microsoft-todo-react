@@ -83,7 +83,6 @@ export default RemindCalendar;
 
 const CustomTimeInput = ({ date, value, onChange }) => {
   // date: date객체, value: 시간 string, onChange: 인자로 전달되는 값
-  // <button onClick={() => onChange("00:30")}>click</button>
   const [hourValue, setHourValue] = useState(value.slice(0, 2));
   const [minuteValue, setMinuteValue] = useState(value.slice(3));
 

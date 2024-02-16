@@ -31,8 +31,6 @@ const RootPage = () => {
   const { isLoggedIn, isLoading: isAuthLoading, userId } = useAuth();
   const navigate = useNavigate();
 
-  // console.log("RootPage");
-
   const { isLoading: isTodosLoading } = useGetTodosApiQuery(userId, {
     skip: !userId,
   });
@@ -56,7 +54,6 @@ const RootPage = () => {
 
 
   useEffect(() => {
-    // console.log(location.key);
     dispatch(initializeActiveTasks());
     dispatch(initializeActiveStep());
     dispatch(closeDetail());
@@ -64,8 +61,6 @@ const RootPage = () => {
 
   useEffect(() => {
     if (!isAuthLoading && !isLoggedIn) {
-      console.log("navigate to sign in");
-      // navigate("/user/signin");
       window.location.pathname = "/user/signin";
     }
   }, [isAuthLoading, isLoggedIn, navigate]);
@@ -82,7 +77,6 @@ const RootPage = () => {
   }
 
   return (
-    // <div className="flex flex-col bg-ms-background h-screen overflow-hidden text-black">
     <div className="flex flex-col bg-ms-background absolute h-full w-full overflow-hidden text-black">
       <Header />
       <HeaderPanels />

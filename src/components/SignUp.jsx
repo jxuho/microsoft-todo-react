@@ -201,7 +201,7 @@ const VerifyEmail = ({ setCurrentView, email }) => {
 
   const actionCodeSettings = {
     // TODO: 배포 후 수정 필요
-    url: "http://localhost:5173/user/signup",
+    url: "https://ms-todo-clone-9156d.web.app/user/signup",
     handleCodeInApp: true,
   };
 

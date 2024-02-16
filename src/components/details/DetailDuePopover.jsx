@@ -102,9 +102,6 @@ const DetailDuePopover = ({ taskId, todo }) => {
   const addDueHandler = (dateObj) => {
     const content = dateObj.toISOString();
     // 선택한 dateObj의 isoString을 해당 task remind에 저장함
-
-    console.log('addDueHandler');
-
     changeOptionTodoApi({
       todoId: taskId,
       userId,
@@ -118,7 +115,6 @@ const DetailDuePopover = ({ taskId, todo }) => {
 
   const resetDueHandler = () => {
     // 해당 task remind를 empty string으로 변경함
-
     changeOptionTodoApi({
       todoId: taskId,
       userId,
@@ -149,7 +145,6 @@ const DetailDuePopover = ({ taskId, todo }) => {
     <>
       <div
         className="flex bg-white w-full items-center justify-between text-ms-light-text hover:bg-ms-white-hover hover:text-black border-solid border-b-[0.5px] border-ms-input-hover"
-        // style={{ borderBottom: "solid 0.5px #edebe9" }}
         onMouseOver={() => setIsHover(true)}
         onMouseLeave={() => setIsHover(false)}
       >

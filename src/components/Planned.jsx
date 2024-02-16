@@ -52,11 +52,3 @@ const Planned = () => {
 };
 
 export default Planned;
-
-/**
- * TODO
- * MyDayList 컴포넌트 만들기
- * CompletedMydayList를 분리하지 않음
- *
- *
- */

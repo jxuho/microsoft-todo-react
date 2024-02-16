@@ -202,50 +202,23 @@ export default App;
  * (complete) preference 생성 위치 확인
  * (complete) 비밀번호 초기화 설정 -> 메일 전송
  * (complete)이메일 사용 signup할 때, 메일 인증 
+ * (complete) 계정 새로 생성됐을 때 작동 확인하기
+ * (complete) 배포 전 Firestore 보안규칙 업데이트하기
+ * (complete) 배포 중 SignUp - VerifyEmail component - actionCodeSettings 배포 링크로 수정하기
  *
  *
  *
  *
  * <할것>
- *
- * 
- *
- * 계정 새로 생성됐을 때 작동 확인하기
- *
- * 배포 전 Firestore 보안규칙 업데이트하기(단순 true에서 새로운 규칙으로)
- * 
- * 배포 중 SignUp - VerifyEmail component - actionCodeSettings 배포 링크로 수정하기
- * 
- *
  * completeList, PlannedList, GroupList에서 상위리스트가 모두 render된 이후에 하위리스트 render되도록 설정
- *
- *
  * signin page 배경 색깔 물결
- *
- *
- *
  * print 설정하기
  * Notion 개발일지 가지고와서 list로 render하기(보류)
- *
- * 
- *
  * AddTask component retraction
- *
- *
- *
  * floating ui -> useListNavigation 사용, 방향키로 선택 가능하도록 설정하기
- *
- *
  * UI -> task list scrollbar 생성될 때, taskItem 가로길이 바뀜. scrollbar 유무에 따라 padding 동적으로 변경하기
- *
- *
- *
  * Popover, tooltip 독립된 component로 구현해서 코드 가독성 높이기
- *
- *
  * Refactor -> GroupLists -> TaskHeader & TaskItemHeader 동일한 컴포넌트로 만들기
- *
- *
  * UI -> TaskItem myday sun icon 정렬 수정하기
  *
  */

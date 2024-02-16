@@ -33,8 +33,7 @@ const Search = () => {
   const [searchedNotes, setSearchedNotes] = useState([]);
   const [searchedSteps, setSearchedSteps] = useState([]);
   const [searchedCategories, setSearchedCategories] = useState([]);
-  
-
+  const [isDark, setIsDark] = useState(false);
 
   const userId = auth.currentUser?.uid;
 
@@ -103,22 +102,7 @@ const Search = () => {
       searchedCategories.length === 0) ||
     searchQuery.length === 0;
 
-  // const [isDark, setIsDark] = useState(
-  //   window.matchMedia("(prefers-color-scheme: dark)").matches
-  // );
 
-  // useEffect(() => {
-  //   const darkModeListener = window.matchMedia("(prefers-color-scheme: dark)");
-  //   const handleDarkModeChange = (event) => {
-  //     setIsDark(event.matches);
-  //   };
-  //   darkModeListener.addEventListener("change", handleDarkModeChange);
-  //   return () => {
-  //     darkModeListener.removeEventListener("change", handleDarkModeChange);
-  //   };
-  // }, []);
-
-  const [isDark, setIsDark] = useState(false);
 
   useEffect(() => {
     const rootElement = document.documentElement;

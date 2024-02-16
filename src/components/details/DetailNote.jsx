@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import { useRef } from "react";
 import TextareaAutosize from "react-textarea-autosize";
 import { useAddNoteTodoApiMutation } from "../../api/todoApiSlice";

@@ -65,7 +65,6 @@ const clickHandler = () => {
     getMetadata(storageRef)
       .then((metadata) => {
         setFileItemMeta(metadata);
-        // console.log(metadata);
       })
       .catch((error) => {
         console.log(error);

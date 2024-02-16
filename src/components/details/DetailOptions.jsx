@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { BsSun, BsXLg } from "react-icons/bs";
-import { useSelector } from "react-redux";
 import DetailRemindPopover from "./DetailRemindPopover";
 import DetailDuePopover from "./DetailDuePopover";
 import DetailRepeatPopover from "./DetailRepeatPopover";

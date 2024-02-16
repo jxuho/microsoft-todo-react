@@ -29,8 +29,7 @@ const SearchedSteps = ({ todoArr }) => {
     return contentA.localeCompare(contentB);
   });
 
-  const { lastTaskRef, limitTodoArr } =
-  useInfiniteScroll(20, sortedArr);
+  const { lastTaskRef, limitTodoArr } = useInfiniteScroll(20, sortedArr);
   // [{todo:{...}, step:{...}}, {todo:{...}, step:{...}}]
 
   const content = limitTodoArr.map((todo, index) => {
@@ -72,10 +71,10 @@ const StepItem = forwardRef(({ todo, step }, ref) => {
   const showCompleted = useSelector((state) => state.search.showCompleted);
 
   const userId = auth.currentUser?.uid;
-  const [completeStepApi] = useCompleteStepApiMutation()
+  const [completeStepApi] = useCompleteStepApiMutation();
 
   const completedHandler = () => {
-    completeStepApi({ todoId:todo.id, userId, stepId:step.id })
+    completeStepApi({ todoId: todo.id, userId, stepId: step.id });
   };
 
   const taskClickHandler = (taskId, stepId) => {

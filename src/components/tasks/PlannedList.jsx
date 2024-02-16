@@ -13,8 +13,7 @@ const PlannedList = () => {
   const dispatch = useDispatch();
   const activeRange = useSelector((state) => state.active.activeRange);
   const activeTasksId = useSelector((state) => state.active.activeTasks);
-  
-  
+
   const userId = auth.currentUser?.uid;
   const {
     data: todos,
@@ -22,8 +21,6 @@ const PlannedList = () => {
     isLoading: isTodosLoading,
     refetch,
   } = useGetTodosApiQuery(userId, { skip: !userId });
-
-
 
   const [activeArr, setActiveArr] = useState([]);
   const [isOpen, setIsOpen] = useState({
