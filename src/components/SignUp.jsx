@@ -72,7 +72,7 @@ const SignUpEmail = ({ setCurrentView, setEmail, email }) => {
     if (auth && auth.currentUser) {
       navigate("/");
     }
-  }, [auth, navigate]);
+  }, [navigate]);
 
   useEffect(() => {
     const handleEnterKeyPress = (event) => {
@@ -101,7 +101,7 @@ const SignUpEmail = ({ setCurrentView, setEmail, email }) => {
         setEmailAlertContent("");
       }
     }
-  }, [email, showEmailAlert]);
+  }, [email, showEmailAlert, isEmailExist]);
 
   const nextButtonClickHandler = async () => {
     // email

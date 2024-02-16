@@ -223,14 +223,14 @@ const UpdateProfile = () => {
             <div className="w-20 h-20 m-5 overflow-hidden rounded-full">
               {!photoDeleted &&
                 (newPhotoUrl ? (
-                  <img src={newPhotoUrl} alt="profile image" />
+                  <img src={newPhotoUrl} alt="profile" />
                 ) : auth.currentUser.photoURL ? (
-                  <img src={auth.currentUser.photoURL} alt="profile image" />
+                  <img src={auth.currentUser.photoURL} alt="profile" />
                 ) : (
-                  <img src={profileImg} alt="profile image" />
+                  <img src={profileImg} alt="profile" />
                 ))}
               {photoDeleted && (
-                <img src={profileImg} alt="profile image" />
+                <img src={profileImg} alt="profile" />
               )}
             </div>
 

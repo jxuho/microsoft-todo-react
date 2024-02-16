@@ -13,10 +13,8 @@ import {
 } from "firebase/auth";
 import Loading from "../Loading";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
-import { useDispatch } from "react-redux";
 
 const DeleteAccount = () => {
-  const dispatch = useDispatch();
   const {
     data: todos,
     error: todosError,

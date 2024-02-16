@@ -34,7 +34,7 @@ const TaskItemOptions = ({ todo, currentLocation }) => {
   return (
     <>
       {currentLocation !== "myday" && todo.myday && (
-        <div className="flex items-center before:content-['\2022'] before:mx-1.5 before:my-0 before:text-gray-500">
+        <div className="flex items-center before:content-['•'] before:mx-1.5 before:my-0 before:text-gray-500">
           <span className="mr-1">
             <BsSun size="12px" />
           </span>
@@ -45,7 +45,7 @@ const TaskItemOptions = ({ todo, currentLocation }) => {
       )}
 
       {todo.steps.length !== 0 && (
-        <div className="flex items-center before:content-['\2022'] before:mx-1.5 before:my-0 before:text-gray-500">
+        <div className="flex items-center before:content-['•'] before:mx-1.5 before:my-0 before:text-gray-500">
           <span className="text-xs mr-1" style={{ color: "#797775" }}>
             {stepIncompleteLength} of {todo.steps.length}
           </span>
@@ -63,7 +63,7 @@ const TaskItemOptions = ({ todo, currentLocation }) => {
         }
       >
         {dueText && (
-          <div className="flex items-center before:content-['\2022'] before:mx-1.5 before:my-0 before:text-gray-500">
+          <div className="flex items-center before:content-['•'] before:mx-1.5 before:my-0 before:text-gray-500">
             <span className="mr-1">
               <IoCalendarOutline size="14px" />
             </span>
@@ -77,7 +77,7 @@ const TaskItemOptions = ({ todo, currentLocation }) => {
         )}
       </div>
       {remindText && (
-        <div className="flex items-center before:content-['\2022'] before:mx-1.5 before:my-0 before:text-gray-500">
+        <div className="flex items-center before:content-['•'] before:mx-1.5 before:my-0 before:text-gray-500">
           <span className="mr-1">
             <VscBell size="14px" color="#797775" />
           </span>
@@ -89,7 +89,7 @@ const TaskItemOptions = ({ todo, currentLocation }) => {
 
       {/* note */}
       {todo.note.content.trim() && (
-        <div className="flex items-center before:content-['\2022'] before:mx-1.5 before:my-0 before:text-gray-500">
+        <div className="flex items-center before:content-['•'] before:mx-1.5 before:my-0 before:text-gray-500">
           <span className="mr-1">
             <PiNoteBlankLight size="14px" />
           </span>
@@ -103,7 +103,7 @@ const TaskItemOptions = ({ todo, currentLocation }) => {
 
       {/* file attached */}
       {todo.file.length !== 0 && (
-        <div className="flex items-center before:content-['\2022'] before:mx-1.5 before:my-0 before:text-gray-500">
+        <div className="flex items-center before:content-['•'] before:mx-1.5 before:my-0 before:text-gray-500">
           <span className="mr-1">
             <FiPaperclip size="12px" style={{ transform: "rotate(180deg)" }} />
           </span>

@@ -67,6 +67,7 @@ function DeleteDialog() {
               .catch((error) => {
                 console.log(error);
               });
+            return null;
           });
         } else {
           // file 없는 경우
