@@ -98,11 +98,11 @@ const SignIn = () => {
     setPassword(e.target.value);
   };
 
-  const sendEmailHandler = () => {
-    window.open(
-      "mailto:jxuholee@gmail.com?subject=Todo - Can't access my account&body=Tell me about the problem you have"
-    );
-  };
+  // const sendEmailHandler = () => {
+  //   window.open(
+  //     "mailto:jxuholee@gmail.com?subject=Todo - Can't access my account&body=Tell me about the problem you have"
+  //   );
+  // };
 
   const nextButtonClickHandler = async () => {
     if (!showPasswordTab) {
@@ -227,12 +227,12 @@ const SignIn = () => {
                     Create one!
                   </span>
                 </div>
-                <span
+                {/* <span
                   className="text-sm text-ms-blue-hover hover:underline hover:text-ms-light-text hover:cursor-pointer"
                   onClick={sendEmailHandler}
                 >
                   Can't access your account?
-                </span>
+                </span> */}
               </div>
             ) : (
               <div className="flex flex-col">
