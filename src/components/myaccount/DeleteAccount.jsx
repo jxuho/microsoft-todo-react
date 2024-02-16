@@ -4,6 +4,7 @@ import { deleteObject, listAll, ref } from "firebase/storage";
 import { collection, deleteDoc, doc, getDocs, query } from "firebase/firestore";
 import { useGetTodosApiQuery } from "../../api/todoApiSlice";
 import {
+  EmailAuthProvider,
   GoogleAuthProvider,
   deleteUser,
   reauthenticateWithCredential,
@@ -80,17 +81,18 @@ const DeleteAccount = () => {
         }
         setCredential(userCredential)
         setReAuthenticated(true);
-      } else if (
+      } 
+      
+      else if (
         auth.currentUser?.providerData.length === 1 &&
         auth.currentUser?.providerData[0].providerId === "password"
       ) {
-        const userCredential = await signInWithEmailAndPassword(
-          auth,
+        const userCredential = EmailAuthProvider.credential(
           email,
           password
-        );
-
-        if (userCredential.user.email !== userToDelete) {
+         );
+        
+        if (userCredential._email !== userToDelete) {
           await signOut(auth);
           console.log("user information is not matched");
           setIsLoading(false);
@@ -114,6 +116,8 @@ const DeleteAccount = () => {
     e.preventDefault();
     try {
       setIsLoading(true);
+
+      console.log(credential);
 
       // re-authenticate
       await reauthenticateWithCredential(auth.currentUser, credential);
