@@ -18,17 +18,17 @@ import {
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import Loading from "./Loading";
 import ResetPassword from "./ResetPassword";
-import googleImg from '../../public/googleLogo.png'
+import googleImg from "../../public/googleLogo.png";
 
 const SignIn = () => {
   const navigate = useNavigate();
 
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState("123@123.com");
   const [showEmailAlert, setShowEmailAlert] = useState(false);
   const [emailAlertContent, setEmailAlertContent] = useState("");
 
   const [showPasswordTab, setShowPasswordTab] = useState(false);
-  const [password, setPassword] = useState("");
+  const [password, setPassword] = useState("123!@#qweQWE");
   const [showPasswordAlert, setShowPasswordAlert] = useState(false);
   const [passwordAlertContent, setPasswordAlertContent] = useState("");
   const [showPasswordInfo, setShowPasswordInfo] = useState(false);
@@ -109,14 +109,14 @@ const SignIn = () => {
       //email
       const emailQuery = query(
         collection(db, "users"),
-        where("email", "==", email)
+        where("email", "==", email),
       );
 
       try {
         const querySnapshot = await getDocs(emailQuery);
         if (querySnapshot.size === 0) {
           setEmailAlertContent(
-            "We couldn't find an account with that username. Try another, or get a new Microsoft account."
+            "We couldn't find an account with that username. Try another, or get a new Microsoft account.",
           );
           setShowEmailAlert(true);
         } else {
@@ -125,7 +125,7 @@ const SignIn = () => {
               ?.stringValue === "google"
           ) {
             setPasswordInfoContent(
-              "This email is linked with Google. You can go back and sign-in with Google."
+              "This email is linked with Google. You can go back and sign-in with Google.",
             );
             setShowPasswordInfo(true);
           }
@@ -140,7 +140,7 @@ const SignIn = () => {
         const userCredential = await signInWithEmailAndPassword(
           auth,
           email,
-          password
+          password,
         );
 
         await setDoc(doc(db, "users", userCredential.user.uid), {
@@ -207,6 +207,34 @@ const SignIn = () => {
             !showPasswordTab ? (
               <div className="flex flex-col">
                 <h1 className="text-2xl font-semibold mb-2">Sign in</h1>
+                <div className="mb-6 p-4 bg-[#f2f2f2] border-l-4 border-[#0067b8] text-sm text-[#1b1b1b]">
+                  <p className="font-semibold mb-1">Project Disclaimer</p>
+                  <p className="mb-3 text-xs leading-relaxed text-[#666]">
+                    This application is for personal educational purposes only
+                    and is
+                    <strong>
+                      NOT affiliated with or endorsed by Microsoft.
+                    </strong>
+                  </p>
+                  <div className="bg-white p-2 rounded border border-gray-300 text-xs shadow-sm">
+                    <div className="flex justify-between mb-1">
+                      <span className="font-medium text-[#666]">
+                        Test Email:
+                      </span>
+                      <span className="font-mono text-blue-600">
+                        123@123.com
+                      </span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="font-medium text-[#666]">
+                        Test Password:
+                      </span>
+                      <span className="font-mono text-blue-600">
+                        123!@#qweQWE
+                      </span>
+                    </div>
+                  </div>
+                </div>
                 {showEmailAlert && (
                   <p className="text-ms-alert-error">{emailAlertContent}</p>
                 )}
@@ -293,11 +321,7 @@ const SignIn = () => {
                 onClick={handleGoogleLogin}
               >
                 <div className="flex flex-row">
-                  <img
-                    src={googleImg}
-                    alt="goole logo"
-                    className="w-10 h-10"
-                  />
+                  <img src={googleImg} alt="goole logo" className="w-10 h-10" />
                   <div className="flex flex-col w-full px-3">
                     <p className="text-ms-text-dark font-medium">
                       Sign in with Google
