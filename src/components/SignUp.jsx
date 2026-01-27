@@ -18,6 +18,7 @@ import {
   where,
 } from "firebase/firestore";
 
+
 const SignUp = () => {
   const [email, setEmail] = useState(
     window.localStorage.getItem("emailForSignIn") ?? ""
