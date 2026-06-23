@@ -1,50 +1,12 @@
-# Microsoft To Do Clone
+# ✅ Microsoft To Do Clone
 
-A feature-rich clone of Microsoft To Do built with **React**, **Redux Toolkit**, **RTK Query**, **Firebase**, and **TailwindCSS**.
+A feature-rich Microsoft To Do clone built with **React**, **Redux Toolkit**, **RTK Query**, **Firebase**, and **Tailwind CSS**.
 
-This project started as a React practice project after completing a Udemy course, but it gradually evolved into a full application clone as I analyzed and implemented the core features of Microsoft To Do.
+This project recreates the core experience of Microsoft To Do, including task organization, reminders, repeat schedules, file attachments, search, sorting, grouping, multi-selection, dark mode, and user account management.
 
-Through this project, I experienced the full development flow of a web application, including feature analysis, UI implementation, state management, authentication, database integration, file upload, optimization, and deployment.
+The primary focus was building a complete frontend-driven productivity application while handling real application concerns such as authentication, server-state synchronization, optimistic updates, client-side business logic, UI interaction complexity, and deployment.
 
-<br />
-
-## Table of Contents
-
-- [Overview](#overview)
-- [Tech Stack & Deployment](#️-tech-stack--deployment)
-- [Screenshots](#screenshots)
-- [Live Demo](#live-demo)
-- [Project Summary](#project-summary)
-- [Main Features](#main-features)
-- [Performance](#performance)
-- [Calendar UI Customization](#calendar-ui-customization)
-- [Architecture Overview](#architecture-overview)
-- [Key Implementation Details](#key-implementation-details)
-- [Development Process and Refactors](#development-process-and-refactors)
-- [What I Learned](#what-i-learned)
-- [Limitations](#limitations)
-- [Future Improvements](#future-improvements)
-- [Review](#review)
-
-<br />
-
-## Overview
-
-This project is a Microsoft To Do clone built to practice and deepen my understanding of modern frontend development.
-
-Although it began as a React practice project, it gradually expanded into a full-featured application as I analyzed Microsoft To Do and implemented its core task management features.
-
-The project focuses on:
-
-- Task management logic
-- Firebase integration
-- Authentication and account handling
-- Server-state management with RTK Query
-- UI/UX cloning
-- Performance optimization
-- Deployment
-
-<br />
+---
 
 ## 🛠️ Tech Stack & Deployment
 
@@ -56,118 +18,71 @@ The project focuses on:
 | **Backend / Infra** | ![Firebase Authentication](https://img.shields.io/badge/Firebase_Auth-FFCA28?style=flat-square&logo=firebase&logoColor=black) ![Cloud Firestore](https://img.shields.io/badge/Cloud_Firestore-FFCA28?style=flat-square&logo=firebase&logoColor=black) ![Firebase Storage](https://img.shields.io/badge/Firebase_Storage-FFCA28?style=flat-square&logo=firebase&logoColor=black) |
 | **UI Libraries** | ![Floating UI](https://img.shields.io/badge/Floating_UI-222222?style=flat-square) ![React Datepicker](https://img.shields.io/badge/React_Datepicker-61DAFB?style=flat-square&logo=react&logoColor=black) ![React Icons](https://img.shields.io/badge/React_Icons-E91E63?style=flat-square&logo=react&logoColor=white) |
 
-<br />
+### 🔗 **[Live Demo](https://ms-todo-clone-9156d.web.app/)** · **Repository: Add your GitHub repository URL here**
 
-## Screenshots
+---
+
+## 📌 Project Summary
+
+| Category | Description |
+| :--- | :--- |
+| **Project Type** | Microsoft To Do clone |
+| **Main Focus** | Task management logic, Firebase integration, server-state management, UI/UX cloning, performance optimization |
+| **Core Experience** | End-to-end web application development from feature analysis to deployment |
+| **Architecture** | Frontend-driven React SPA backed by Firebase services |
+| **Key Challenge** | Managing complex task behavior without a custom backend |
+
+This application was developed as a full-featured productivity app clone rather than a static UI reproduction. The implementation focuses on reproducing real task-management behavior, synchronizing user-specific data through Firebase, and maintaining a responsive user experience through RTK Query caching and optimistic updates.
+
+---
+
+## 📊 Lighthouse Scores
+
+| Category | Desktop | Mobile |
+| :--- | :---: | :---: |
+| **Performance** | 100 | 74 |
+| **Accessibility** | 100 | 100 |
+| **Best Practices** | 100 | 100 |
+| **SEO** | 90 | 92 |
+
+### Desktop Metrics
+
+| Metric | Result |
+| :--- | :---: |
+| **First Contentful Paint** | 0.6s |
+| **Largest Contentful Paint** | 0.6s |
+| **Total Blocking Time** | 0ms |
+| **Cumulative Layout Shift** | 0 |
+| **Speed Index** | 0.6s |
+
+### Mobile Metrics
+
+| Metric | Result |
+| :--- | :---: |
+| **First Contentful Paint** | 3.7s |
+| **Largest Contentful Paint** | 4.7s |
+| **Total Blocking Time** | 100ms |
+| **Cumulative Layout Shift** | 0 |
+| **Speed Index** | 3.7s |
+
+<img width="390" height="500" alt="Lighthouse Desktop Report" src="https://github.com/user-attachments/assets/906bd31b-d36c-4fcf-a526-ae6bc891ee64" />
+
+---
+
+## 🖼️ Screenshots
 
 ### Light Mode
 
 <img width="1920" height="991" alt="Microsoft To Do Clone Screenshot" src="https://github.com/user-attachments/assets/caa8cc4b-20dd-4b1e-83b2-3f92337e94b1" />
 
-<br />
-
 ### Dark Mode
 
 <img width="1920" height="992" alt="Microsoft To Do Clone Dark Mode Screenshot" src="https://github.com/user-attachments/assets/cc6f8995-e33d-44f8-ae46-6a64dc533164" />
 
-<br />
+<details>
+<summary><b>📅 Calendar UI Customization</b></summary>
 
-## Live Demo
-
-- Live App: https://ms-todo-clone-9156d.web.app/
-- Repository: `Add your GitHub repository URL here`
-
-<br />
-
-## Project Summary
-
-| Category | Description |
-| --- | --- |
-| Project Type | Microsoft To Do clone |
-| Main Focus | Task management logic, Firebase integration, server-state management, UI/UX cloning, performance optimization |
-| Core Experience | End-to-end web application development from feature analysis to deployment |
-
-<br />
-
-## Main Features
-
-### Authentication
-
-- Email/password sign-up and sign-in
-- Google OAuth sign-in
-- User profile update
-- Password change
-- Account deletion
-- Re-authentication for sensitive actions
-
-### Task Management
-
-- Add, edit, complete, and delete tasks
-- Mark tasks as important
-- Add due dates, reminders, and repeat options
-- Add steps, categories, notes, and files to tasks
-- Upload and manage files with Firebase Storage
-
-### Lists and Search
-
-- My Day, Important, Completed, Planned, and Tasks lists
-- Search tasks and steps
-- Sort tasks by importance, due date, alphabetically, creation date, and My Day status
-- Group tasks by category
-
-### UI / UX
-
-- Reminder notifications using the Notification API
-- Custom context menu
-- Multi-selection with Ctrl and Shift keys
-- Infinite scrolling for task lists
-- Resizable task detail sidebar
-- Responsive design
-- Dark mode
-- Custom-styled `react-datepicker` calendar
-
-<br />
-
-## Performance
-
-### Lighthouse Results
-
-| Category | Desktop | Mobile |
-| --- | ---: | ---: |
-| Performance | 100 | 74 |
-| Accessibility | 100 | 100 |
-| Best Practices | 100 | 100 |
-| SEO | 90 | 92 |
-
-### Desktop Metrics
-
-| Metric | Result |
-| --- | ---: |
-| First Contentful Paint | 0.6s |
-| Largest Contentful Paint | 0.6s |
-| Total Blocking Time | 0ms |
-| Cumulative Layout Shift | 0 |
-| Speed Index | 0.6s |
-
-### Mobile Metrics
-
-| Metric | Result |
-| --- | ---: |
-| First Contentful Paint | 3.7s |
-| Largest Contentful Paint | 4.7s |
-| Total Blocking Time | 100ms |
-| Cumulative Layout Shift | 0 |
-| Speed Index | 3.7s |
-
-### Desktop Report
-
-<img width="390" height="500" alt="Lighthouse Desktop Report" src="https://github.com/user-attachments/assets/906bd31b-d36c-4fcf-a526-ae6bc891ee64" />
-
-<br />
-
-## Calendar UI Customization
-
-I used `react-datepicker` for date selection and customized its default design by overriding the library's CSS classes.
+The app uses `react-datepicker` for date selection and overrides the library's default CSS classes to match the Microsoft To Do-inspired UI.
 
 ### Before Custom Styling
 
@@ -177,93 +92,104 @@ I used `react-datepicker` for date selection and customized its default design b
 
 <img width="250" height="430" alt="Calendar After Custom Styling" src="https://github.com/user-attachments/assets/2f757cdf-a563-4447-ae5a-50ee2650deff" />
 
-<br />
+</details>
 
-## Architecture Overview
+---
 
-The application is a React single-page application deployed with Firebase Hosting.
+## ✨ Features
 
-Firebase Authentication handles user authentication, while Firestore stores user-specific task data, UI preferences, task options, and metadata. Firebase Storage is used for task file uploads.
+| Feature | Details |
+| :--- | :--- |
+| 🔐 **Authentication** | Email/password auth, Google OAuth, profile update, password change, account deletion, and re-authentication for sensitive actions |
+| ✅ **Task CRUD** | Add, edit, complete, delete, and mark tasks as important |
+| 📅 **Scheduling** | Due dates, reminders, repeat options, and dynamic date-based labels |
+| 🧩 **Task Details** | Steps, categories, notes, file attachments, and Firebase Storage integration |
+| 📂 **Smart Lists** | My Day, Important, Completed, Planned, and Tasks views |
+| 🔎 **Search & Organization** | Task and step search, sorting, category grouping, and My Day filtering |
+| 🖱️ **Advanced Interaction** | Custom context menus, popovers, multi-selection with Ctrl/Shift, and resizable detail sidebar |
+| ⚡ **Rendering Optimization** | Infinite scrolling for large task lists and optimistic UI updates |
+| 🌙 **Responsive UI** | Dark mode, responsive layout, and custom-styled calendar components |
 
-RTK Query connects the frontend with Firestore data operations. It manages data fetching, caching, and optimistic updates for a smoother user experience.
+---
 
-Architecture flow:
+## 🧱 Architecture Overview
 
-    React + Vite
-       |
-    Redux Toolkit / RTK Query
-       |
-    Firebase Authentication
-    Firebase Firestore
-    Firebase Storage
-    Firebase Hosting
+The application is a React single-page application deployed through Firebase Hosting. Firebase Authentication manages user identity, Firestore stores user-specific task data and preferences, and Firebase Storage handles task file uploads.
 
-<br />
+RTK Query acts as the data access layer between React components and Firestore operations. It centralizes request lifecycle management, caching, invalidation, and optimistic updates.
 
-## Key Implementation Details
+```txt
+┌──────────────────────────────────────────────┐
+│              React + Vite SPA                │
+│   Tailwind CSS · React Router · UI logic     │
+└─────────────────────┬────────────────────────┘
+                      │
+┌─────────────────────▼────────────────────────┐
+│       Redux Toolkit / RTK Query Layer        │
+│   Cache · Optimistic Updates · API Slices    │
+└─────────────────────┬────────────────────────┘
+                      │
+┌─────────────────────▼────────────────────────┐
+│              Firebase Services               │
+│   Authentication · Firestore · Storage       │
+└─────────────────────┬────────────────────────┘
+                      │
+┌─────────────────────▼────────────────────────┐
+│              Firebase Hosting                │
+└──────────────────────────────────────────────┘
+```
+
+---
+
+## 🔑 Engineering Details
 
 ### 1. Task Due Date, Repeat, and Reminder Logic
 
-One of the most complex parts of the project was implementing the relationship between due dates, repeat options, and reminders.
+The most complex domain logic involved coordinating due dates, repeat rules, reminders, and My Day behavior.
 
-For example, when a repeating task is completed, the app calculates the next due date based on the repeat interval and automatically creates or updates the next task instance.
+When a repeating task is completed, the app calculates the next due date based on the selected repeat interval and updates the next task state accordingly. Since the project uses Firebase services without a custom backend, this business logic is handled on the client through dedicated utility functions.
 
-Because the project only uses Firebase Firestore, Authentication, and Storage without a custom backend, this logic is handled on the client side using utility functions.
+Key considerations included:
 
-Main considerations included:
-
-- Calculating the next due date for repeating tasks
-- Handling tasks with both due date and repeat options
+- Calculating the next due date for recurring tasks
+- Handling tasks that combine due dates with repeat options
 - Updating My Day status based on the current date
-- Displaying dynamic button labels depending on the task date
+- Rendering dynamic button labels according to task timing
 - Triggering reminder notifications at the correct time
 
-<br />
+---
 
-### 2. Popovers and Calendar UI
+### 2. Popovers, Context Menus, and Calendar Positioning
 
-At first, I tried to implement popovers manually using outside-click handlers and event propagation logic. However, managing multiple popovers, nested interactions, and calendar placement became too complex.
+Manual popover handling became difficult as the app grew to include nested menus, outside-click behavior, tooltips, context menus, and calendar dropdowns.
 
-I researched popover libraries and eventually adopted `@floating-ui/react`. This allowed me to build reliable popovers, tooltips, context menus, and calendar dropdowns.
+`@floating-ui/react` was adopted to centralize floating element behavior and improve positioning reliability. This reduced fragile event propagation logic and made popovers, tooltips, context menus, and calendar dropdowns easier to maintain.
 
-For date selection, I used `react-datepicker` and customized its default styles by overriding its CSS classes.
+The date picker UI was built with `react-datepicker` and customized through CSS class overrides to better match the target application design.
 
-Through this process, I learned:
-
-- Event propagation
-- Outside-click handling
-- Floating element positioning
-- Library documentation reading
-- CSS override strategies for third-party components
-
-<br />
+---
 
 ### 3. RTK Query and Optimistic Updates
 
-Initially, task data was managed with Redux slices. After connecting the app to Firestore, I needed a better way to handle server state, caching, and request lifecycle management.
+Initial task state was managed with Redux slices. After Firestore integration, the data layer needed stronger support for server state, cache management, loading states, and mutation lifecycle handling.
 
-Since the project already used Redux Toolkit, I adopted RTK Query.
+RTK Query was introduced to manage:
 
-RTK Query was used for:
+- Firestore-backed task fetching
+- Task creation, update, completion, and deletion
+- Task option updates
+- Cache invalidation and cache patching
+- Optimistic updates for instant UI feedback
 
-- Fetching task data from Firestore
-- Updating task status
-- Creating and deleting tasks
-- Updating task options
-- Managing cache updates
-- Applying optimistic updates
+Optimistic updates were especially important for frequent interactions such as completing tasks or toggling importance. The UI updates immediately, then synchronizes with Firestore in the background.
 
-Optimistic updates were especially important because task interactions such as completing a task or marking it as important should feel instant.
-
-Instead of waiting for the Firebase response before updating the UI, the app updates the UI immediately and then synchronizes with Firestore.
-
-<br />
+---
 
 ### 4. Resizable Detail Sidebar
 
-The task detail panel is resizable through mouse drag interaction.
+The task detail panel supports mouse-driven resizing and persists each user's preferred width through Firestore.
 
-The implementation uses:
+The implementation uses native browser mouse events and layout measurements:
 
 - `mousedown`
 - `mousemove`
@@ -271,129 +197,111 @@ The implementation uses:
 - `event.clientX`
 - `getBoundingClientRect()`
 
-The sidebar width is synchronized with Firestore so that each user can keep their preferred detail panel width.
+This feature connects direct DOM interaction, React state updates, and persistent user preferences.
 
-This feature helped me better understand browser mouse events, layout measurement, and UI state synchronization.
-
-<br />
+---
 
 ### 5. Multi-selection with Ctrl and Shift
 
-The task list supports multi-selection using Ctrl and Shift keys, similar to desktop file managers.
+The task list supports desktop-like multi-selection using Ctrl and Shift keys.
 
-At first, I stored Ctrl and Shift key states in Redux. However, this caused unnecessary re-renders across all task items whenever a modifier key changed.
+An early implementation stored modifier key state globally in Redux, which caused unnecessary re-renders across task items whenever key state changed. The final implementation relies on native event properties such as `event.ctrlKey` and `event.shiftKey`, avoiding global state updates and reducing render overhead.
 
-I later discovered that native mouse events already provide `event.ctrlKey` and `event.shiftKey`, which solved the problem without global key state management.
+This change simplified the interaction model and improved task list performance.
 
-This experience taught me the importance of understanding native browser APIs before adding unnecessary application-level state.
+---
 
-<br />
+### 6. Infinite Scrolling and Rendering Trade-offs
 
-### 6. Infinite Scrolling
+Infinite scrolling was implemented to reduce rendering cost for large task lists.
 
-I implemented infinite scrolling to reduce the rendering cost of large task lists.
+Because sorting and grouping are handled on the client, true Firestore pagination was not practical within the current architecture. Instead, all task data is fetched first, then task items are progressively rendered on the client.
 
-The first idea was to fetch the next page of data from the server when the observer was triggered. However, because sorting and grouping logic is handled on the client side, true server-side pagination was not practical in this architecture.
+This improves DOM rendering performance, but it does not reduce Firestore read load. The trade-off is documented as an architectural limitation and a future backend improvement target.
 
-As a result, the current infinite scrolling implementation improves rendering performance by gradually rendering task items on the client side, but it does not reduce Firestore read load.
+---
 
-This became one of the architectural limitations I identified during the project.
-
-<br />
-
-### 7. Firebase Authentication and Account Handling
+### 7. Firebase Authentication and Account Lifecycle
 
 The app supports both email/password authentication and Google OAuth.
 
-I also implemented:
+Implemented account flows include:
 
 - Profile update
 - Password change
 - Password reset
 - Account deletion
-- Re-authentication flow for sensitive actions
+- Re-authentication for sensitive actions
 
-While implementing Google OAuth, I had to handle edge cases where Google provider accounts and email/password accounts could collide.
+Google OAuth also introduced provider-collision edge cases between Google accounts and email/password accounts. Handling these scenarios required more deliberate account lifecycle management and provider-aware authentication logic.
 
-This helped me understand authentication provider management and account lifecycle handling more deeply.
+---
 
-<br />
+## 🔄 Development Process and Major Refactors
 
-## Development Process and Refactors
-
-During development, I changed several technical decisions as the project requirements became clearer.
+Several implementation decisions changed as the project expanded from a React practice project into a complete application clone.
 
 | Before | After |
-| --- | --- |
+| :--- | :--- |
 | Create React App | Vite |
-| CSS Modules | TailwindCSS |
-| Manual popover / Popper.js | Floating UI |
+| CSS Modules | Tailwind CSS |
+| Manual popover logic / Popper.js | Floating UI |
 | Redux slice server data | RTK Query |
-| Local task state | Firestore-based user data |
+| Local task state | Firestore-backed user data |
 
-These migrations took time, but they helped me understand how technical decisions affect scalability, maintainability, and developer experience.
+These migrations improved scalability, maintainability, and developer experience while also exposing trade-offs around frontend-only business logic and Firebase-based architecture.
 
-<br />
+---
 
-## What I Learned
+## 📊 Project Stats
 
-Through this project, I learned how to:
+- Full Microsoft To Do-inspired task management flow
+- Firebase Authentication with email/password and Google OAuth
+- Firestore-backed user-specific task data
+- Firebase Storage-based task file uploads
+- RTK Query-based server-state management
+- Lighthouse Desktop Performance score: **100**
+- Lighthouse Accessibility score: **100** on both desktop and mobile
 
-- Analyze a real-world reference application and reproduce its core behavior
-- Structure a React application with multiple complex features
-- Use Redux Toolkit and RTK Query for client and server state management
-- Integrate Firebase Authentication, Firestore, Storage, and Hosting
-- Read official documentation and apply libraries to real problems
-- Handle mouse events, popovers, custom calendars, and context menus
-- Improve UX with optimistic updates
-- Think about trade-offs between frontend-only logic and backend-driven logic
-- Document problems, attempts, solutions, and lessons learned during development
+---
 
-<br />
+## 🚧 Limitations
 
-## Limitations
+Because the project is built with Firebase Firestore, Authentication, and Storage without a custom backend, most business logic currently runs on the frontend.
 
-Because this project was built only with Firebase Firestore, Authentication, and Storage, most business logic is handled on the frontend.
+| Limitation | Impact |
+| :--- | :--- |
+| Client-side sorting and grouping | All task data must be fetched before processing |
+| Client-side repeat and My Day logic | Time-sensitive behavior depends on the client environment |
+| Client-side reminders | Notifications are limited by browser and device conditions |
+| Limited server-side validation | Data integrity relies heavily on frontend rules and Firestore security rules |
+| No true backend pagination | Infinite scrolling improves rendering but not Firestore read load |
+| Drag-and-drop ordering incomplete | Manual task ordering remains a future enhancement |
+| Accessibility improvements incomplete | More keyboard and screen-reader refinement is needed |
+| Some floating UI components could be more reusable | Further abstraction would improve maintainability |
 
-This created several limitations:
+---
 
-- Sorting and grouping are handled on the client side
-- All task data needs to be fetched before client-side processing
-- Repeat task logic and My Day updates run on the client
-- Time-related logic depends on client time instead of server time
-- Reminder logic is limited to the client environment
-- Server-side validation is limited
-- True backend pagination is not implemented
-- Drag-and-drop ordering was not completed
-- Accessibility improvements were not fully implemented
-- Some popover and tooltip components could be more reusable
+## 🧭 Roadmap
 
-<br />
+- [ ] Build a Node.js backend or Firebase Cloud Functions
+- [ ] Move repeat, reminder, My Day, sorting, and grouping logic to the server
+- [ ] Add stronger server-side validation
+- [ ] Improve authentication provider linking
+- [ ] Implement drag-and-drop task ordering
+- [ ] Improve keyboard and screen-reader accessibility
+- [ ] Increase component reusability
+- [ ] Add automated tests
+- [ ] Improve mobile performance
+- [ ] Implement true server-side pagination
+- [ ] Add more robust error handling and loading states
 
-## Future Improvements
+---
 
-- Build a Node.js backend or Firebase Cloud Functions
-- Move repeat, reminder, My Day, sorting, and grouping logic to the server
-- Add server-side validation
-- Improve authentication provider linking
-- Implement drag-and-drop task ordering
-- Add better accessibility support
-- Improve component reusability
-- Add automated tests
-- Improve mobile performance
-- Implement true server-side pagination
-- Add better error handling and loading states
+## 💡 Reflection
 
-<br />
+This project provided end-to-end experience with analyzing a real-world reference application, decomposing features, selecting libraries, integrating Firebase services, optimizing interaction-heavy UI, and deploying a production-like web application.
 
-## Review
+The development process involved multiple migrations and refactors as requirements became clearer. These changes highlighted the importance of choosing architecture and tooling based on actual product behavior rather than initial assumptions.
 
-This was my first project where I went through the full process of analyzing, designing, implementing, optimizing, and deploying a web application.
-
-Although I had a completed reference application, I faced many technical challenges because I did not know in advance which technologies would be needed.
-
-As a result, I had to repeatedly solve problems, adopt new tools, migrate existing code, and refactor the project.
-
-However, this process was valuable because it helped me learn how to approach problems structurally, compare technical options, read documentation, and make better implementation decisions.
-
-The biggest lesson from this project was that planning the architecture and technology stack before implementation is important, but solving real problems during development is also one of the most effective ways to learn.
+The biggest takeaway was that frontend architecture decisions directly affect scalability, performance, and maintainability — especially when complex business logic is handled without a dedicated backend.
